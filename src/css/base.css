@@ -59,10 +59,12 @@ a {
 	text-decoration: none;
 }
 
-/* Plain content links inside page content read better dark than in the
-   brand yellow (var(--col-primary)) — that colour stays the default
-   elsewhere (buttons, nav, etc. all set their own colour regardless). */
-main a {
+/* Plain (classless) content links inside page content read better dark
+   than in the brand yellow (var(--col-primary)) — scoped to :not([class])
+   deliberately, not just relying on .btn/etc.'s own rules happening to
+   have higher specificity, so it can never fight a classed link's own
+   colour regardless of what else changes here later. */
+main a:not([class]) {
 	color: var(--col-dark-900);
 }
 
@@ -72,7 +74,7 @@ main a {
    (already light) text colour instead. Matches on both substrings so it
    only catches *-background-color classes, not a same-named text colour
    class like has-dark-900-color. */
-main [class*="has-dark-"][class*="-background-color"] a {
+main [class*="has-dark-"][class*="-background-color"] a:not([class]) {
 	color: inherit;
 }
 
