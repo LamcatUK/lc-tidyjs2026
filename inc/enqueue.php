@@ -83,14 +83,24 @@ function lc_tidyjs2026_enqueue_scripts() {
 		$init_rel = '/js/vendor/review-slider-init.js';
 		$init_abs = get_stylesheet_directory() . $init_rel;
 		if ( file_exists( $init_abs ) ) {
-			wp_enqueue_script( 'lc-tidyjs2026-review-slider', get_stylesheet_directory_uri() . $init_rel, array( 'swiper' ), filemtime( $init_abs ), true );
+			// Only depend on 'swiper' if it's actually registered — a script
+			// enqueued with a dependency on an unregistered handle is silently
+			// dropped by WP entirely (no error), not just missing that one
+			// dependency. Learned that the hard way: a missing vendor file
+			// once took out this whole script's own enqueue, not just Swiper's.
+			$deps = wp_script_is( 'swiper', 'registered' ) ? array( 'swiper' ) : array();
+			wp_enqueue_script( 'lc-tidyjs2026-review-slider', get_stylesheet_directory_uri() . $init_rel, $deps, filemtime( $init_abs ), true );
 		}
 	}
 
 	$rel = '/js/theme.min.js';
 	$abs = get_stylesheet_directory() . $rel;
 	if ( file_exists( $abs ) ) {
-		wp_enqueue_script( 'lc-skeleton-theme', get_stylesheet_directory_uri() . $rel, array( 'lenis' ), filemtime( $abs ), true );
+		// Same reasoning as above: don't let a missing/un-deployed lenis.min.js
+		// silently take the entire theme bundle (nav toggle, dropdowns,
+		// dialogs, reveal animations, everything) down with it.
+		$deps = wp_script_is( 'lenis', 'registered' ) ? array( 'lenis' ) : array();
+		wp_enqueue_script( 'lc-skeleton-theme', get_stylesheet_directory_uri() . $rel, $deps, filemtime( $abs ), true );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'lc_tidyjs2026_enqueue_scripts' );
