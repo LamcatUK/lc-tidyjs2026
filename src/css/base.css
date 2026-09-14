@@ -66,6 +66,16 @@ main a {
 	color: var(--col-dark-900);
 }
 
+/* ...except inside a dark-background block section (has-dark-*-background-
+   color, e.g. .service-cards, .how-it-works, .hero) — near-black text is
+   unreadable there, so a plain link just inherits the section's own
+   (already light) text colour instead. Matches on both substrings so it
+   only catches *-background-color classes, not a same-named text colour
+   class like has-dark-900-color. */
+main [class*="has-dark-"][class*="-background-color"] a {
+	color: inherit;
+}
+
 /*
  * Underline-on-hover only for plain content links (no class) — cards,
  * buttons, nav items, and social/icon links all carry their own class and
