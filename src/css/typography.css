@@ -1,0 +1,139 @@
+/*
+ * Project typography — ported from lc-tidy2026 (src/sass/theme/_typography.scss,
+ * _header.scss) as part of the ACF-block-to-native-block migration. Empty
+ * until this pass; base.css's generic h1-h6 rules already read the real
+ * --fs-h1.._fs-h6 tokens (see tokens.css), this file adds what base.css
+ * deliberately doesn't own — brand fonts, `.h1`-`.h4` heading-look utility
+ * classes (block markup uses these on non-heading elements), and the
+ * project's fs-* / has-*-font-size aliases.
+ */
+
+/* poppins-600 - latin */
+@font-face {
+	font-display: swap;
+	font-family: "Poppins";
+	font-style: normal;
+	font-weight: 600;
+	src: url("../fonts/poppins-v24-latin-600.woff2") format("woff2");
+}
+/* ibm-plex-sans-regular - latin */
+@font-face {
+	font-display: swap;
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: 400;
+	src: url("../fonts/ibm-plex-sans-v23-latin-regular.woff2") format("woff2");
+}
+/* ibm-plex-sans-600 - latin */
+@font-face {
+	font-display: swap;
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: 600;
+	src: url("../fonts/ibm-plex-sans-v23-latin-600.woff2") format("woff2");
+}
+
+/* Root font-size the rest of the type/spacing scale (both rem-based) was
+   designed against — changes rem sizing project-wide, not just type. */
+html {
+	font-size: 18px;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
+	font-family: var(--ff-heading);
+	text-wrap: balance;
+	color: var(--col-black);
+}
+
+.h1 {
+	font-size: var(--fs-900);
+	line-height: var(--lh-900);
+	font-weight: var(--fw-semibold);
+}
+.h2 {
+	font-size: var(--fs-800);
+	font-weight: var(--fw-semibold);
+	line-height: var(--lh-800);
+}
+.h3 {
+	font-size: var(--fs-700);
+	font-weight: var(--fw-semibold);
+	line-height: var(--lh-700);
+}
+.h4 {
+	font-size: var(--fs-600);
+	line-height: var(--lh-600);
+}
+
+.fw-500,
+strong {
+	font-weight: var(--fw-semibold);
+}
+
+.w-short {
+	max-width: 65ch;
+}
+.w-short-45 {
+	max-width: 45ch;
+}
+
+.has-top-border {
+	position: relative;
+	padding-block-start: 0.5rem;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 8rem;
+		height: 2px;
+		background-color: var(--col-primary-600);
+	}
+}
+
+.has-x-large-font-size,
+.fs-800 {
+	font-size: var(--fs-800);
+}
+.has-large-font-size,
+.fs-700 {
+	font-size: var(--fs-700);
+}
+.fs-400 {
+	font-size: var(--fs-400);
+}
+.has-medium-font-size,
+.fs-500 {
+	font-size: var(--fs-500);
+}
+.has-small-font-size,
+.fs-300 {
+	font-size: var(--fs-300);
+}
+
+.has-text-align-center {
+	text-align: center;
+}
+
+.text-balance {
+	text-wrap: balance;
+}
+.text-pretty {
+	text-wrap: balance;
+	text-wrap: pretty;
+}
+
+.ff-heading {
+	font-family: var(--ff-heading);
+}
+.ff-body {
+	font-family: var(--ff-body);
+}

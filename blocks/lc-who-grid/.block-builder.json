@@ -1,0 +1,111 @@
+{
+	"title": "LC Who Grid",
+	"color_support": false,
+	"fields": [
+		{
+			"label": "Title",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "title",
+			"snake": "title",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_tuey1qhdds",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "Intro",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "intro",
+			"snake": "intro",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_o2p1364tlq",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "Items",
+			"type": "repeater",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "items",
+			"snake": "items",
+			"sub_fields": [
+				{
+					"label": "Icon",
+					"type": "image",
+					"mime_types": "svg",
+					"link_target": false,
+					"options": "",
+					"name": "icon",
+					"snake": "icon"
+				},
+				{
+					"label": "Title",
+					"type": "text",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "title",
+					"snake": "title"
+				},
+				{
+					"label": "Description",
+					"type": "text",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "description",
+					"snake": "description"
+				},
+				{
+					"label": "Link",
+					"type": "link",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "link",
+					"snake": "link"
+				}
+			],
+			"repeater_layout": "column",
+			"post_type_slug": "",
+			"field_key": "field_g94hiv2rew",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "Outro",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "outro",
+			"snake": "outro",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_mji5hrkulg",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		}
+	]
+}

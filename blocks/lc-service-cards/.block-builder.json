@@ -1,0 +1,94 @@
+{
+	"title": "LC Service Cards",
+	"color_support": false,
+	"fields": [
+		{
+			"label": "Title",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "title",
+			"snake": "title",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_zg5eg1ungg",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "Intro",
+			"type": "textarea",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "linebreak",
+			"link_target": false,
+			"name": "intro",
+			"snake": "intro",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_m72jjze7tw",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "Services",
+			"type": "repeater",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "services",
+			"snake": "services",
+			"sub_fields": [
+				{
+					"label": "Icon",
+					"type": "image",
+					"mime_types": "svg",
+					"link_target": false,
+					"options": "",
+					"name": "icon",
+					"snake": "icon"
+				},
+				{
+					"label": "Title",
+					"type": "text",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "title",
+					"snake": "title"
+				},
+				{
+					"label": "Text",
+					"type": "textarea",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "text",
+					"snake": "text"
+				},
+				{
+					"label": "Link",
+					"type": "link",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "link",
+					"snake": "link"
+				}
+			],
+			"repeater_layout": "column",
+			"post_type_slug": "",
+			"field_key": "field_hahgh52v3m",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		}
+	]
+}

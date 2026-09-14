@@ -1,10 +1,10 @@
 <?php
 /**
- * [social_icons] shortcode — one <a> + get_icon() per platform that has a
- * URL filled in on Site-Wide Settings' Social tab (inc/options.php's
- * options page). Add another platform by adding a matching
- * img/icons/{slug}.svg, a {slug}_url field there, and an entry in
- * $platforms below.
+ * [social_icons] shortcode — one <a> + Font Awesome brand icon per platform
+ * that has a URL filled in on Site-Wide Settings' Social tab (inc/options.php's
+ * options page). Add another platform by adding a {slug}_url field there and
+ * an entry in $platforms below (icon class must be a valid fa-brands glyph —
+ * see js/vendor/fontawesome.min.css, vendored in inc/enqueue.php).
  *
  * @package lc-tidyjs2026
  */
@@ -17,17 +17,39 @@ add_shortcode(
 		$atts = shortcode_atts( array( 'class' => '' ), $atts, 'social_icons' );
 
 		$platforms = array(
-			'facebook'  => 'Facebook',
-			'instagram' => 'Instagram',
+			'facebook'  => array(
+				'label' => 'Facebook',
+				'icon'  => 'fa-facebook-f',
+			),
+			'instagram' => array(
+				'label' => 'Instagram',
+				'icon'  => 'fa-instagram',
+			),
+			'twitter'   => array(
+				'label' => 'X (Twitter)',
+				'icon'  => 'fa-x-twitter',
+			),
+			'pinterest' => array(
+				'label' => 'Pinterest',
+				'icon'  => 'fa-pinterest-p',
+			),
+			'youtube'   => array(
+				'label' => 'YouTube',
+				'icon'  => 'fa-youtube',
+			),
+			'linkedin'  => array(
+				'label' => 'LinkedIn',
+				'icon'  => 'fa-linkedin-in',
+			),
 		);
 
 		$links = '';
-		foreach ( $platforms as $slug => $label ) {
+		foreach ( $platforms as $slug => $platform ) {
 			$url = lc_tidyjs2026_get_setting( $slug . '_url' );
 			if ( ! $url ) {
 				continue;
 			}
-			$links .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener noreferrer" aria-label="' . esc_attr( $label ) . '">' . get_icon( $slug ) . '</a>';
+			$links .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener noreferrer" aria-label="' . esc_attr( $platform['label'] ) . '"><i class="fa-brands ' . esc_attr( $platform['icon'] ) . '" aria-hidden="true"></i></a>';
 		}
 
 		if ( ! $links ) {

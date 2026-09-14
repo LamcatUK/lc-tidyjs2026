@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lc-tidyjs2026/lc-review-slider",
+	"title": "LC Review Slider",
+	"category": "lc-tidyjs2026",
+	"icon": "cover-image",
+	"attributes": {
+		"reviewButtonShortcode": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"anchor": true,
+		"className": true,
+		"align": true
+	},
+	"editorScript": "file:./build/index.js",
+	"render": "file:./render.php"
+}

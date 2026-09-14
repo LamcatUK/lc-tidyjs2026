@@ -1,0 +1,67 @@
+/*
+ * Footer look, ported from lc-tidy2026 (src/sass/theme/_footer.scss) as part
+ * of the ACF-block-to-native-block migration. Targets #footer/#colophon —
+ * this theme's actual footer.php ids — rather than a bare `footer` selector.
+ */
+
+#footer {
+	background-color: var(--col-dark-800);
+	color: var(--col-light-300);
+}
+
+#footer a {
+	color: var(--col-light-300);
+}
+#footer a:hover {
+	color: var(--col-primary-500);
+}
+
+#footer .footer__logo {
+	max-width: 195px;
+}
+
+/* Own class rather than .navbar-nav — that class flips to flex-direction:
+   row at the "lg" breakpoint for the header nav (see nav.css), which isn't
+   wanted for this vertical footer link list. */
+#footer .footer-menu {
+	list-style: none;
+	margin: 0;
+	padding-inline-start: 0;
+	columns: 1;
+	gap: var(--space-4);
+}
+
+/* base.css underlines classless links on hover by default — footer nav
+   links are classless (plain wp_nav_menu output, no walker), so opt back
+   out here specifically. */
+#footer .footer-menu a:hover {
+	text-decoration: none;
+}
+
+@media (min-width: 992px) {
+	#footer .footer-menu {
+		columns: 2;
+	}
+}
+
+#footer .fa-solid,
+#footer .fa-brands {
+	color: var(--col-primary-500);
+}
+
+#footer .social-icons {
+	display: inline-flex;
+	gap: 0.5rem;
+}
+
+#colophon {
+	background-color: var(--col-dark-800);
+	font-size: var(--fs-200);
+	color: #ffffffcc;
+}
+#colophon .container {
+	border-top: 1px solid var(--col-dark-500);
+}
+#colophon a {
+	opacity: 0.8;
+}

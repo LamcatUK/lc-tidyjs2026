@@ -1,0 +1,40 @@
+{
+	"title": "LC Areas",
+	"color_support": true,
+	"fields": [
+		{
+			"label": "Title",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "title",
+			"snake": "title",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_2h0464wdnq",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "Intro",
+			"type": "textarea",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "linebreak",
+			"link_target": false,
+			"name": "intro",
+			"snake": "intro",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_gvje63eyok",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		}
+	]
+}

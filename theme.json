@@ -40,6 +40,150 @@
           "slug": "blue-700",
           "color": "#1d4ed8",
           "origin": "theme"
+        },
+        {
+          "name": "primary-700",
+          "slug": "primary-700",
+          "color": "#b7cc00",
+          "origin": "theme"
+        },
+        {
+          "name": "primary-600",
+          "slug": "primary-600",
+          "color": "#d2ee00",
+          "origin": "theme"
+        },
+        {
+          "name": "primary-500",
+          "slug": "primary-500",
+          "color": "#ddfd01",
+          "origin": "theme"
+        },
+        {
+          "name": "primary-400",
+          "slug": "primary-400",
+          "color": "#e6ff33",
+          "origin": "theme"
+        },
+        {
+          "name": "primary-300",
+          "slug": "primary-300",
+          "color": "#efff66",
+          "origin": "theme"
+        },
+        {
+          "name": "primary-200",
+          "slug": "primary-200",
+          "color": "#f6ff99",
+          "origin": "theme"
+        },
+        {
+          "name": "primary-100",
+          "slug": "primary-100",
+          "color": "#fbffd6",
+          "origin": "theme"
+        },
+        {
+          "name": "light-800",
+          "slug": "light-800",
+          "color": "#cccccc",
+          "origin": "theme"
+        },
+        {
+          "name": "light-700",
+          "slug": "light-700",
+          "color": "#dcdcdc",
+          "origin": "theme"
+        },
+        {
+          "name": "light-600",
+          "slug": "light-600",
+          "color": "#e6e6e6",
+          "origin": "theme"
+        },
+        {
+          "name": "light-500",
+          "slug": "light-500",
+          "color": "#eeeeee",
+          "origin": "theme"
+        },
+        {
+          "name": "light-400",
+          "slug": "light-400",
+          "color": "#f5f5f5",
+          "origin": "theme"
+        },
+        {
+          "name": "light-300",
+          "slug": "light-300",
+          "color": "#ffffff",
+          "origin": "theme"
+        },
+        {
+          "name": "light-warm-400",
+          "slug": "light-warm-400",
+          "color": "#f2f1ed",
+          "origin": "theme"
+        },
+        {
+          "name": "dark-900",
+          "slug": "dark-900",
+          "color": "#000000",
+          "origin": "theme"
+        },
+        {
+          "name": "dark-800",
+          "slug": "dark-800",
+          "color": "#0f0f0f",
+          "origin": "theme"
+        },
+        {
+          "name": "dark-700",
+          "slug": "dark-700",
+          "color": "#1a1a1a",
+          "origin": "theme"
+        },
+        {
+          "name": "dark-600",
+          "slug": "dark-600",
+          "color": "#242424",
+          "origin": "theme"
+        },
+        {
+          "name": "dark-500",
+          "slug": "dark-500",
+          "color": "#2e2e2e",
+          "origin": "theme"
+        },
+        {
+          "name": "dark-400",
+          "slug": "dark-400",
+          "color": "#3b3b3b",
+          "origin": "theme"
+        },
+        {
+          "name": "dark-300",
+          "slug": "dark-300",
+          "color": "#484848",
+          "origin": "theme"
+        },
+        {
+          "name": "dark-warm-800",
+          "slug": "dark-warm-800",
+          "color": "#161616",
+          "origin": "theme"
+        },
+        {
+          "name": "whatsapp",
+          "slug": "whatsapp",
+          "color": "#25d366",
+          "origin": "theme"
+        },
+        {
+          "name": "btn-secondary-bg",
+          "slug": "btn-secondary-bg",
+          "color": "transparent",
+          "origin": "theme"
         }
       ]
     },
@@ -53,37 +197,82 @@
         {
           "name": "h1",
           "slug": "h1",
-          "size": "clamp(2rem, 1.6rem + 2vw, 3rem)"
+          "size": "var(--fs-900)"
         },
         {
           "name": "h2",
           "slug": "h2",
-          "size": "clamp(1.6rem, 1.35rem + 1.25vw, 2.25rem)"
+          "size": "var(--fs-800)"
         },
         {
           "name": "h3",
           "slug": "h3",
-          "size": "clamp(1.3rem, 1.15rem + 0.75vw, 1.75rem)"
+          "size": "var(--fs-600)"
         },
         {
           "name": "h4",
           "slug": "h4",
-          "size": "1.25rem"
+          "size": "var(--fs-500)"
         },
         {
           "name": "h5",
           "slug": "h5",
-          "size": "1.1rem"
+          "size": "var(--fs-400)"
         },
         {
           "name": "h6",
           "slug": "h6",
-          "size": "1rem"
+          "size": "var(--fs-300)"
         },
         {
           "name": "small",
           "slug": "small",
           "size": "0.875rem"
+        },
+        {
+          "name": "1000",
+          "slug": "1000",
+          "size": "clamp(3.5rem, 7vw, 6rem)"
+        },
+        {
+          "name": "900",
+          "slug": "900",
+          "size": "clamp(2.2rem, 4vw, 3.5rem)"
+        },
+        {
+          "name": "800",
+          "slug": "800",
+          "size": "clamp(1.6rem, 2.5vw, 2.2rem)"
+        },
+        {
+          "name": "700",
+          "slug": "700",
+          "size": "clamp(1.25rem, 1.6vw, 1.5rem)"
+        },
+        {
+          "name": "600",
+          "slug": "600",
+          "size": "clamp(1.1rem, 1.2vw, 1.25rem)"
+        },
+        {
+          "name": "500",
+          "slug": "500",
+          "size": "clamp(1rem, 1vw, 1.125rem)"
+        },
+        {
+          "name": "400",
+          "slug": "400",
+          "size": "clamp(0.95rem, 0.9vw, 1rem)"
+        },
+        {
+          "name": "300",
+          "slug": "300",
+          "size": "clamp(0.85rem, 0.8vw, 0.9rem)"
+        },
+        {
+          "name": "200",
+          "slug": "200",
+          "size": "clamp(0.75rem, 0.7vw, 0.8rem)"
         }
       ]
     }

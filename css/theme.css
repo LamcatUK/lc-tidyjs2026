@@ -72,6 +72,121 @@
   --grid-min: 16rem;
 
   --nav-height: 4rem;
+
+  /* =========================================================================
+   * Project brand tokens — ported verbatim from lc-tidy2026 (src/sass/theme/
+   * _tokens.scss) as part of the ACF-block-to-native-block migration. These
+   * override the placeholder palette/type-scale above; --space-*, --shadow-*,
+   * --grid-*, --container-* etc. stay the skeleton's own. --radius-100/200
+   * are ported as their own literal tokens (not aliased to --radius-sm/lg —
+   * those round to a visibly different px value at this project's 18px root)
+   * since ported block CSS references them directly.
+   * ========================================================================= */
+
+  --radius-100: 4px;
+  --radius-200: 6px;
+
+  /* Brand (yellow scale) */
+  --col-primary-700: #b7cc00;
+  --col-primary-600: #d2ee00;
+  --col-primary-500: #ddfd01;
+  --col-primary-400: #e6ff33;
+  --col-primary-300: #efff66;
+  --col-primary-200: #f6ff99;
+  --col-primary-100: #fbffd6;
+
+  /* Light neutrals */
+  --col-light-800: #cccccc;
+  --col-light-700: #dcdcdc;
+  --col-light-600: #e6e6e6;
+  --col-light-500: #eeeeee;
+  --col-light-400: #f5f5f5;
+  --col-light-300: #ffffff;
+  --col-light-warm-400: #f2f1ed;
+
+  /* Dark neutrals */
+  --col-dark-900: #000000;
+  --col-dark-800: #0f0f0f;
+  --col-dark-700: #1a1a1a;
+  --col-dark-600: #242424;
+  --col-dark-500: #2e2e2e;
+  --col-dark-400: #3b3b3b;
+  --col-dark-300: #484848;
+  --col-dark-warm-800: #161616;
+
+  --col-whatsapp: #25d366;
+
+  /* Functional aliases (var()-only — excluded from the generated theme.json
+	   palette by generate-theme-json.js, available for hand-authored CSS) */
+  --col-bg-body-light: var(--col-light-400);
+  --col-bg-section-light: var(--col-light-500);
+  --col-bg-card-light: var(--col-light-300);
+  --col-bg-body-dark: var(--col-dark-800);
+  --col-bg-section-dark: var(--col-dark-700);
+  --col-bg-card-dark: var(--col-dark-600);
+  --col-border-light: var(--col-light-700);
+  --col-border-dark: var(--col-dark-500);
+  --col-btn-primary-bg: var(--col-primary-500);
+  --col-btn-primary-text: var(--col-dark-900);
+  --col-btn-primary-hover: var(--col-primary-700);
+  --col-btn-secondary-bg: transparent;
+  --col-btn-secondary-text: var(--col-dark-900);
+  --col-btn-secondary-border: var(--col-dark-900);
+
+  /* Real brand primary + body colours replace the skeleton placeholders */
+  --col-primary: var(--col-primary-500);
+  --col-body: var(--col-dark-900);
+  --col-body-bg: var(--col-light-300); /* white — Bootstrap's unoverridden $body-bg default in lc-tidy2026 */
+
+  /* Project font families */
+  --ff-heading: "Poppins", sans-serif;
+  --ff-body: "IBM Plex Sans", sans-serif;
+  --ff-fa: "Font Awesome 6 Free";
+  --font-family-base: var(--ff-body);
+
+  /* Project font weights (aliases of the skeleton's numeric --fw-* above) */
+  --fw-regular: var(--fw-400);
+  --fw-medium: 500;
+
+  /* Fluid type scale, ported verbatim — generates has-SLUG-font-size
+	   utility classes in the block editor (has-900-font-size etc., already
+	   used by ported block markup) */
+  --fs-1000: clamp(3.5rem, 7vw, 6rem);
+  --lh-1000: 1;
+  --fs-900: clamp(2.2rem, 4vw, 3.5rem);
+  --lh-900: 1.1;
+  --fs-800: clamp(1.6rem, 2.5vw, 2.2rem);
+  --lh-800: 1.2;
+  --fs-700: clamp(1.25rem, 1.6vw, 1.5rem);
+  --lh-700: 1.35;
+  --fs-600: clamp(1.1rem, 1.2vw, 1.25rem);
+  --lh-600: 1.35;
+  --fs-500: clamp(1rem, 1vw, 1.125rem);
+  --lh-500: 1.6;
+  --fs-400: clamp(0.95rem, 0.9vw, 1rem);
+  --lh-400: 1.6;
+  --fs-300: clamp(0.85rem, 0.8vw, 0.9rem);
+  --lh-300: 1.5;
+  --fs-200: clamp(0.75rem, 0.7vw, 0.8rem);
+  --lh-200: 1.4;
+
+  /* Heading sizes now ride the real fluid scale instead of the skeleton's
+	   placeholder clamp() values */
+  --fs-h1: var(--fs-900);
+  --fs-h2: var(--fs-800);
+  --fs-h3: var(--fs-600);
+  --fs-h4: var(--fs-500);
+  --fs-h5: var(--fs-400);
+  --fs-h6: var(--fs-300);
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.05em;
+  --tracking-wider: 0.12em;
+
+  --radius-pill: 9999px;
+  --border-1: 1px solid var(--col-border-light);
+  --border-2: 0 2px 0 0 var(--col-dark-900);
 }
 
 /* Base element reset — the "reboot" equivalent. Deliberately small. */
@@ -135,6 +250,13 @@ a {
 	text-decoration: none;
 }
 
+/* Plain content links inside page content read better dark than in the
+   brand yellow (var(--col-primary)) — that colour stays the default
+   elsewhere (buttons, nav, etc. all set their own colour regardless). */
+main a {
+	color: var(--col-dark-900);
+}
+
 /*
  * Underline-on-hover only for plain content links (no class) — cards,
  * buttons, nav items, and social/icon links all carry their own class and
@@ -184,6 +306,162 @@ ol {
 	border: 0 !important;
 }
 
+/* Lenis (src/js/lenis-init.js) — its own recommended CSS, ported from
+   lc-tidy2026 rather than loaded as a second stylesheet. */
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+	overflow: clip;
+}
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch] {
+	overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+	pointer-events: none;
+}
+/*
+ * Project typography — ported from lc-tidy2026 (src/sass/theme/_typography.scss,
+ * _header.scss) as part of the ACF-block-to-native-block migration. Empty
+ * until this pass; base.css's generic h1-h6 rules already read the real
+ * --fs-h1.._fs-h6 tokens (see tokens.css), this file adds what base.css
+ * deliberately doesn't own — brand fonts, `.h1`-`.h4` heading-look utility
+ * classes (block markup uses these on non-heading elements), and the
+ * project's fs-* / has-*-font-size aliases.
+ */
+
+/* poppins-600 - latin */
+@font-face {
+	font-display: swap;
+	font-family: "Poppins";
+	font-style: normal;
+	font-weight: 600;
+	src: url("../fonts/poppins-v24-latin-600.woff2") format("woff2");
+}
+/* ibm-plex-sans-regular - latin */
+@font-face {
+	font-display: swap;
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: 400;
+	src: url("../fonts/ibm-plex-sans-v23-latin-regular.woff2") format("woff2");
+}
+/* ibm-plex-sans-600 - latin */
+@font-face {
+	font-display: swap;
+	font-family: "IBM Plex Sans";
+	font-style: normal;
+	font-weight: 600;
+	src: url("../fonts/ibm-plex-sans-v23-latin-600.woff2") format("woff2");
+}
+
+/* Root font-size the rest of the type/spacing scale (both rem-based) was
+   designed against — changes rem sizing project-wide, not just type. */
+html {
+	font-size: 18px;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
+	font-family: var(--ff-heading);
+	text-wrap: balance;
+	color: var(--col-black);
+}
+
+.h1 {
+	font-size: var(--fs-900);
+	line-height: var(--lh-900);
+	font-weight: var(--fw-semibold);
+}
+.h2 {
+	font-size: var(--fs-800);
+	font-weight: var(--fw-semibold);
+	line-height: var(--lh-800);
+}
+.h3 {
+	font-size: var(--fs-700);
+	font-weight: var(--fw-semibold);
+	line-height: var(--lh-700);
+}
+.h4 {
+	font-size: var(--fs-600);
+	line-height: var(--lh-600);
+}
+
+.fw-500,
+strong {
+	font-weight: var(--fw-semibold);
+}
+
+.w-short {
+	max-width: 65ch;
+}
+.w-short-45 {
+	max-width: 45ch;
+}
+
+.has-top-border {
+	position: relative;
+	padding-block-start: 0.5rem;
+}
+
+.has-top-border::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 8rem;
+		height: 2px;
+		background-color: var(--col-primary-600);
+	}
+
+.has-x-large-font-size,
+.fs-800 {
+	font-size: var(--fs-800);
+}
+.has-large-font-size,
+.fs-700 {
+	font-size: var(--fs-700);
+}
+.fs-400 {
+	font-size: var(--fs-400);
+}
+.has-medium-font-size,
+.fs-500 {
+	font-size: var(--fs-500);
+}
+.has-small-font-size,
+.fs-300 {
+	font-size: var(--fs-300);
+}
+
+.has-text-align-center {
+	text-align: center;
+}
+
+.text-balance {
+	text-wrap: balance;
+}
+.text-pretty {
+	text-wrap: balance;
+	text-wrap: pretty;
+}
+
+.ff-heading {
+	font-family: var(--ff-heading);
+}
+.ff-body {
+	font-family: var(--ff-body);
+}
 /*
  * Structural grid container rules. The actual `.col-*` / `.col-md-*` span
  * classes are generated (see src/build/generate-utilities.js) since they're
@@ -323,6 +601,89 @@ ol {
 	color: var(--col-body);
 }
 
+/*
+ * Logo lockup, ported from lc-tidy2026's _header.scss — .navbar-brand.logo
+ * renders as a background-image rather than text (aria-label on the <a>
+ * covers accessibility, same pattern as the old theme).
+ */
+header#masthead {
+	font-family: var(--ff-heading);
+	/* Sticky, matching the source site's fixed-position header — sticky
+	   over fixed since it needs no main-margin-top compensation hack and
+	   plays nicely with the admin bar's own sticky offset for free. */
+	position: sticky;
+	top: 0;
+	z-index: 1030;
+	background-color: var(--col-body-bg);
+}
+
+/*
+ * Border on the outer header, not the inner nav — the inner nav also
+ * carries .container (this theme combines navbar+container on one element,
+ * unlike old Bootstrap markup's separate outer <nav> / inner <div
+ * class="container">), so a border there would be width-constrained and
+ * centered instead of the edge-to-edge line the old site has.
+ */
+header#masthead {
+	border-bottom: 3px solid var(--col-primary-600);
+}
+
+.navbar-brand.logo {
+	display: block;
+	flex-shrink: 0;
+	width: 181px;
+	height: 50px;
+	background-image: url(../img/tidy-horizontal--dk.svg);
+	background-position: center left;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+@media (min-width: 1400px) {
+	.navbar-brand.logo {
+		width: 220px;
+	}
+}
+
+header#masthead .nav-item--cta {
+	align-self: center;
+}
+
+/*
+ * Top-level items only — uppercase/fs-300 (old theme's `.navbar-nav
+ * .nav-link`). Submenu links reuse the same .nav-link class in this theme's
+ * walker (old markup used a separate .dropdown-item class for those, styled
+ * below, deliberately NOT uppercase), so this must not apply to both.
+ *
+ * font-weight deliberately not set on either — old theme's equivalent rules
+ * referenced an undefined --fw-600 custom property, so they silently fell
+ * back to the inherited body weight (400/normal); matching the source
+ * site's actual rendered look, not its source code's intent.
+ */
+header#masthead .navbar-nav > .nav-item > .nav-link {
+	font-family: var(--ff-body);
+	font-size: var(--fs-300);
+	text-transform: uppercase;
+}
+:is(header#masthead .navbar-nav > .nav-item > .nav-link):hover,:is(header#masthead .navbar-nav > .nav-item > .nav-link):focus {
+		color: var(--col-primary-600);
+	}
+
+header#masthead .navbar-nav > .nav-item > .nav-link.active,
+header#masthead .navbar-nav > .nav-item > .nav-link[aria-current="page"],
+header#masthead .navbar-nav > .nav-item.dropdown > .nav-link[aria-expanded="true"] {
+	color: var(--col-primary-600);
+}
+
+/* Submenu links — old theme's `.dropdown-item`. */
+header#masthead .dropdown-menu .nav-link {
+	font-family: var(--ff-body);
+	color: var(--col-body);
+}
+:is(header#masthead .dropdown-menu .nav-link):hover,:is(header#masthead .dropdown-menu .nav-link):focus {
+		color: var(--col-primary-600);
+	}
+
 .navbar-toggler {
 	display: inline-flex;
 	align-items: center;
@@ -358,6 +719,7 @@ ol {
 .navbar-nav {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: var(--space-2);
 	margin: 0;
 	padding: 0;
@@ -423,6 +785,8 @@ ol {
 
 	.navbar-nav {
 		flex-direction: row;
+		align-items: center;
+		gap: var(--space-4); /* old theme's gap-lg-4 (1.5rem) on #menu-primary-nav */
 		margin: 0;
 	}
 
@@ -442,9 +806,77 @@ ol {
 		border-radius: var(--radius-sm);
 		box-shadow: var(--shadow-lg);
 		z-index: 10;
+		white-space: nowrap; /* matches old site's Bootstrap .dropdown-item default — confirmed via computed styles */
 	}
 }
 
+/*
+ * Footer look, ported from lc-tidy2026 (src/sass/theme/_footer.scss) as part
+ * of the ACF-block-to-native-block migration. Targets #footer/#colophon —
+ * this theme's actual footer.php ids — rather than a bare `footer` selector.
+ */
+
+#footer {
+	background-color: var(--col-dark-800);
+	color: var(--col-light-300);
+}
+
+#footer a {
+	color: var(--col-light-300);
+}
+#footer a:hover {
+	color: var(--col-primary-500);
+}
+
+#footer .footer__logo {
+	max-width: 195px;
+}
+
+/* Own class rather than .navbar-nav — that class flips to flex-direction:
+   row at the "lg" breakpoint for the header nav (see nav.css), which isn't
+   wanted for this vertical footer link list. */
+#footer .footer-menu {
+	list-style: none;
+	margin: 0;
+	padding-inline-start: 0;
+	columns: 1;
+	gap: var(--space-4);
+}
+
+/* base.css underlines classless links on hover by default — footer nav
+   links are classless (plain wp_nav_menu output, no walker), so opt back
+   out here specifically. */
+#footer .footer-menu a:hover {
+	text-decoration: none;
+}
+
+@media (min-width: 992px) {
+	#footer .footer-menu {
+		columns: 2;
+	}
+}
+
+#footer .fa-solid,
+#footer .fa-brands {
+	color: var(--col-primary-500);
+}
+
+#footer .social-icons {
+	display: inline-flex;
+	gap: 0.5rem;
+}
+
+#colophon {
+	background-color: var(--col-dark-800);
+	font-size: var(--fs-200);
+	color: #ffffffcc;
+}
+#colophon .container {
+	border-top: 1px solid var(--col-dark-500);
+}
+#colophon a {
+	opacity: 0.8;
+}
 /* Minimal, deliberately unopinionated form base — expected to be overridden per project. */
 
 input,
@@ -484,25 +916,106 @@ select {
 		outline-offset: 1px;
 	}
 
+/* Base .btn look matches this project's real brand button (ported from
+   lc-tidy2026's .button/.button--lg/.button--outline/.button--outline-white
+   during the ACF-to-native-block migration) — an explicit exception to this
+   skeleton's usual "no button opinion" default, since this project already
+   has a real design rather than needing one designed from scratch. */
 .btn {
 	display: inline-block;
-	padding: var(--space-2) var(--space-3);
-	border: 1px solid var(--col-primary);
+	padding: 0.25rem 1.5rem 0.5rem;
+	border: 2px solid var(--col-primary-600);
 	border-radius: var(--radius-sm);
-	background-color: var(--col-primary);
-	color: var(--col-white);
+	background-color: var(--col-primary-600);
+	color: var(--col-dark-900);
+	font-family: var(--ff-body);
+	font-size: var(--fs-300);
+	font-weight: var(--fw-semibold);
+	text-align: center;
 	text-decoration: none;
+	text-transform: uppercase;
 	cursor: pointer;
+	transition:
+		background-color var(--transition),
+		color var(--transition);
 }
-
+.btn:hover {
+		background-color: var(--col-primary-700);
+		color: var(--col-dark-900);
+	}
 .btn:focus-visible {
 		outline: 2px solid var(--col-primary);
 		outline-offset: 2px;
 	}
+.btn.has-whatsapp-background-color {
+		border-color: var(--col-whatsapp);
+	}
+.btn.has-whatsapp-background-color:hover {
+			background-color: color-mix(in srgb, var(--col-whatsapp), var(--col-dark-900) 10%) !important;
+		}
 
+.btn--lg {
+	padding: 0.25rem 1.5rem;
+	font-size: var(--fs-400);
+}
+
+.btn--outline {
+	background-color: transparent;
+	border-color: var(--col-dark-900);
+	color: var(--col-dark-900);
+}
+
+.btn--outline:hover {
+		background-color: var(--col-dark-900);
+		color: var(--col-light-300);
+	}
+
+.btn--outline-white {
+	background-color: transparent;
+	border-color: var(--col-light-300);
+	color: var(--col-light-300);
+}
+
+.btn--outline-white:hover {
+		background-color: var(--col-light-300);
+		color: var(--col-dark-900);
+	}
+
+/*
+ * Fade/slide-in-on-scroll reveal — see src/js/reveal.js. Duration/easing
+ * (500ms ease-out) and the "once, first time in view" behaviour match
+ * lc-tidy2026's old AOS.init({ easing: "ease-out", once: true, duration: 500 }).
+ */
+
+[data-reveal] {
+	opacity: 0;
+	transition:
+		opacity 500ms ease-out,
+		transform 500ms ease-out;
+}
+
+[data-reveal="up"] {
+	transform: translateY(20px);
+}
+
+[data-reveal].is-revealed {
+	opacity: 1;
+	transform: none;
+}
+
+/* Reduced motion: reveal.js skips the observer entirely in this case, so
+   these elements need to start already visible rather than stuck at opacity: 0. */
+@media (prefers-reduced-motion: reduce) {
+	[data-reveal] {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
 /* Generated by src/build/generate-utilities.js — do not hand-edit. */
 
 .d-block { display: block; }
+.d-inline-block { display: inline-block; }
 .d-flex { display: flex; }
 .d-inline-flex { display: inline-flex; }
 .d-grid { display: grid; }
@@ -516,6 +1029,7 @@ select {
 .justify-content-end { justify-content: flex-end; }
 .justify-content-center { justify-content: center; }
 .justify-content-between { justify-content: space-between; }
+.justify-content-around { justify-content: space-around; }
 .align-items-start { align-items: flex-start; }
 .align-items-end { align-items: flex-end; }
 .align-items-center { align-items: center; }
@@ -528,6 +1042,8 @@ select {
 .fw-normal { font-weight: var(--fw-normal); }
 .fw-semibold { font-weight: var(--fw-semibold); }
 .fw-bold { font-weight: var(--fw-bold); }
+.fw-regular { font-weight: var(--fw-regular); }
+.fw-medium { font-weight: var(--fw-medium); }
 .w-25 { width: 25%; }
 .w-50 { width: 50%; }
 .w-75 { width: 75%; }
@@ -552,6 +1068,8 @@ select {
 .col-10 { grid-column: span 10; }
 .col-11 { grid-column: span 11; }
 .col-12 { grid-column: span 12; }
+.cols-2 { columns: 2; }
+.cols-3 { columns: 3; }
 .offset-1 { margin-inline-start: 8.333333333333332%; }
 .offset-2 { margin-inline-start: 16.666666666666664%; }
 .offset-3 { margin-inline-start: 25%; }
@@ -671,6 +1189,7 @@ select {
 
 @media (min-width: 576px) {
 	.d-sm-block { display: block; }
+	.d-sm-inline-block { display: inline-block; }
 	.d-sm-flex { display: flex; }
 	.d-sm-inline-flex { display: inline-flex; }
 	.d-sm-grid { display: grid; }
@@ -681,6 +1200,7 @@ select {
 	.justify-content-sm-end { justify-content: flex-end; }
 	.justify-content-sm-center { justify-content: center; }
 	.justify-content-sm-between { justify-content: space-between; }
+	.justify-content-sm-around { justify-content: space-around; }
 	.align-items-sm-start { align-items: flex-start; }
 	.align-items-sm-end { align-items: flex-end; }
 	.align-items-sm-center { align-items: center; }
@@ -711,6 +1231,8 @@ select {
 	.col-sm-10 { grid-column: span 10; }
 	.col-sm-11 { grid-column: span 11; }
 	.col-sm-12 { grid-column: span 12; }
+	.cols-sm-2 { columns: 2; }
+	.cols-sm-3 { columns: 3; }
 	.offset-sm-1 { margin-inline-start: 8.333333333333332%; }
 	.offset-sm-2 { margin-inline-start: 16.666666666666664%; }
 	.offset-sm-3 { margin-inline-start: 25%; }
@@ -831,6 +1353,7 @@ select {
 
 @media (min-width: 768px) {
 	.d-md-block { display: block; }
+	.d-md-inline-block { display: inline-block; }
 	.d-md-flex { display: flex; }
 	.d-md-inline-flex { display: inline-flex; }
 	.d-md-grid { display: grid; }
@@ -841,6 +1364,7 @@ select {
 	.justify-content-md-end { justify-content: flex-end; }
 	.justify-content-md-center { justify-content: center; }
 	.justify-content-md-between { justify-content: space-between; }
+	.justify-content-md-around { justify-content: space-around; }
 	.align-items-md-start { align-items: flex-start; }
 	.align-items-md-end { align-items: flex-end; }
 	.align-items-md-center { align-items: center; }
@@ -871,6 +1395,8 @@ select {
 	.col-md-10 { grid-column: span 10; }
 	.col-md-11 { grid-column: span 11; }
 	.col-md-12 { grid-column: span 12; }
+	.cols-md-2 { columns: 2; }
+	.cols-md-3 { columns: 3; }
 	.offset-md-1 { margin-inline-start: 8.333333333333332%; }
 	.offset-md-2 { margin-inline-start: 16.666666666666664%; }
 	.offset-md-3 { margin-inline-start: 25%; }
@@ -991,6 +1517,7 @@ select {
 
 @media (min-width: 992px) {
 	.d-lg-block { display: block; }
+	.d-lg-inline-block { display: inline-block; }
 	.d-lg-flex { display: flex; }
 	.d-lg-inline-flex { display: inline-flex; }
 	.d-lg-grid { display: grid; }
@@ -1001,6 +1528,7 @@ select {
 	.justify-content-lg-end { justify-content: flex-end; }
 	.justify-content-lg-center { justify-content: center; }
 	.justify-content-lg-between { justify-content: space-between; }
+	.justify-content-lg-around { justify-content: space-around; }
 	.align-items-lg-start { align-items: flex-start; }
 	.align-items-lg-end { align-items: flex-end; }
 	.align-items-lg-center { align-items: center; }
@@ -1031,6 +1559,8 @@ select {
 	.col-lg-10 { grid-column: span 10; }
 	.col-lg-11 { grid-column: span 11; }
 	.col-lg-12 { grid-column: span 12; }
+	.cols-lg-2 { columns: 2; }
+	.cols-lg-3 { columns: 3; }
 	.offset-lg-1 { margin-inline-start: 8.333333333333332%; }
 	.offset-lg-2 { margin-inline-start: 16.666666666666664%; }
 	.offset-lg-3 { margin-inline-start: 25%; }
@@ -1151,6 +1681,7 @@ select {
 
 @media (min-width: 1200px) {
 	.d-xl-block { display: block; }
+	.d-xl-inline-block { display: inline-block; }
 	.d-xl-flex { display: flex; }
 	.d-xl-inline-flex { display: inline-flex; }
 	.d-xl-grid { display: grid; }
@@ -1161,6 +1692,7 @@ select {
 	.justify-content-xl-end { justify-content: flex-end; }
 	.justify-content-xl-center { justify-content: center; }
 	.justify-content-xl-between { justify-content: space-between; }
+	.justify-content-xl-around { justify-content: space-around; }
 	.align-items-xl-start { align-items: flex-start; }
 	.align-items-xl-end { align-items: flex-end; }
 	.align-items-xl-center { align-items: center; }
@@ -1191,6 +1723,8 @@ select {
 	.col-xl-10 { grid-column: span 10; }
 	.col-xl-11 { grid-column: span 11; }
 	.col-xl-12 { grid-column: span 12; }
+	.cols-xl-2 { columns: 2; }
+	.cols-xl-3 { columns: 3; }
 	.offset-xl-1 { margin-inline-start: 8.333333333333332%; }
 	.offset-xl-2 { margin-inline-start: 16.666666666666664%; }
 	.offset-xl-3 { margin-inline-start: 25%; }
@@ -1311,6 +1845,7 @@ select {
 
 @media (min-width: 1400px) {
 	.d-xxl-block { display: block; }
+	.d-xxl-inline-block { display: inline-block; }
 	.d-xxl-flex { display: flex; }
 	.d-xxl-inline-flex { display: inline-flex; }
 	.d-xxl-grid { display: grid; }
@@ -1321,6 +1856,7 @@ select {
 	.justify-content-xxl-end { justify-content: flex-end; }
 	.justify-content-xxl-center { justify-content: center; }
 	.justify-content-xxl-between { justify-content: space-between; }
+	.justify-content-xxl-around { justify-content: space-around; }
 	.align-items-xxl-start { align-items: flex-start; }
 	.align-items-xxl-end { align-items: flex-end; }
 	.align-items-xxl-center { align-items: center; }
@@ -1351,6 +1887,8 @@ select {
 	.col-xxl-10 { grid-column: span 10; }
 	.col-xxl-11 { grid-column: span 11; }
 	.col-xxl-12 { grid-column: span 12; }
+	.cols-xxl-2 { columns: 2; }
+	.cols-xxl-3 { columns: 3; }
 	.offset-xxl-1 { margin-inline-start: 8.333333333333332%; }
 	.offset-xxl-2 { margin-inline-start: 16.666666666666664%; }
 	.offset-xxl-3 { margin-inline-start: 25%; }
@@ -1471,9 +2009,713 @@ select {
 
 /* generated — see src/build/generate-utilities.js, run `npm run css-generate` */
 /* @import "tables.css"; -- uncomment if this project actually needs styled tables */
-/* @import "accordion.css"; -- uncomment if this project actually needs styled accordions */
+/*
+ * Accordion — Bootstrap-style class names, zero Bootstrap (same convention
+ * as .container/.row/.btn/.navbar elsewhere in this theme). Built on native
+ * <details>/<summary>, not JS: give sibling .accordion-item elements the
+ * same `name` attribute (e.g. name="cb-faqs-{block_id}") for native
+ * single-open-at-a-time behaviour — modern evergreen browsers only (see
+ * .browserslistrc), no JS file needed. Omit `name` (or give each item a
+ * unique one) if independent multi-open items are wanted instead.
+ *
+ * Required markup for the open/close reveal animation below:
+ *   <details class="accordion-item">
+ *     <summary class="accordion-header">...<svg class="accordion-icon">...</summary>
+ *     <div class="accordion-body">
+ *       <div class="accordion-body__inner">...content, incl. any p-* padding...</div>
+ *     </div>
+ *   </details>
+ * The outer .accordion-body is the grid/height-animated container (no
+ * padding of its own — padding there wouldn't collapse to zero along with
+ * the 0fr grid track); .accordion-body__inner carries the actual padding
+ * and clips content mid-animation via overflow:hidden.
+ */
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-item {
+  border-bottom: 1px solid var(--col-grey-200);
+}
+
+.accordion-item:first-child {
+  border-top: 1px solid var(--col-grey-200);
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  list-style: none;
+  cursor: pointer;
+  font-weight: var(--fw-700);
+}
+
+.accordion-header::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-icon {
+  flex-shrink: 0;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--transition);
+}
+
+.accordion-item[open] .accordion-icon {
+  transform: rotate(45deg);
+}
+
+/*
+ * Reveal animation: grid-template-rows 0fr -> 1fr, not height (animating to
+ * height: auto isn't broadly interpolable yet). This needs .accordion-body
+ * to stay display: grid even while the <details> is closed — overriding
+ * the UA stylesheet's default display:none on non-summary children of a
+ * closed details:not([open]) element. Three chained classes (not
+ * !important) beat that default on specificity alone: deliberately not
+ * !important here — cleancss 5.6.3 has a real bug where an !important
+ * declaration on a rule beyond the first in a file can silently strip the
+ * *next* rule's selector prefix on minify, verified by bisection against
+ * this exact file. Keep this display override !important-free.
+ */
+.accordion .accordion-item .accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease;
+}
+
+.accordion-item[open] > .accordion-body {
+  grid-template-rows: 1fr;
+}
+
+.accordion-body__inner {
+  overflow: hidden;
+  min-height: 0;
+  color: var(--col-black);
+}
+
+.accordion-body__inner > *:last-child {
+  margin-bottom: 0;
+}
+
+/* needed by the lc-faq block */
+
 /* Generated by src/build/generate-utilities.js — do not hand-edit.
    Concatenation of src/blocks/*.css, alphabetical by filename. */
+
+/* --- src/blocks/lc-areas.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.areas {
+  background: var(--col-light-warm-400);
+  border-top: 1px solid var(--col-light-600);
+  border-bottom: 1px solid var(--col-light-600);
+}
+.areas .container {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.areas__map {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  height: 110%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+}
+@media (min-width: 768px) {
+  .areas__map {
+    opacity: 0.65;
+    transform: translate(-0%, -50%);
+  }
+}
+@media (min-width: 992px) {
+  .areas__map {
+    transform: translate(-0%, -50%);
+  }
+}
+.areas__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--fs-600);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-500);
+  letter-spacing: 0.02em;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 992px) {
+  .areas__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.areas__item {
+  position: relative;
+  padding-left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.areas__item::before {
+  content: "";
+  background: #ddfd01;
+  border: 2px solid #000;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* --- src/blocks/lc-benefits.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.benefits {
+	border-top: 1px solid var(--col-dark-600);
+	border-bottom: 1px solid var(--col-dark-600);
+}
+.benefits__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+}
+@media (min-width: 992px) {
+	.benefits__grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+.benefits .benefit:not(:last-child) {
+	border-bottom: 1px solid var(--col-primary-500);
+}
+.benefits .benefit {
+	padding: 1.5rem 0;
+	display: grid;
+	grid-row: span 3;
+	grid-template-rows: subgrid;
+}
+@media (min-width: 992px) {
+	.benefits .benefit:not(:last-child) {
+		border-bottom: none;
+		border-right: 1px solid var(--col-primary-500);
+	}
+	.benefits .benefit {
+		padding: 0 1.5rem;
+	}
+}
+.benefits .benefit__icon-wrapper {
+	height: 100px;
+	display: flex;
+	align-items: center;
+}
+.benefits .benefit__icon {
+	aspect-ratio: 98 / 76;
+	width: 90px;
+	margin-bottom: 0.5rem;
+}
+.benefits .benefit__title {
+	align-self: start;
+}
+.benefits .benefit__text {
+	align-self: start;
+}
+
+/* --- src/blocks/lc-breadcrumbs.css --- */
+/*
+ * Ported from lc-tidy2026 (src/sass/theme/blocks/_lc_breadcrumbs.scss), plus
+ * list-style/layout rules that source never needed: that block always had
+ * Yoast active, so its yoast_breadcrumb() branch (a plain string, not a
+ * list) was the only one ever actually rendered there — the <ol> ancestry
+ * fallback this theme always uses (no ACF, no Yoast) was dead code with no
+ * real-world visual to match.
+ */
+.lc-breadcrumbs {
+	margin-bottom: 1rem;
+	color: var(--col-dark-300);
+	font-size: var(--fs-200);
+}
+.lc-breadcrumbs__list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	list-style: none;
+	padding-inline-start: 0;
+	margin: 0;
+}
+.lc-breadcrumbs__item {
+	display: flex;
+	align-items: center;
+}
+.lc-breadcrumbs__item:not(:last-child)::after {
+	content: "\00BB"; /* » guillemet — matches Yoast's default breadcrumb separator */
+	margin: 0 var(--space-2);
+	/* No color override — Yoast's actual separator is a plain text node
+	   inheriting the trail's own var(--col-dark-300), not a distinct
+	   lighter tone. */
+}
+.lc-breadcrumbs a {
+	/* Confirmed against the live source site (Yoast is still active there,
+	   so its rendered breadcrumb is the actual reference): links use the
+	   same muted var(--col-dark-300) as the rest of the trail — not
+	   var(--col-primary) (this theme's brand yellow, which base.css's
+	   generic `a{}` rule would otherwise apply here), not black. Bold
+	   weight is what distinguishes a link from the plain-text current item. */
+	color: var(--col-dark-300);
+	font-weight: var(--fw-semibold);
+}
+
+/* --- src/blocks/lc-faq.css --- */
+/*
+ * Ported from lc-tidy2026 (compiled css/child-theme.css), adapted from
+ * Bootstrap's --bs-accordion-* custom properties to this theme's own
+ * native <details>/<summary> accordion (src/css/accordion.css) — same
+ * .accordion-header class name already lines up; .accordion-body__inner
+ * carries the p-4 padding the old .accordion-body did directly (see
+ * accordion.css's docblock for why that moved to an inner wrapper).
+ */
+.faq .accordion-header {
+	border-top: 1px solid var(--col-dark-700);
+	font-family: var(--ff-heading);
+	font-size: var(--fs-500);
+	font-weight: var(--fw-semibold);
+}
+.faq .accordion-icon {
+	/* var(--col-primary-700) (#b7cc00), confirmed against the live source
+	   site's actual computed icon fill — not primary-600, which is a
+	   different, brighter shade. */
+	color: var(--col-primary-700);
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+/* --- src/blocks/lc-form.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.form-block {
+	background: #f2f1ed;
+	padding: 40px 0 80px 0;
+}
+.form-block .form-card {
+	background: #ffffff;
+	padding: 40px;
+	border-radius: 8px;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* --- src/blocks/lc-hero.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.hero {
+	min-height: 500px;
+	padding-block: 2rem 3rem;
+	display: flex;
+	align-items: center;
+}
+.hero .headline-underline {
+	display: block;
+	position: relative;
+}
+.hero .headline-underline::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -10px;
+	height: 6px;
+	width: 75%;
+	background: var(--col-primary-600);
+}
+.hero__image {
+	width: 100%;
+	height: auto;
+	border-radius: var(--radius-200);
+}
+.hero__bar {
+	border-top: 1px solid var(--col-light-600);
+	border-bottom: 1px solid var(--col-light-600);
+	padding-block: 0.75rem;
+}
+
+/* --- src/blocks/lc-how-it-works.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.how-it-works {
+	overflow: hidden;
+	border-top: 1px solid var(--col-dark-500);
+}
+.how-it-works__number {
+	opacity: 0.8;
+	line-height: var(--lh-1000);
+}
+
+/* --- src/blocks/lc-how-stack.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.how-stack {
+	overflow: hidden;
+	border-bottom: 1px solid var(--col-dark-600);
+}
+.how-stack__number {
+	opacity: 0.8;
+	line-height: var(--lh-1000);
+}
+
+/* --- src/blocks/lc-other-services.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.lc-other-services {
+	background: var(--col-dark-800);
+	padding-block: 3rem;
+	border-top: 1px solid var(--col-dark-600);
+	border-bottom: 1px solid var(--col-dark-600);
+}
+.lc-other-services__heading {
+	font-family: var(--ff-heading);
+	font-weight: var(--fw-semibold);
+	font-size: var(--fs-700);
+	color: var(--col-light-300);
+	margin-bottom: 1.5rem;
+}
+.lc-other-services__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.75rem;
+}
+@media (min-width: 576px) {
+	.lc-other-services__list {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media (min-width: 992px) {
+	.lc-other-services__list {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+.lc-other-services__item {
+	display: flex;
+}
+.lc-other-services__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 1.1rem;
+	border: 1px solid var(--col-dark-400);
+	border-radius: var(--radius-pill);
+	background: var(--col-dark-700);
+	color: var(--col-light-300);
+	font-size: var(--fs-400);
+	font-weight: var(--fw-medium);
+	text-decoration: none;
+	transition:
+		background var(--transition),
+		border-color var(--transition),
+		color var(--transition);
+	width: 100%;
+}
+.lc-other-services__link::before {
+	content: "";
+	flex-shrink: 0;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--col-primary-500);
+}
+.lc-other-services__link:hover,
+.lc-other-services__link:focus-visible {
+	background: var(--col-dark-600);
+	border-color: var(--col-primary-500);
+	color: var(--col-primary-400);
+}
+
+/* --- src/blocks/lc-review-slider.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.review_slider {
+	background-color: var(--col-dark-900);
+}
+.review_slider__slider {
+	overflow-x: hidden;
+}
+.review_slider .swiper-wrapper {
+	padding-bottom: 2.5rem;
+}
+.review_slider__card {
+	background-color: var(--col-dark-700);
+	border: 1px solid var(--col-dark-500);
+	border-radius: var(--radius-100);
+	padding: 1.5rem;
+	font-size: var(--fs-400);
+	height: 100%;
+	margin-inline: 1rem;
+}
+.review_slider__title {
+	font-weight: var(--fw-semibold);
+	margin-bottom: 0.5em;
+}
+.review_slider__preamble {
+	color: var(--col-light-300);
+	margin-bottom: 0.75rem;
+	font-weight: var(--fw-semibold);
+}
+.review_slider__stars {
+	color: var(--col-primary-500);
+	margin-top: 1rem;
+}
+.review_slider__shortcode {
+	text-align: center;
+	margin-block: 3rem;
+}
+
+/* --- src/blocks/lc-service-cards.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.service-cards__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 992px) {
+  .service-cards__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 120px minmax(3.5rem, auto) 1fr;
+  }
+}
+@media (min-width: 1200px) {
+  .service-cards__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.service-cards .service-card__wrapper {
+  display: grid;
+  grid-template-rows: 120px minmax(3.5rem, auto) 1fr;
+}
+@media (min-width: 992px) {
+  .service-cards .service-card__wrapper {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+  }
+}
+.service-cards .service-card {
+  background-color: var(--col-dark-700);
+  border: 1px solid var(--col-dark-500);
+  border-radius: var(--radius-100);
+  padding: 1.5rem;
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  gap: 0;
+}
+.service-cards .service-card__icon-wrapper {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+.service-cards .service-card__icon {
+  aspect-ratio: 98 / 76;
+  width: 90px;
+  margin-bottom: 0.5rem;
+}
+.service-cards .service-card__title {
+  align-self: start;
+}
+.service-cards .service-card__text {
+  align-self: start;
+}
+.service-cards a.service-card {
+  text-decoration: none;
+  color: inherit;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    transform var(--transition);
+}
+.service-cards a.service-card:hover {
+  background-color: var(--col-dark-600);
+  border-color: var(--col-dark-400);
+  transform: translateY(-2px);
+}
+
+/* --- src/blocks/lc-service-list.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.service-list {
+	background-color: var(--col-light-400);
+	padding-block: 3rem;
+}
+.service-list__grid {
+	display: grid;
+	gap: 1rem;
+}
+@media (min-width: 1200px) {
+	.service-list__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+.service-list__item {
+	padding: 0 1rem;
+	border-radius: var(--radius-100);
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	transition:
+		background-color var(--transition),
+		color var(--transition);
+	color: var(--col-dark-900);
+	text-decoration: none;
+}
+@media (min-width: 768px) {
+	.service-list__item {
+		gap: 2rem;
+	}
+}
+.service-list__item:hover {
+	background-color: var(--col-light-600);
+	color: var(--col-dark-700);
+}
+.service-list__icon-wrapper {
+	height: 100px;
+	display: flex;
+	align-items: center;
+}
+.service-list__icon {
+	aspect-ratio: 98 / 76;
+	width: 90px;
+}
+
+/* --- src/blocks/lc-social-proof.css --- */
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.lc-social-proof {
+	padding-block: 0.5rem;
+	border-top: 2px solid var(--col-dark-500);
+	border-bottom: 2px solid var(--col-dark-500);
+}
+.lc-social-proof__inner {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	flex-wrap: nowrap;
+}
+@media (max-width: 991.98px) {
+	.lc-social-proof__inner {
+		flex-wrap: wrap;
+	}
+}
+.lc-social-proof__stars {
+	flex: 0 0 auto;
+	min-width: 7.5em;
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.lc-social-proof__content {
+	margin-left: 1rem;
+}
+
+/* --- src/blocks/lc-text-checklist.css --- */
+/*
+ * Ported from lc-tidy2026 (compiled css/child-theme.css). The circle icon
+ * there referenced an undefined --col-primary-900 custom property, so it
+ * silently fell back to the inherited (black) text colour — confirmed
+ * against the live source site's computed styles and matched here rather
+ * than inventing a --col-primary-900 token that never existed.
+ */
+.text-checklist__list-wrapper {
+	background-color: var(--col-light-300);
+	border: 1px solid var(--col-light-600);
+	border-radius: var(--radius-100);
+	padding: 1.5rem;
+}
+.text-checklist__list {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+}
+.text-checklist__list li {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+	margin-bottom: 14px;
+	break-inside: avoid;
+}
+.text-checklist__icon {
+	display: inline-flex;
+	position: relative;
+	width: 1.25rem;
+	height: 1.25rem;
+	flex-shrink: 0;
+}
+.text-checklist__icon .fa-circle {
+	font-size: 1.25rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.text-checklist__icon .fa-check {
+	color: var(--col-primary-500);
+	font-size: 0.625rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/* --- src/blocks/lc-who-grid.css --- */
+/*
+ * Ported from lc-tidy2026 (compiled css/child-theme.css). Dropped two dead
+ * rules there (.who-grid__title / .who-grid__text) — the actual markup
+ * uses .who-grid__item-title / .who-grid__item-description, so those never
+ * matched anything; omitting them changes nothing rendered.
+ */
+.who-grid__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+}
+@media (min-width: 768px) {
+	.who-grid__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media (min-width: 992px) {
+	.who-grid__grid {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+.who-grid__item {
+	color: var(--col-dark-900);
+	text-decoration: none;
+}
+.who-grid__item:not(:last-child) {
+	border-bottom: 1px solid var(--col-dark-400);
+}
+.who-grid__item {
+	padding: 1.5rem 0;
+	display: grid;
+	grid-row: span 3;
+	grid-template-rows: subgrid;
+}
+@media (min-width: 992px) {
+	.who-grid__item:not(:last-child) {
+		border-bottom: none;
+		border-right: 1px solid var(--col-dark-400);
+	}
+	.who-grid__item {
+		padding: 0 1.5rem;
+	}
+}
+.who-grid__icon-wrapper {
+	height: 100px;
+	display: flex;
+	align-items: center;
+}
+.who-grid__icon {
+	aspect-ratio: 98 / 76;
+	width: 90px;
+	margin-bottom: 0;
+}
 /* generated — concatenation of src/blocks/*.css, see src/build/generate-utilities.js */
 
 /*# sourceMappingURL=theme.css.map */

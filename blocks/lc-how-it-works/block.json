@@ -1,0 +1,26 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lc-tidyjs2026/lc-how-it-works",
+	"title": "LC How It Works",
+	"category": "lc-tidyjs2026",
+	"icon": "cover-image",
+	"attributes": {
+		"title": { "type": "string", "default": "" },
+		"intro": { "type": "string", "default": "" },
+		"step1Title": { "type": "string", "default": "" },
+		"step1Content": { "type": "string", "default": "" },
+		"step2Title": { "type": "string", "default": "" },
+		"step2Content": { "type": "string", "default": "" },
+		"step3Title": { "type": "string", "default": "" },
+		"step3Content": { "type": "string", "default": "" },
+		"highlight": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"anchor": true,
+		"className": true,
+		"align": true
+	},
+	"editorScript": "file:./build/index.js",
+	"render": "file:./render.php"
+}

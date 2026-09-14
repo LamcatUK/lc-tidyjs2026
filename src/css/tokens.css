@@ -72,4 +72,119 @@
   --grid-min: 16rem;
 
   --nav-height: 4rem;
+
+  /* =========================================================================
+   * Project brand tokens — ported verbatim from lc-tidy2026 (src/sass/theme/
+   * _tokens.scss) as part of the ACF-block-to-native-block migration. These
+   * override the placeholder palette/type-scale above; --space-*, --shadow-*,
+   * --grid-*, --container-* etc. stay the skeleton's own. --radius-100/200
+   * are ported as their own literal tokens (not aliased to --radius-sm/lg —
+   * those round to a visibly different px value at this project's 18px root)
+   * since ported block CSS references them directly.
+   * ========================================================================= */
+
+  --radius-100: 4px;
+  --radius-200: 6px;
+
+  /* Brand (yellow scale) */
+  --col-primary-700: #b7cc00;
+  --col-primary-600: #d2ee00;
+  --col-primary-500: #ddfd01;
+  --col-primary-400: #e6ff33;
+  --col-primary-300: #efff66;
+  --col-primary-200: #f6ff99;
+  --col-primary-100: #fbffd6;
+
+  /* Light neutrals */
+  --col-light-800: #cccccc;
+  --col-light-700: #dcdcdc;
+  --col-light-600: #e6e6e6;
+  --col-light-500: #eeeeee;
+  --col-light-400: #f5f5f5;
+  --col-light-300: #ffffff;
+  --col-light-warm-400: #f2f1ed;
+
+  /* Dark neutrals */
+  --col-dark-900: #000000;
+  --col-dark-800: #0f0f0f;
+  --col-dark-700: #1a1a1a;
+  --col-dark-600: #242424;
+  --col-dark-500: #2e2e2e;
+  --col-dark-400: #3b3b3b;
+  --col-dark-300: #484848;
+  --col-dark-warm-800: #161616;
+
+  --col-whatsapp: #25d366;
+
+  /* Functional aliases (var()-only — excluded from the generated theme.json
+	   palette by generate-theme-json.js, available for hand-authored CSS) */
+  --col-bg-body-light: var(--col-light-400);
+  --col-bg-section-light: var(--col-light-500);
+  --col-bg-card-light: var(--col-light-300);
+  --col-bg-body-dark: var(--col-dark-800);
+  --col-bg-section-dark: var(--col-dark-700);
+  --col-bg-card-dark: var(--col-dark-600);
+  --col-border-light: var(--col-light-700);
+  --col-border-dark: var(--col-dark-500);
+  --col-btn-primary-bg: var(--col-primary-500);
+  --col-btn-primary-text: var(--col-dark-900);
+  --col-btn-primary-hover: var(--col-primary-700);
+  --col-btn-secondary-bg: transparent;
+  --col-btn-secondary-text: var(--col-dark-900);
+  --col-btn-secondary-border: var(--col-dark-900);
+
+  /* Real brand primary + body colours replace the skeleton placeholders */
+  --col-primary: var(--col-primary-500);
+  --col-body: var(--col-dark-900);
+  --col-body-bg: var(--col-light-300); /* white — Bootstrap's unoverridden $body-bg default in lc-tidy2026 */
+
+  /* Project font families */
+  --ff-heading: "Poppins", sans-serif;
+  --ff-body: "IBM Plex Sans", sans-serif;
+  --ff-fa: "Font Awesome 6 Free";
+  --font-family-base: var(--ff-body);
+
+  /* Project font weights (aliases of the skeleton's numeric --fw-* above) */
+  --fw-regular: var(--fw-400);
+  --fw-medium: 500;
+
+  /* Fluid type scale, ported verbatim — generates has-SLUG-font-size
+	   utility classes in the block editor (has-900-font-size etc., already
+	   used by ported block markup) */
+  --fs-1000: clamp(3.5rem, 7vw, 6rem);
+  --lh-1000: 1;
+  --fs-900: clamp(2.2rem, 4vw, 3.5rem);
+  --lh-900: 1.1;
+  --fs-800: clamp(1.6rem, 2.5vw, 2.2rem);
+  --lh-800: 1.2;
+  --fs-700: clamp(1.25rem, 1.6vw, 1.5rem);
+  --lh-700: 1.35;
+  --fs-600: clamp(1.1rem, 1.2vw, 1.25rem);
+  --lh-600: 1.35;
+  --fs-500: clamp(1rem, 1vw, 1.125rem);
+  --lh-500: 1.6;
+  --fs-400: clamp(0.95rem, 0.9vw, 1rem);
+  --lh-400: 1.6;
+  --fs-300: clamp(0.85rem, 0.8vw, 0.9rem);
+  --lh-300: 1.5;
+  --fs-200: clamp(0.75rem, 0.7vw, 0.8rem);
+  --lh-200: 1.4;
+
+  /* Heading sizes now ride the real fluid scale instead of the skeleton's
+	   placeholder clamp() values */
+  --fs-h1: var(--fs-900);
+  --fs-h2: var(--fs-800);
+  --fs-h3: var(--fs-600);
+  --fs-h4: var(--fs-500);
+  --fs-h5: var(--fs-400);
+  --fs-h6: var(--fs-300);
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.05em;
+  --tracking-wider: 0.12em;
+
+  --radius-pill: 9999px;
+  --border-1: 1px solid var(--col-border-light);
+  --border-2: 0 2px 0 0 var(--col-dark-900);
 }

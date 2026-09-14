@@ -18,7 +18,7 @@
 const fs = require('fs');
 const path = require('path');
 const fg = require('fast-glob');
-const { breakpoints, gridColumns, utilities, spacingScale } = require('./tokens.config');
+const { breakpoints, gridColumns, utilities, spacingScale, columnsScale } = require('./tokens.config');
 
 const cssDir = path.resolve(__dirname, '../css');
 const blocksStylesDir = path.resolve(__dirname, '../blocks');
@@ -84,6 +84,16 @@ function generateUtilities() {
 		for (let n = 1; n <= gridColumns; n++) {
 			const className = bp ? `col-${bp}-${n}` : `col-${n}`;
 			rulesByBreakpoint[bp].push(`.${className} { grid-column: span ${n}; }`);
+		}
+	}
+
+	// cols-{n} / cols-{bp}-{n} — CSS multi-column layout, for flowing a list
+	// into N text columns (not to be confused with col-{n}, grid column span,
+	// above). Autoprefixer adds any vendor prefix a target browser still needs.
+	for (const bp of Object.keys(breakpoints)) {
+		for (const n of columnsScale) {
+			const className = bp ? `cols-${bp}-${n}` : `cols-${n}`;
+			rulesByBreakpoint[bp].push(`.${className} { columns: ${n}; }`);
 		}
 	}
 

@@ -1,0 +1,67 @@
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.lc-other-services {
+	background: var(--col-dark-800);
+	padding-block: 3rem;
+	border-top: 1px solid var(--col-dark-600);
+	border-bottom: 1px solid var(--col-dark-600);
+}
+.lc-other-services__heading {
+	font-family: var(--ff-heading);
+	font-weight: var(--fw-semibold);
+	font-size: var(--fs-700);
+	color: var(--col-light-300);
+	margin-bottom: 1.5rem;
+}
+.lc-other-services__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.75rem;
+}
+@media (min-width: 576px) {
+	.lc-other-services__list {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media (min-width: 992px) {
+	.lc-other-services__list {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+.lc-other-services__item {
+	display: flex;
+}
+.lc-other-services__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 1.1rem;
+	border: 1px solid var(--col-dark-400);
+	border-radius: var(--radius-pill);
+	background: var(--col-dark-700);
+	color: var(--col-light-300);
+	font-size: var(--fs-400);
+	font-weight: var(--fw-medium);
+	text-decoration: none;
+	transition:
+		background var(--transition),
+		border-color var(--transition),
+		color var(--transition);
+	width: 100%;
+}
+.lc-other-services__link::before {
+	content: "";
+	flex-shrink: 0;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--col-primary-500);
+}
+.lc-other-services__link:hover,
+.lc-other-services__link:focus-visible {
+	background: var(--col-dark-600);
+	border-color: var(--col-primary-500);
+	color: var(--col-primary-400);
+}

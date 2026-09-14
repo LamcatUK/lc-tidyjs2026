@@ -6,6 +6,18 @@
  * single-open-at-a-time behaviour — modern evergreen browsers only (see
  * .browserslistrc), no JS file needed. Omit `name` (or give each item a
  * unique one) if independent multi-open items are wanted instead.
+ *
+ * Required markup for the open/close reveal animation below:
+ *   <details class="accordion-item">
+ *     <summary class="accordion-header">...<svg class="accordion-icon">...</summary>
+ *     <div class="accordion-body">
+ *       <div class="accordion-body__inner">...content, incl. any p-* padding...</div>
+ *     </div>
+ *   </details>
+ * The outer .accordion-body is the grid/height-animated container (no
+ * padding of its own — padding there wouldn't collapse to zero along with
+ * the 0fr grid track); .accordion-body__inner carries the actual padding
+ * and clips content mid-animation via overflow:hidden.
  */
 
 .accordion {
@@ -48,7 +60,34 @@
   transform: rotate(45deg);
 }
 
-.accordion-body {
-  padding-bottom: var(--space-3);
+/*
+ * Reveal animation: grid-template-rows 0fr -> 1fr, not height (animating to
+ * height: auto isn't broadly interpolable yet). This needs .accordion-body
+ * to stay display: grid even while the <details> is closed — overriding
+ * the UA stylesheet's default display:none on non-summary children of a
+ * closed details:not([open]) element. Three chained classes (not
+ * !important) beat that default on specificity alone: deliberately not
+ * !important here — cleancss 5.6.3 has a real bug where an !important
+ * declaration on a rule beyond the first in a file can silently strip the
+ * *next* rule's selector prefix on minify, verified by bisection against
+ * this exact file. Keep this display override !important-free.
+ */
+.accordion .accordion-item .accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease;
+}
+
+.accordion-item[open] > .accordion-body {
+  grid-template-rows: 1fr;
+}
+
+.accordion-body__inner {
+  overflow: hidden;
+  min-height: 0;
   color: var(--col-black);
+}
+
+.accordion-body__inner > *:last-child {
+  margin-bottom: 0;
 }

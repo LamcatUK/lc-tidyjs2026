@@ -1,0 +1,63 @@
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.areas {
+  background: var(--col-light-warm-400);
+  border-top: 1px solid var(--col-light-600);
+  border-bottom: 1px solid var(--col-light-600);
+}
+.areas .container {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.areas__map {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  height: 110%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+}
+@media (min-width: 768px) {
+  .areas__map {
+    opacity: 0.65;
+    transform: translate(-0%, -50%);
+  }
+}
+@media (min-width: 992px) {
+  .areas__map {
+    transform: translate(-0%, -50%);
+  }
+}
+.areas__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--fs-600);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-500);
+  letter-spacing: 0.02em;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 992px) {
+  .areas__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.areas__item {
+  position: relative;
+  padding-left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.areas__item::before {
+  content: "";
+  background: #ddfd01;
+  border: 2px solid #000;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}

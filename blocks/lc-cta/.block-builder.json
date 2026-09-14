@@ -1,0 +1,40 @@
+{
+	"title": "LC CTA",
+	"color_support": false,
+	"fields": [
+		{
+			"label": "CTA Title",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "ctaTitle",
+			"snake": "cta_title",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_7rn1diwgjf",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "Content",
+			"type": "textarea",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "linebreak",
+			"link_target": false,
+			"name": "content",
+			"snake": "content",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_5dlkxvkorv",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		}
+	]
+}

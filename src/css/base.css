@@ -59,6 +59,13 @@ a {
 	text-decoration: none;
 }
 
+/* Plain content links inside page content read better dark than in the
+   brand yellow (var(--col-primary)) — that colour stays the default
+   elsewhere (buttons, nav, etc. all set their own colour regardless). */
+main a {
+	color: var(--col-dark-900);
+}
+
 /*
  * Underline-on-hover only for plain content links (no class) — cards,
  * buttons, nav items, and social/icon links all carry their own class and
@@ -106,4 +113,22 @@ ol {
 	clip: rect(0, 0, 0, 0) !important;
 	white-space: nowrap !important;
 	border: 0 !important;
+}
+
+/* Lenis (src/js/lenis-init.js) — its own recommended CSS, ported from
+   lc-tidy2026 rather than loaded as a second stylesheet. */
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+	overflow: clip;
+}
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch] {
+	overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+	pointer-events: none;
 }

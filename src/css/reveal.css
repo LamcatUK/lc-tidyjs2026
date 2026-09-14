@@ -1,0 +1,31 @@
+/*
+ * Fade/slide-in-on-scroll reveal — see src/js/reveal.js. Duration/easing
+ * (500ms ease-out) and the "once, first time in view" behaviour match
+ * lc-tidy2026's old AOS.init({ easing: "ease-out", once: true, duration: 500 }).
+ */
+
+[data-reveal] {
+	opacity: 0;
+	transition:
+		opacity 500ms ease-out,
+		transform 500ms ease-out;
+}
+
+[data-reveal="up"] {
+	transform: translateY(20px);
+}
+
+[data-reveal].is-revealed {
+	opacity: 1;
+	transform: none;
+}
+
+/* Reduced motion: reveal.js skips the observer entirely in this case, so
+   these elements need to start already visible rather than stuck at opacity: 0. */
+@media (prefers-reduced-motion: reduce) {
+	[data-reveal] {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}

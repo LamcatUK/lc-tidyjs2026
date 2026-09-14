@@ -1,0 +1,30 @@
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.lc-social-proof {
+	padding-block: 0.5rem;
+	border-top: 2px solid var(--col-dark-500);
+	border-bottom: 2px solid var(--col-dark-500);
+}
+.lc-social-proof__inner {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	flex-wrap: nowrap;
+}
+@media (max-width: 991.98px) {
+	.lc-social-proof__inner {
+		flex-wrap: wrap;
+	}
+}
+.lc-social-proof__stars {
+	flex: 0 0 auto;
+	min-width: 7.5em;
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.lc-social-proof__content {
+	margin-left: 1rem;
+}

@@ -38,18 +38,71 @@ select {
 	}
 }
 
+/* Base .btn look matches this project's real brand button (ported from
+   lc-tidy2026's .button/.button--lg/.button--outline/.button--outline-white
+   during the ACF-to-native-block migration) — an explicit exception to this
+   skeleton's usual "no button opinion" default, since this project already
+   has a real design rather than needing one designed from scratch. */
 .btn {
 	display: inline-block;
-	padding: var(--space-2) var(--space-3);
-	border: 1px solid var(--col-primary);
+	padding: 0.25rem 1.5rem 0.5rem;
+	border: 2px solid var(--col-primary-600);
 	border-radius: var(--radius-sm);
-	background-color: var(--col-primary);
-	color: var(--col-white);
+	background-color: var(--col-primary-600);
+	color: var(--col-dark-900);
+	font-family: var(--ff-body);
+	font-size: var(--fs-300);
+	font-weight: var(--fw-semibold);
+	text-align: center;
 	text-decoration: none;
+	text-transform: uppercase;
 	cursor: pointer;
+	transition:
+		background-color var(--transition),
+		color var(--transition);
+
+	&:hover {
+		background-color: var(--col-primary-700);
+		color: var(--col-dark-900);
+	}
 
 	&:focus-visible {
 		outline: 2px solid var(--col-primary);
 		outline-offset: 2px;
+	}
+
+	&.has-whatsapp-background-color {
+		border-color: var(--col-whatsapp);
+
+		&:hover {
+			background-color: color-mix(in srgb, var(--col-whatsapp), var(--col-dark-900) 10%) !important;
+		}
+	}
+}
+
+.btn--lg {
+	padding: 0.25rem 1.5rem;
+	font-size: var(--fs-400);
+}
+
+.btn--outline {
+	background-color: transparent;
+	border-color: var(--col-dark-900);
+	color: var(--col-dark-900);
+
+	&:hover {
+		background-color: var(--col-dark-900);
+		color: var(--col-light-300);
+	}
+}
+
+.btn--outline-white {
+	background-color: transparent;
+	border-color: var(--col-light-300);
+	color: var(--col-light-300);
+
+	&:hover {
+		background-color: var(--col-light-300);
+		color: var(--col-dark-900);
 	}
 }

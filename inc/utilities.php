@@ -27,6 +27,122 @@ function parse_phone( $phone ) {
 }
 
 /**
+ * Generate a WhatsApp link shortcode using the site-wide phone number.
+ *
+ * Pre-fills the WhatsApp message with "I'm contacting you from the [site name] website...".
+ *
+ * @param array $atts {
+ *     Optional. Shortcode attributes.
+ *
+ *     @type string $class CSS class for the anchor element. Default empty.
+ *     @type string $text  Custom link text to display. Default 'WhatsApp Us'.
+ *     @type bool   $icon  Whether to show a WhatsApp icon. Default false.
+ * }
+ * @return string HTML anchor tag with the WhatsApp link, or an empty string if no phone is set.
+ */
+function whatsapp_link( $atts = array() ) {
+	$atts = shortcode_atts(
+		array(
+			'class' => '',
+			'text'  => 'WhatsApp Us',
+			'icon'  => false,
+		),
+		$atts,
+		'whatsapp_link'
+	);
+
+	$phone = lc_tidyjs2026_get_setting( 'phone' );
+
+	if ( ! $phone ) {
+		return '';
+	}
+
+	$number    = ltrim( parse_phone( $phone ), '+' );
+	$site_name = get_bloginfo( 'name' );
+	$message   = rawurlencode( "I'm contacting you from the {$site_name} website..." );
+	$icon_html = ( 'true' === $atts['icon'] || true === $atts['icon'] ) ? '<i class="fa-brands fa-whatsapp me-2"></i> ' : '';
+	$link_text = $icon_html . wp_kses_post( $atts['text'] );
+	$class     = esc_attr( $atts['class'] );
+
+	return '<a href="https://wa.me/' . esc_attr( $number ) . '?text=' . $message . '" class="' . $class . '" target="_blank" rel="noopener noreferrer">' . $link_text . '</a>';
+}
+add_shortcode( 'whatsapp_link', 'whatsapp_link' );
+
+/**
+ * Generate a `tel:` link shortcode from the site-wide phone number.
+ *
+ * @param array $atts {
+ *     Optional. Shortcode attributes.
+ *
+ *     @type string $class CSS class for the anchor element. Default empty.
+ *     @type string $text  Custom link text. Default the phone number itself.
+ *     @type bool   $icon  Whether to prefix a phone icon. Default false.
+ * }
+ * @return string HTML anchor tag, or an empty string if no phone is set.
+ */
+function contact_phone( $atts = array() ) {
+	$atts = shortcode_atts(
+		array(
+			'class' => '',
+			'text'  => '',
+			'icon'  => false,
+		),
+		$atts,
+		'contact_phone'
+	);
+
+	$phone = lc_tidyjs2026_get_setting( 'phone' );
+
+	if ( ! $phone ) {
+		return '';
+	}
+
+	$icon_html   = ( 'true' === $atts['icon'] || true === $atts['icon'] ) ? '<i class="fa-solid fa-phone"></i> ' : '';
+	$anchor_text = $icon_html . ( ! empty( $atts['text'] ) ? wp_kses_post( $atts['text'] ) : esc_html( $phone ) );
+
+	return '<a href="tel:' . esc_attr( parse_phone( $phone ) ) . '" class="' . esc_attr( $atts['class'] ) . '">' . $anchor_text . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $anchor_text is wp_kses_post()/esc_html() output above.
+}
+add_shortcode( 'contact_phone', 'contact_phone' );
+
+/**
+ * Generate a `mailto:` link shortcode from the site-wide email address,
+ * obfuscated against harvesting via antispambot().
+ *
+ * @param array $atts {
+ *     Optional. Shortcode attributes.
+ *
+ *     @type string $class CSS class for the anchor element. Default empty.
+ *     @type string $text  Custom link text. Default the email address itself.
+ *     @type bool   $icon  Whether to prefix an envelope icon. Default false.
+ * }
+ * @return string HTML anchor tag, or an empty string if no email is set.
+ */
+function contact_email( $atts = array() ) {
+	$atts = shortcode_atts(
+		array(
+			'class' => '',
+			'text'  => '',
+			'icon'  => false,
+		),
+		$atts,
+		'contact_email'
+	);
+
+	$email = lc_tidyjs2026_get_setting( 'email' );
+
+	if ( ! $email ) {
+		return '';
+	}
+
+	$obfuscated_email = antispambot( $email );
+	$icon_html        = ( 'true' === $atts['icon'] || true === $atts['icon'] ) ? '<i class="fa-solid fa-envelope"></i> ' : '';
+	$anchor_text      = $icon_html . ( ! empty( $atts['text'] ) ? wp_kses_post( $atts['text'] ) : esc_html( $obfuscated_email ) );
+
+	return '<a href="mailto:' . esc_attr( $obfuscated_email ) . '" class="' . esc_attr( $atts['class'] ) . '">' . $anchor_text . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $anchor_text is wp_kses_post()/esc_html() output above.
+}
+add_shortcode( 'contact_email', 'contact_email' );
+
+/**
  * Pluralise a word based on quantity.
  *
  * @param int         $quantity Quantity to check.
@@ -247,14 +363,17 @@ function lc_tidyjs2026_get_breadcrumbs( $post_id = 0 ) {
  *
  * @param array  $breadcrumbs Breadcrumb items.
  * @param string $class_name  Wrapper class name.
+ * @param string $extra_attrs Extra raw attributes for the <nav> tag (e.g. an
+ *                             `id` from a block's anchor support) — caller's
+ *                             responsibility to escape.
  * @return void
  */
-function lc_tidyjs2026_render_breadcrumbs( $breadcrumbs, $class_name = 'lc-breadcrumbs' ) {
+function lc_tidyjs2026_render_breadcrumbs( $breadcrumbs, $class_name = 'lc-breadcrumbs', $extra_attrs = '' ) {
 	if ( empty( $breadcrumbs ) || ! is_array( $breadcrumbs ) || is_front_page() ) {
 		return;
 	}
 	?>
-	<nav class="<?php echo esc_attr( $class_name ); ?>" aria-label="Breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+	<nav class="<?php echo esc_attr( $class_name ); ?>" aria-label="Breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" <?php echo $extra_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- caller's responsibility, documented above. ?>>
 		<div class="container">
 			<ol class="lc-breadcrumbs__list">
 				<?php foreach ( $breadcrumbs as $index => $breadcrumb ) { ?>

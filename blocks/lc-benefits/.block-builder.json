@@ -1,0 +1,68 @@
+{
+	"title": "LC Benefits",
+	"color_support": false,
+	"fields": [
+		{
+			"label": "Title",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "title",
+			"snake": "title",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_fq70l8yqsx",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "Benefits",
+			"type": "repeater",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "benefits",
+			"snake": "benefits",
+			"sub_fields": [
+				{
+					"label": "Icon",
+					"type": "image",
+					"mime_types": "svg",
+					"link_target": false,
+					"options": "",
+					"name": "icon",
+					"snake": "icon"
+				},
+				{
+					"label": "Title",
+					"type": "text",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "title",
+					"snake": "title"
+				},
+				{
+					"label": "Text",
+					"type": "textarea",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "text",
+					"snake": "text"
+				}
+			],
+			"repeater_layout": "column",
+			"post_type_slug": "",
+			"field_key": "field_zks2uoyz6b",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		}
+	]
+}

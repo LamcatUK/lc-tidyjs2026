@@ -28,7 +28,7 @@ const utilities = {
 	display: {
 		className: 'd',
 		prop: 'display',
-		values: { block: 'block', flex: 'flex', 'inline-flex': 'inline-flex', grid: 'grid', none: 'none' },
+		values: { block: 'block', 'inline-block': 'inline-block', flex: 'flex', 'inline-flex': 'inline-flex', grid: 'grid', none: 'none' },
 	},
 	'flex-direction': {
 		className: 'flex',
@@ -46,7 +46,7 @@ const utilities = {
 	},
 	'justify-content': {
 		prop: 'justify-content',
-		values: { start: 'flex-start', end: 'flex-end', center: 'center', between: 'space-between' },
+		values: { start: 'flex-start', end: 'flex-end', center: 'center', between: 'space-between', around: 'space-around' },
 	},
 	'align-items': {
 		prop: 'align-items',
@@ -80,4 +80,10 @@ const utilities = {
 // Spacing utilities (gap, margin, padding) driven off the tokens.css spacing scale.
 const spacingScale = [0, 1, 2, 3, 4, 5, 6];
 
-module.exports = { breakpoints, gridColumns, utilities, spacingScale };
+// cols-{n} / cols-{bp}-{n} — CSS multi-column layout (columns: n), for
+// flowing a list into N text columns. Distinct from col-{n} (grid column
+// span) above. Scale matches what the old theme actually used (cols-lg-2,
+// cols-lg-3) — extend if a project needs more.
+const columnsScale = [2, 3];
+
+module.exports = { breakpoints, gridColumns, utilities, spacingScale, columnsScale };

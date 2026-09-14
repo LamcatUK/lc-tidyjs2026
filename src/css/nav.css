@@ -19,6 +19,93 @@
 	color: var(--col-body);
 }
 
+/*
+ * Logo lockup, ported from lc-tidy2026's _header.scss — .navbar-brand.logo
+ * renders as a background-image rather than text (aria-label on the <a>
+ * covers accessibility, same pattern as the old theme).
+ */
+header#masthead {
+	font-family: var(--ff-heading);
+	/* Sticky, matching the source site's fixed-position header — sticky
+	   over fixed since it needs no main-margin-top compensation hack and
+	   plays nicely with the admin bar's own sticky offset for free. */
+	position: sticky;
+	top: 0;
+	z-index: 1030;
+	background-color: var(--col-body-bg);
+}
+
+/*
+ * Border on the outer header, not the inner nav — the inner nav also
+ * carries .container (this theme combines navbar+container on one element,
+ * unlike old Bootstrap markup's separate outer <nav> / inner <div
+ * class="container">), so a border there would be width-constrained and
+ * centered instead of the edge-to-edge line the old site has.
+ */
+header#masthead {
+	border-bottom: 3px solid var(--col-primary-600);
+}
+
+.navbar-brand.logo {
+	display: block;
+	flex-shrink: 0;
+	width: 181px;
+	height: 50px;
+	background-image: url(../img/tidy-horizontal--dk.svg);
+	background-position: center left;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+@media (min-width: 1400px) {
+	.navbar-brand.logo {
+		width: 220px;
+	}
+}
+
+header#masthead .nav-item--cta {
+	align-self: center;
+}
+
+/*
+ * Top-level items only — uppercase/fs-300 (old theme's `.navbar-nav
+ * .nav-link`). Submenu links reuse the same .nav-link class in this theme's
+ * walker (old markup used a separate .dropdown-item class for those, styled
+ * below, deliberately NOT uppercase), so this must not apply to both.
+ *
+ * font-weight deliberately not set on either — old theme's equivalent rules
+ * referenced an undefined --fw-600 custom property, so they silently fell
+ * back to the inherited body weight (400/normal); matching the source
+ * site's actual rendered look, not its source code's intent.
+ */
+header#masthead .navbar-nav > .nav-item > .nav-link {
+	font-family: var(--ff-body);
+	font-size: var(--fs-300);
+	text-transform: uppercase;
+
+	&:hover,
+	&:focus {
+		color: var(--col-primary-600);
+	}
+}
+
+header#masthead .navbar-nav > .nav-item > .nav-link.active,
+header#masthead .navbar-nav > .nav-item > .nav-link[aria-current="page"],
+header#masthead .navbar-nav > .nav-item.dropdown > .nav-link[aria-expanded="true"] {
+	color: var(--col-primary-600);
+}
+
+/* Submenu links — old theme's `.dropdown-item`. */
+header#masthead .dropdown-menu .nav-link {
+	font-family: var(--ff-body);
+	color: var(--col-body);
+
+	&:hover,
+	&:focus {
+		color: var(--col-primary-600);
+	}
+}
+
 .navbar-toggler {
 	display: inline-flex;
 	align-items: center;
@@ -54,6 +141,7 @@
 .navbar-nav {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: var(--space-2);
 	margin: 0;
 	padding: 0;
@@ -120,6 +208,8 @@
 
 	.navbar-nav {
 		flex-direction: row;
+		align-items: center;
+		gap: var(--space-4); /* old theme's gap-lg-4 (1.5rem) on #menu-primary-nav */
 		margin: 0;
 	}
 
@@ -139,5 +229,6 @@
 		border-radius: var(--radius-sm);
 		box-shadow: var(--shadow-lg);
 		z-index: 10;
+		white-space: nowrap; /* matches old site's Bootstrap .dropdown-item default — confirmed via computed styles */
 	}
 }

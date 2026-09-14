@@ -1,0 +1,53 @@
+/*
+ * Ported from lc-tidy2026 (compiled css/child-theme.css). Dropped two dead
+ * rules there (.who-grid__title / .who-grid__text) — the actual markup
+ * uses .who-grid__item-title / .who-grid__item-description, so those never
+ * matched anything; omitting them changes nothing rendered.
+ */
+.who-grid__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+}
+@media (min-width: 768px) {
+	.who-grid__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media (min-width: 992px) {
+	.who-grid__grid {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+.who-grid__item {
+	color: var(--col-dark-900);
+	text-decoration: none;
+}
+.who-grid__item:not(:last-child) {
+	border-bottom: 1px solid var(--col-dark-400);
+}
+.who-grid__item {
+	padding: 1.5rem 0;
+	display: grid;
+	grid-row: span 3;
+	grid-template-rows: subgrid;
+}
+@media (min-width: 992px) {
+	.who-grid__item:not(:last-child) {
+		border-bottom: none;
+		border-right: 1px solid var(--col-dark-400);
+	}
+	.who-grid__item {
+		padding: 0 1.5rem;
+	}
+}
+.who-grid__icon-wrapper {
+	height: 100px;
+	display: flex;
+	align-items: center;
+}
+.who-grid__icon {
+	aspect-ratio: 98 / 76;
+	width: 90px;
+	margin-bottom: 0;
+}

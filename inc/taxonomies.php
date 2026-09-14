@@ -17,17 +17,19 @@ defined( 'ABSPATH' ) || exit;
  */
 function lc_tidyjs2026_register_theme_taxonomies() {
 
-	/*
+	// Ported from lc-tidy2026's inc/lc-taxonomies.php — backs the lc-areas
+	// block's "areas we cover" list (lc_tidyjs2026_render_areas_we_cover(),
+	// inc/utilities.php) and area landing pages under /areas/{slug}.
 	register_taxonomy(
-		'service',
-		array( 'case_study', 'post' ),
+		'area',
+		array( 'page' ),
 		array(
 			'labels'             => array(
-				'name'          => 'Services',
-				'singular_name' => 'Service',
+				'name'          => 'Areas',
+				'singular_name' => 'Area',
 			),
-			'public'             => true,
-			'publicly_queryable' => true,
+			'public'             => false,
+			'publicly_queryable' => false,
 			'hierarchical'       => true,
 			'show_ui'            => true,
 			'show_in_nav_menus'  => true,
@@ -38,7 +40,6 @@ function lc_tidyjs2026_register_theme_taxonomies() {
 			'rewrite'            => false,
 		)
 	);
-	*/
 
 }
 add_action( 'init', 'lc_tidyjs2026_register_theme_taxonomies' );

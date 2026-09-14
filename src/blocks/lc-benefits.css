@@ -1,0 +1,49 @@
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.benefits {
+	border-top: 1px solid var(--col-dark-600);
+	border-bottom: 1px solid var(--col-dark-600);
+}
+.benefits__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+}
+@media (min-width: 992px) {
+	.benefits__grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+.benefits .benefit:not(:last-child) {
+	border-bottom: 1px solid var(--col-primary-500);
+}
+.benefits .benefit {
+	padding: 1.5rem 0;
+	display: grid;
+	grid-row: span 3;
+	grid-template-rows: subgrid;
+}
+@media (min-width: 992px) {
+	.benefits .benefit:not(:last-child) {
+		border-bottom: none;
+		border-right: 1px solid var(--col-primary-500);
+	}
+	.benefits .benefit {
+		padding: 0 1.5rem;
+	}
+}
+.benefits .benefit__icon-wrapper {
+	height: 100px;
+	display: flex;
+	align-items: center;
+}
+.benefits .benefit__icon {
+	aspect-ratio: 98 / 76;
+	width: 90px;
+	margin-bottom: 0.5rem;
+}
+.benefits .benefit__title {
+	align-self: start;
+}
+.benefits .benefit__text {
+	align-self: start;
+}

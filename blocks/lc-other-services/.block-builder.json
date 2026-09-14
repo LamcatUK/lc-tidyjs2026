@@ -1,0 +1,23 @@
+{
+	"title": "LC Other Services",
+	"color_support": false,
+	"fields": [
+		{
+			"label": "Heading",
+			"type": "text",
+			"help": "Defaults to \"Other Services\" if left blank.",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "heading",
+			"snake": "heading",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_oyyhawwroc",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		}
+	]
+}

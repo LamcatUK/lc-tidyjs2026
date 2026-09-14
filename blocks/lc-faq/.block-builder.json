@@ -1,0 +1,76 @@
+{
+	"title": "LC FAQ",
+	"color_support": true,
+	"fields": [
+		{
+			"label": "Title",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "title",
+			"snake": "title",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_crzdz7pc8m",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "Intro",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "intro",
+			"snake": "intro",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_nyhirjdhax",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		},
+		{
+			"label": "FAQ Items",
+			"type": "repeater",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "faqItems",
+			"snake": "faq_items",
+			"sub_fields": [
+				{
+					"label": "Question",
+					"type": "text",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "question",
+					"snake": "question"
+				},
+				{
+					"label": "Answer",
+					"type": "textarea",
+					"mime_types": "",
+					"link_target": false,
+					"options": "",
+					"name": "answer",
+					"snake": "answer"
+				}
+			],
+			"repeater_layout": "column",
+			"post_type_slug": "",
+			"field_key": "field_tjk4fnwve2",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		}
+	]
+}

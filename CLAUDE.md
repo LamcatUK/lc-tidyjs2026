@@ -77,8 +77,15 @@ doesn't exist, no matter how standard it looks.
   vanilla replacement for Bootstrap's Collapse component (mobile nav toggle).
   `src/js/dialog.js` wires up the native `<dialog>` element (`showModal()`/
   `close()`) as the modal solution — not a JS component library.
-- **No icon font.** Icons are inline SVG (see `header.php`'s nav toggle
-  button for the pattern). Don't add Font Awesome or similar back in.
+- **Icon font: Font Awesome 6.7.2 Free, vendored locally.** `header.php`'s
+  nav toggle button still uses an inline SVG for that one icon, but blocks
+  and editor content lean on Font Awesome (`fa-solid`, `fa-brands`, etc.)
+  the same way the old ACF-based themes did — too widely used across
+  existing block content to swap for inline SVG during the ACF-to-native
+  block migration. Vendored (not CDN) at `js/vendor/fontawesome.min.css` +
+  `js/webfonts/*.woff2`, enqueued via `lc_tidyjs2026_enqueue_vendor()` in
+  `inc/enqueue.php`. This is a deliberate, explicit exception to this
+  skeleton's usual "no icon font" stance — don't revert it without asking.
 - **Buttons and cards have zero framework opinion.** `.btn` in
   `src/css/forms.css` is a bare minimal base — the theme author designs
   buttons and cards per-project rather than using a framework's look, so
@@ -156,7 +163,10 @@ inc/
   blocks.php            Globs blocks/*/block.json and register_block_type()s each one — no per-block code
   options.php           Site-Wide Settings page (plain Settings API, one array option) + lc_tidyjs2026_get_setting()
   head-tags.php          Font preload (fonts/*.woff2 glob) + GA/GTM (logged-out only) + Google/Bing verification, reading from the options page
-  block-usage.php        [block_usage_table] shortcode — QA utility, lists every block against the published pages/posts using it
+  lc-block-usage.php     [block_usage_table] shortcode — QA utility, lists every block slug against the published pages/posts
+                        still carrying its old `wp:acf/...` form vs its migrated `wp:lc-tidyjs2026/...` form. Migration-specific
+                        (ported from cb-hts2026's cb-block-usage.php); scans post content directly rather than a blocks/cb-*.php
+                        glob, since ACF block originals live only in the old theme, not here.
   utilities.php          Reusable, project-agnostic functions (parse_phone, pluralise, estimate_reading_time_in_minutes, get_icon/get_icon_choices) — safe to lift verbatim into any project on this skeleton. Project-specific helpers go in inc/helpers.php instead, created only when needed, not scaffolded here.
 header.php / footer.php / index.php / page.php / single.php / 404.php
                         Deliberately minimal — most real page layouts are built from blocks, not these

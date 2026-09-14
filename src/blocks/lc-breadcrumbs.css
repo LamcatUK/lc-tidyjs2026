@@ -1,0 +1,42 @@
+/*
+ * Ported from lc-tidy2026 (src/sass/theme/blocks/_lc_breadcrumbs.scss), plus
+ * list-style/layout rules that source never needed: that block always had
+ * Yoast active, so its yoast_breadcrumb() branch (a plain string, not a
+ * list) was the only one ever actually rendered there — the <ol> ancestry
+ * fallback this theme always uses (no ACF, no Yoast) was dead code with no
+ * real-world visual to match.
+ */
+.lc-breadcrumbs {
+	margin-bottom: 1rem;
+	color: var(--col-dark-300);
+	font-size: var(--fs-200);
+}
+.lc-breadcrumbs__list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	list-style: none;
+	padding-inline-start: 0;
+	margin: 0;
+}
+.lc-breadcrumbs__item {
+	display: flex;
+	align-items: center;
+}
+.lc-breadcrumbs__item:not(:last-child)::after {
+	content: "\00BB"; /* » guillemet — matches Yoast's default breadcrumb separator */
+	margin: 0 var(--space-2);
+	/* No color override — Yoast's actual separator is a plain text node
+	   inheriting the trail's own var(--col-dark-300), not a distinct
+	   lighter tone. */
+}
+.lc-breadcrumbs a {
+	/* Confirmed against the live source site (Yoast is still active there,
+	   so its rendered breadcrumb is the actual reference): links use the
+	   same muted var(--col-dark-300) as the rest of the trail — not
+	   var(--col-primary) (this theme's brand yellow, which base.css's
+	   generic `a{}` rule would otherwise apply here), not black. Bold
+	   weight is what distinguishes a link from the plain-text current item. */
+	color: var(--col-dark-300);
+	font-weight: var(--fw-semibold);
+}

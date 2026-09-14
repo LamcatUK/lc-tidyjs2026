@@ -1,0 +1,22 @@
+/*
+ * Ported from lc-tidy2026 (compiled css/child-theme.css), adapted from
+ * Bootstrap's --bs-accordion-* custom properties to this theme's own
+ * native <details>/<summary> accordion (src/css/accordion.css) — same
+ * .accordion-header class name already lines up; .accordion-body__inner
+ * carries the p-4 padding the old .accordion-body did directly (see
+ * accordion.css's docblock for why that moved to an inner wrapper).
+ */
+.faq .accordion-header {
+	border-top: 1px solid var(--col-dark-700);
+	font-family: var(--ff-heading);
+	font-size: var(--fs-500);
+	font-weight: var(--fw-semibold);
+}
+.faq .accordion-icon {
+	/* var(--col-primary-700) (#b7cc00), confirmed against the live source
+	   site's actual computed icon fill — not primary-600, which is a
+	   different, brighter shade. */
+	color: var(--col-primary-700);
+	width: 1.25rem;
+	height: 1.25rem;
+}

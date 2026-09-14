@@ -1,0 +1,23 @@
+{
+	"title": "LC Form",
+	"color_support": false,
+	"fields": [
+		{
+			"label": "Contact Form ID",
+			"type": "text",
+			"help": "",
+			"width": 100,
+			"options": "",
+			"textarea_style": "paragraph",
+			"link_target": false,
+			"name": "contactFormId",
+			"snake": "contact_form_id",
+			"sub_fields": [],
+			"repeater_layout": "row",
+			"post_type_slug": "",
+			"field_key": "field_aybtjpvk0d",
+			"conditional_logic": [],
+			"allowed_extensions": ""
+		}
+	]
+}

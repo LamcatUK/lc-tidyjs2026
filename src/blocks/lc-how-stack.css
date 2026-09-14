@@ -1,0 +1,9 @@
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.how-stack {
+	overflow: hidden;
+	border-bottom: 1px solid var(--col-dark-600);
+}
+.how-stack__number {
+	opacity: 0.8;
+	line-height: var(--lh-1000);
+}

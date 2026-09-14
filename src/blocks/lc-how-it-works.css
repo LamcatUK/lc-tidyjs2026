@@ -1,0 +1,9 @@
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.how-it-works {
+	overflow: hidden;
+	border-top: 1px solid var(--col-dark-500);
+}
+.how-it-works__number {
+	opacity: 0.8;
+	line-height: var(--lh-1000);
+}

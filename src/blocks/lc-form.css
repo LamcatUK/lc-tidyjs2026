@@ -1,0 +1,11 @@
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.form-block {
+	background: #f2f1ed;
+	padding: 40px 0 80px 0;
+}
+.form-block .form-card {
+	background: #ffffff;
+	padding: 40px;
+	border-radius: 8px;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}

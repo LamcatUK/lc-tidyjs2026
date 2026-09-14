@@ -1,0 +1,30 @@
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.hero {
+	min-height: 500px;
+	padding-block: 2rem 3rem;
+	display: flex;
+	align-items: center;
+}
+.hero .headline-underline {
+	display: block;
+	position: relative;
+}
+.hero .headline-underline::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -10px;
+	height: 6px;
+	width: 75%;
+	background: var(--col-primary-600);
+}
+.hero__image {
+	width: 100%;
+	height: auto;
+	border-radius: var(--radius-200);
+}
+.hero__bar {
+	border-top: 1px solid var(--col-light-600);
+	border-bottom: 1px solid var(--col-light-600);
+	padding-block: 0.75rem;
+}

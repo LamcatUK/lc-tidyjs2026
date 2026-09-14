@@ -1,0 +1,36 @@
+/* Ported from lc-tidy2026 (compiled css/child-theme.css). */
+.review_slider {
+	background-color: var(--col-dark-900);
+}
+.review_slider__slider {
+	overflow-x: hidden;
+}
+.review_slider .swiper-wrapper {
+	padding-bottom: 2.5rem;
+}
+.review_slider__card {
+	background-color: var(--col-dark-700);
+	border: 1px solid var(--col-dark-500);
+	border-radius: var(--radius-100);
+	padding: 1.5rem;
+	font-size: var(--fs-400);
+	height: 100%;
+	margin-inline: 1rem;
+}
+.review_slider__title {
+	font-weight: var(--fw-semibold);
+	margin-bottom: 0.5em;
+}
+.review_slider__preamble {
+	color: var(--col-light-300);
+	margin-bottom: 0.75rem;
+	font-weight: var(--fw-semibold);
+}
+.review_slider__stars {
+	color: var(--col-primary-500);
+	margin-top: 1rem;
+}
+.review_slider__shortcode {
+	text-align: center;
+	margin-block: 3rem;
+}

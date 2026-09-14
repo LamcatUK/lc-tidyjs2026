@@ -1,0 +1,46 @@
+/*
+ * Ported from lc-tidy2026 (compiled css/child-theme.css). The circle icon
+ * there referenced an undefined --col-primary-900 custom property, so it
+ * silently fell back to the inherited (black) text colour — confirmed
+ * against the live source site's computed styles and matched here rather
+ * than inventing a --col-primary-900 token that never existed.
+ */
+.text-checklist__list-wrapper {
+	background-color: var(--col-light-300);
+	border: 1px solid var(--col-light-600);
+	border-radius: var(--radius-100);
+	padding: 1.5rem;
+}
+.text-checklist__list {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+}
+.text-checklist__list li {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+	margin-bottom: 14px;
+	break-inside: avoid;
+}
+.text-checklist__icon {
+	display: inline-flex;
+	position: relative;
+	width: 1.25rem;
+	height: 1.25rem;
+	flex-shrink: 0;
+}
+.text-checklist__icon .fa-circle {
+	font-size: 1.25rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.text-checklist__icon .fa-check {
+	color: var(--col-primary-500);
+	font-size: 0.625rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}

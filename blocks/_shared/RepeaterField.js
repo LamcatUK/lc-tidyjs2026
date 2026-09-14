@@ -11,10 +11,12 @@ import { TextControl, TextareaControl, ToggleControl, Button, RadioControl } fro
  *
  * Rows lay out inline by default (`layout: 'row'`): each sub-field takes an
  * equal-width slot, with compact move-up/move-down/remove icon buttons at
- * the row's end. Sub-field labels render once, as column headers above the
- * rows, rather than repeating per row — `hideLabelFromVision` keeps them
- * screen-reader accessible on each control without rendering visually
- * twice.
+ * the row's end. No shared column-header row — a field like `link` renders
+ * two stacked inputs where a `text` field renders one, so a single header
+ * cell can't line up with both consistently. Instead each control shows
+ * its label as `placeholder` text (and keeps a screen-reader-only real
+ * `label` via `hideLabelFromVision`), which self-documents regardless of
+ * how many inputs a field actually renders.
  *
  * `layout: 'column'` stacks each row's sub-fields vertically instead —
  * there's no shared column header in that layout (it wouldn't line up with
@@ -78,24 +80,6 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 			}
 		>
 			<label className="lc-tidyjs2026-editor-field__label">{ label }</label>
-			{ ! isColumn && rows.length > 0 && (
-				<div className="lc-tidyjs2026-repeater-field__header">
-					<span className="lc-tidyjs2026-repeater-field__number-spacer" />
-					{ fields.map( ( field ) => (
-						<span
-							key={ field.name }
-							className={
-								'image' === field.type || 'file' === field.type
-									? 'lc-tidyjs2026-repeater-field__header-cell lc-tidyjs2026-repeater-field__header-cell--image'
-									: 'lc-tidyjs2026-repeater-field__header-cell'
-							}
-						>
-							{ field.label }
-						</span>
-					) ) }
-					<span className="lc-tidyjs2026-repeater-field__row-actions-spacer" />
-				</div>
-			) }
 			<div className="lc-tidyjs2026-repeater-field__rows">
 			{ rows.map( ( row, index ) => (
 				<div className="lc-tidyjs2026-repeater-field__row" key={ index }>
@@ -103,7 +87,11 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 					{ fields.map( ( field ) => {
 						if ( 'image' === field.type ) {
 							return (
-								<MediaUploadCheck key={ field.name }>
+								<div key={ field.name }>
+									{ isColumn && (
+										<label className="lc-tidyjs2026-editor-field__label">{ field.label }</label>
+									) }
+									<MediaUploadCheck>
 									<MediaUpload
 										onSelect={ ( media ) =>
 											updateRow( index, {
@@ -126,7 +114,8 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 											</div>
 										) }
 									/>
-								</MediaUploadCheck>
+									</MediaUploadCheck>
+								</div>
 							);
 						}
 
@@ -136,6 +125,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 									<TextControl
 										label={ __( `${ field.label } Title`, 'lc-tidyjs2026' ) }
 										hideLabelFromVision={ ! isColumn }
+										placeholder={ isColumn ? undefined : __( `${ field.label } Title`, 'lc-tidyjs2026' ) }
 										value={ row[ `${ field.name }Text` ] || '' }
 										onChange={ ( v ) => updateRow( index, { [ `${ field.name }Text` ]: v } ) }
 									/>
@@ -143,6 +133,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 										type="url"
 										label={ __( `${ field.label } URL`, 'lc-tidyjs2026' ) }
 										hideLabelFromVision={ ! isColumn }
+										placeholder={ isColumn ? undefined : __( `${ field.label } URL`, 'lc-tidyjs2026' ) }
 										value={ row[ field.name ] || '' }
 										onChange={ ( v ) => updateRow( index, { [ field.name ]: v } ) }
 										help={ field.help }
@@ -160,7 +151,11 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 
 						if ( 'file' === field.type ) {
 							return (
-								<MediaUploadCheck key={ field.name }>
+								<div key={ field.name }>
+									{ isColumn && (
+										<label className="lc-tidyjs2026-editor-field__label">{ field.label }</label>
+									) }
+									<MediaUploadCheck>
 									<MediaUpload
 										onSelect={ ( media ) =>
 											updateRow( index, {
@@ -185,7 +180,8 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 											</div>
 										) }
 									/>
-								</MediaUploadCheck>
+									</MediaUploadCheck>
+								</div>
 							);
 						}
 
@@ -195,6 +191,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 									key={ field.name }
 									label={ field.label }
 									hideLabelFromVision={ ! isColumn }
+									placeholder={ isColumn ? undefined : field.label }
 									value={ row[ field.name ] || '' }
 									onChange={ ( v ) => updateRow( index, { [ field.name ]: v } ) }
 									help={ field.help }
@@ -222,6 +219,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 									type="number"
 									label={ field.label }
 									hideLabelFromVision={ ! isColumn }
+									placeholder={ isColumn ? undefined : field.label }
 									value={ row[ field.name ] ?? '' }
 									onChange={ ( v ) => updateRow( index, { [ field.name ]: '' === v ? '' : Number( v ) } ) }
 									help={ field.help }
@@ -234,6 +232,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 								key={ field.name }
 								label={ field.label }
 								hideLabelFromVision={ ! isColumn }
+								placeholder={ isColumn ? undefined : field.label }
 								value={ row[ field.name ] || '' }
 								onChange={ ( v ) => updateRow( index, { [ field.name ]: v } ) }
 								help={ field.help }
