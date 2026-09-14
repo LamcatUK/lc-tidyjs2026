@@ -30,7 +30,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 		<?php } ?>
 		<?php if ( $intro ) { ?>
 		<div class="service-cards__intro mb-4">
-			<p class="has-400-font-size has-light-800-color mb-0"><?php echo nl2br( esc_html( $intro ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- nl2br() output of an already-escaped string. ?></p>
+			<p class="has-400-font-size has-light-800-color mb-0"><?= wp_kses_post( $intro ); ?></p>
 		</div>
 		<?php } ?>
 		<div class="service-cards__grid">
