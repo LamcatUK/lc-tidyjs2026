@@ -39,17 +39,26 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'review_sl
 						// comfortable minimum by repeating the real testimonials, rather
 						// than disabling loop, keeps autoplay looping smoothly regardless
 						// of how many testimonials happen to exist.
+						//
+						// Padding $testimonials->posts/post_count directly (rather than
+						// looping a separately-built padded array through the standalone
+						// setup_postdata() function) matters here: that function just
+						// delegates to $GLOBALS['wp_query']->setup_postdata() — the
+						// *main* query, not this one — so calling it with a post from
+						// $testimonials produced wrong/blank data every time.
+						// $testimonials->the_post() is this query's own method and
+						// doesn't have that problem.
 						$min_slides_for_loop = 6;
-						$slides              = $testimonials->posts;
-						if ( $slides && count( $slides ) < $min_slides_for_loop ) {
-							$original = $slides;
-							while ( count( $slides ) < $min_slides_for_loop ) {
-								$slides = array_merge( $slides, $original );
+						if ( $testimonials->post_count && $testimonials->post_count < $min_slides_for_loop ) {
+							$original = $testimonials->posts;
+							while ( count( $testimonials->posts ) < $min_slides_for_loop ) {
+								$testimonials->posts = array_merge( $testimonials->posts, $original );
 							}
+							$testimonials->post_count = count( $testimonials->posts );
 						}
 
-						foreach ( $slides as $testimonial_post ) {
-							setup_postdata( $testimonial_post );
+						while ( $testimonials->have_posts() ) {
+							$testimonials->the_post();
 							$location = get_post_meta( get_the_ID(), 'location', true );
 							$quote    = get_post_meta( get_the_ID(), 'quote', true );
 							?>
