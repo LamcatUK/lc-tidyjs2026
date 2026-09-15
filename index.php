@@ -20,7 +20,7 @@ if ( is_home() && ! is_front_page() ) {
 
 if ( have_posts() ) {
 	?>
-	<div class="container py-5">
+	<div class="container pb-5">
 		<div class="related-posts__grid">
 			<?php
 			while ( have_posts() ) {
