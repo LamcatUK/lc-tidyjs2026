@@ -153,6 +153,7 @@ article[class] h2[id] {
   flex-direction: column;
   color: inherit;
   text-decoration: none;
+  background-color: var(--col-light-300);
   border: 1px solid var(--col-grey-300);
   border-radius: var(--radius-100);
   overflow: hidden;

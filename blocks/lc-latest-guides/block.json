@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lc-tidyjs2026/lc-latest-guides",
+	"title": "LC Latest Guides",
+	"category": "lc-tidyjs2026",
+	"icon": "slides",
+	"attributes": {},
+	"supports": {
+		"anchor": true,
+		"className": true,
+		"align": true
+	},
+	"editorScript": "file:./build/index.js",
+	"render": "file:./render.php"
+}

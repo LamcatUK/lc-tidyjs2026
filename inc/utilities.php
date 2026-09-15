@@ -532,7 +532,16 @@ function lc_tidyjs2026_render_post_card() {
 	?>
 	<a class="related-post-card" href="<?php the_permalink(); ?>">
 		<?php if ( has_post_thumbnail() ) { ?>
-		<img class="related-post-card__image" src="<?php the_post_thumbnail_url( 'medium_large' ); ?>" alt="" loading="lazy">
+		<?php
+		// the_post_thumbnail() (not the_post_thumbnail_url()) so the <img>
+		// gets explicit width/height/srcset from WordPress — without those,
+		// the browser can't reserve the card's image space before the CSS
+		// (which is what actually sizes it) has loaded, so the layout jumps
+		// once it does. 'large' rather than 'medium' (300w) — at the 3-up
+		// desktop card width this card can render past 300px, and 'medium'
+		// upscaled past its own intrinsic size looks visibly soft.
+		the_post_thumbnail( 'large', array( 'class' => 'related-post-card__image' ) );
+		?>
 		<?php } ?>
 		<span class="related-post-card__title"><?php the_title(); ?></span>
 		<span class="related-post-card__meta">

@@ -93,6 +93,33 @@ function lc_tidyjs2026_enqueue_scripts() {
 		}
 	}
 
+	// lc-latest-guides can sit on an ordinary singular page/post, but is
+	// just as likely to be placed on the "Posts page" itself (Settings →
+	// Reading) — is_singular() is false there (it's rendering as the post
+	// archive), so has_block() has to be pointed at that page's own post
+	// explicitly rather than relying on its default "current post" lookup.
+	$has_latest_guides = false;
+	if ( is_singular() && has_block( 'lc-tidyjs2026/lc-latest-guides' ) ) {
+		$has_latest_guides = true;
+	} elseif ( is_home() && ! is_front_page() ) {
+		$posts_page_id = (int) get_option( 'page_for_posts' );
+		if ( $posts_page_id && has_block( 'lc-tidyjs2026/lc-latest-guides', $posts_page_id ) ) {
+			$has_latest_guides = true;
+		}
+	}
+
+	if ( $has_latest_guides ) {
+		lc_tidyjs2026_enqueue_vendor( 'swiper-style', 'swiper-bundle.min.css', true );
+		lc_tidyjs2026_enqueue_vendor( 'swiper', 'swiper-bundle.min.js' );
+
+		$init_rel = '/js/vendor/latest-guides-init.js';
+		$init_abs = get_stylesheet_directory() . $init_rel;
+		if ( file_exists( $init_abs ) ) {
+			$deps = wp_script_is( 'swiper', 'registered' ) ? array( 'swiper' ) : array();
+			wp_enqueue_script( 'lc-tidyjs2026-latest-guides', get_stylesheet_directory_uri() . $init_rel, $deps, filemtime( $init_abs ), true );
+		}
+	}
+
 	$rel = '/js/theme.min.js';
 	$abs = get_stylesheet_directory() . $rel;
 	if ( file_exists( $abs ) ) {

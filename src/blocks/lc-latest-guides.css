@@ -1,0 +1,72 @@
+.latest-guides__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-4);
+	margin-bottom: var(--space-4);
+}
+
+.latest-guides__heading {
+	margin: 0;
+}
+
+/*
+ * overflow-x: hidden alone computes overflow-y to auto (per spec, when only
+ * one axis is set to something other than visible) — so without headroom
+ * here, a card's hover lift (.related-post-card:hover's translateY) gets
+ * its top edge clipped by this container. The padding-top adds that
+ * headroom inside the clip box; the matching negative margin-top cancels
+ * it back out so the slider still sits flush under the heading at rest.
+ */
+.latest-guides__slider {
+	overflow-x: hidden;
+	padding-top: 4px;
+	margin-top: -4px;
+}
+
+/*
+ * Swiper sizes each .swiper-slide itself (per slidesPerView, set in
+ * js/vendor/latest-guides-init.js) — the card inside just needs to fill
+ * that slide, same as .related-post-card does inside the CSS-grid cards
+ * elsewhere on the site.
+ */
+.latest-guides__slider .swiper-slide {
+	height: auto;
+}
+
+.latest-guides__slider .related-post-card {
+	height: 100%;
+}
+
+/*
+ * Before Swiper's JS runs, .swiper-wrapper/.swiper-slide have only
+ * swiper-bundle.min.css's base rules: display:flex with every slide at
+ * width:100%. With 3 slides that's 300% of the container's width — the
+ * first slide renders full-width (the rest clipped by overflow-x), then
+ * visibly shrinks to a third once Swiper measures the container and sets
+ * each slide's real width. That first-paint-to-JS-init jump is the "shit-
+ * ton of layout shift" — not the images.
+ *
+ * Swiper adds the swiper-initialized class to this element once it's set
+ * up, so :not(.swiper-initialized) only applies before then — a plain CSS
+ * grid matching the same breakpoints js/vendor/latest-guides-init.js uses,
+ * so the pre-JS layout already looks like the post-JS one and there's
+ * nothing to jump.
+ */
+.latest-guides__slider:not(.swiper-initialized) .swiper-wrapper {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+	.latest-guides__slider:not(.swiper-initialized) .swiper-wrapper {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 992px) {
+	.latest-guides__slider:not(.swiper-initialized) .swiper-wrapper {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}

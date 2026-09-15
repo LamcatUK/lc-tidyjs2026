@@ -23,7 +23,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'review_sl
 		<div class="has-light-800-color mb-4">From single-item collections to full property clearances, our work speaks for itself. Here&#8217;s feedback from customers across the island.</div>
 		<div class="row">
 			<div class="col-12 col-md-9">
-				<div class="review_slider__slider">
+				<div class="review_slider__slider" data-lenis-prevent>
 					<div class="swiper-wrapper">
 						<?php
 						$testimonials = new WP_Query(
