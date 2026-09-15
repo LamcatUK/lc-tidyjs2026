@@ -5,6 +5,15 @@
 .review_slider__slider {
 	overflow-x: hidden;
 }
+/*
+ * Without this, a click-drag starting on a slide's text starts a native
+ * text selection instead of reaching Swiper's own drag handling — the
+ * slide just sits there. Never surfaced before since this slider only ran
+ * on autoplay; nobody had actually tried swiping it by hand.
+ */
+.review_slider__slider .swiper-slide {
+	user-select: none;
+}
 .review_slider .swiper-wrapper {
 	padding-bottom: 2.5rem;
 }

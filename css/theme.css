@@ -2680,6 +2680,23 @@ article[class] h2[id] {
 }
 
 /*
+ * .related-post-card is an <a> — unlike review_slider__card (a plain div),
+ * a click-drag starting on a link triggers the browser's native "drag this
+ * link" gesture instead of reaching Swiper's own drag handling, so the
+ * slide just sits there. -webkit-user-drag turns that native drag off;
+ * user-select stops the drag also selecting the card's text.
+ */
+.latest-guides__slider .related-post-card {
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	        user-select: none;
+}
+
+.latest-guides__slider .related-post-card__image {
+	-webkit-user-drag: none;
+}
+
+/*
  * Before Swiper's JS runs, .swiper-wrapper/.swiper-slide have only
  * swiper-bundle.min.css's base rules: display:flex with every slide at
  * width:100%. With 3 slides that's 300% of the container's width — the
@@ -2788,6 +2805,16 @@ article[class] h2[id] {
 }
 .review_slider__slider {
 	overflow-x: hidden;
+}
+/*
+ * Without this, a click-drag starting on a slide's text starts a native
+ * text selection instead of reaching Swiper's own drag handling — the
+ * slide just sits there. Never surfaced before since this slider only ran
+ * on autoplay; nobody had actually tried swiping it by hand.
+ */
+.review_slider__slider .swiper-slide {
+	-webkit-user-select: none;
+	        user-select: none;
 }
 .review_slider .swiper-wrapper {
 	padding-bottom: 2.5rem;

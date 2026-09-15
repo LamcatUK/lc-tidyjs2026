@@ -32,8 +32,24 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'review_sl
 								'posts_per_page' => -1,
 							)
 						);
-						while ( $testimonials->have_posts() ) {
-							$testimonials->the_post();
+						// review-slider-init.js runs this in loop:true mode with
+						// loopAdditionalSlides:3, at up to slidesPerView:2 (its 992px
+						// breakpoint) — Swiper warns (and loop breaks) below roughly
+						// slidesPerView + loopAdditionalSlides slides. Padding out to a
+						// comfortable minimum by repeating the real testimonials, rather
+						// than disabling loop, keeps autoplay looping smoothly regardless
+						// of how many testimonials happen to exist.
+						$min_slides_for_loop = 6;
+						$slides              = $testimonials->posts;
+						if ( $slides && count( $slides ) < $min_slides_for_loop ) {
+							$original = $slides;
+							while ( count( $slides ) < $min_slides_for_loop ) {
+								$slides = array_merge( $slides, $original );
+							}
+						}
+
+						foreach ( $slides as $testimonial_post ) {
+							setup_postdata( $testimonial_post );
 							$location = get_post_meta( get_the_ID(), 'location', true );
 							$quote    = get_post_meta( get_the_ID(), 'quote', true );
 							?>
