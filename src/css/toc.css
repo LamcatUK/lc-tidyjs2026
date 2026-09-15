@@ -52,6 +52,7 @@
  */
 article[class] h2[id] {
   scroll-margin-top: calc(var(--nav-height) + var(--space-4));
+  margin-top: var(--space-5);
 }
 
 .toc__label {
