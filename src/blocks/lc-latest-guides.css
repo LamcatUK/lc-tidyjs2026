@@ -11,15 +11,22 @@
 }
 
 /*
- * overflow-x: hidden alone computes overflow-y to auto (per spec, when only
- * one axis is set to something other than visible) — so without headroom
- * here, a card's hover lift (.related-post-card:hover's translateY) gets
- * its top edge clipped by this container. The padding-top adds that
- * headroom inside the clip box; the matching negative margin-top cancels
- * it back out so the slider still sits flush under the heading at rest.
+ * overflow: hidden on BOTH axes, not just overflow-x — overflow-x alone
+ * computes overflow-y to auto (per spec, when only one axis is set to
+ * something other than visible), which quietly turns this element into its
+ * own independent Y-axis scroll container. Combined with data-lenis-prevent
+ * telling Lenis to back off here, a mouse-wheel scroll over the slider got
+ * trapped by that container (which has no real vertical overflow, but is
+ * still a scroll-chaining boundary) instead of reaching the page.
+ *
+ * The padding-top/margin-top pair still does its job either way: it adds
+ * headroom inside the clip box so a card's hover lift
+ * (.related-post-card:hover's translateY) doesn't get its top edge clipped,
+ * then cancels the padding back out visually so the slider still sits flush
+ * under the heading at rest.
  */
 .latest-guides__slider {
-	overflow-x: hidden;
+	overflow: hidden;
 	padding-top: 4px;
 	margin-top: -4px;
 }

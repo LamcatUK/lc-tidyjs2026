@@ -2,8 +2,15 @@
 .review_slider {
 	background-color: var(--col-dark-900);
 }
+/*
+ * overflow: hidden on both axes, not just overflow-x — overflow-x alone
+ * computes overflow-y to auto (per spec), quietly turning this into its own
+ * Y-axis scroll container. Combined with data-lenis-prevent telling Lenis
+ * to back off here, a mouse-wheel scroll over the slider got trapped by
+ * that container instead of reaching the page.
+ */
 .review_slider__slider {
-	overflow-x: hidden;
+	overflow: hidden;
 }
 /*
  * Without this, a click-drag starting on a slide's text starts a native

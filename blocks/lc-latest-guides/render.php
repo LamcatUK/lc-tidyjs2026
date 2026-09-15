@@ -25,7 +25,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'latest-gu
 			<a class="btn btn--outline" href="<?php echo esc_url( $posts_page_url ); ?>"><?php esc_html_e( 'Guides', 'lc-tidyjs2026' ); ?></a>
 			<?php } ?>
 		</div>
-		<div class="latest-guides__slider" data-lenis-prevent>
+		<div class="latest-guides__slider">
 			<div class="swiper-wrapper">
 				<?php
 				// Exclude the post this block itself renders inside (if any) —
