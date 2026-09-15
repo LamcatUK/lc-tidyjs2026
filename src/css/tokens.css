@@ -42,7 +42,7 @@
   --fw-bold: var(--fw-700);
 
   --line-height-base: 1.5;
-  --line-height-heading: 1.2;
+  --line-height-heading: 1.1;
 
   /* Spacing scale — used by both hand-authored CSS and the utility generator */
   --space-0: 0;
@@ -96,6 +96,7 @@
   --col-primary-100: #fbffd6;
 
   /* Light neutrals */
+  --col-light-900: #b3b3b3;
   --col-light-800: #cccccc;
   --col-light-700: #dcdcdc;
   --col-light-600: #e6e6e6;
@@ -112,6 +113,7 @@
   --col-dark-500: #2e2e2e;
   --col-dark-400: #3b3b3b;
   --col-dark-300: #484848;
+  --col-dark-200: #595959;
   --col-dark-warm-800: #161616;
 
   --col-whatsapp: #25d366;
@@ -136,7 +138,9 @@
   /* Real brand primary + body colours replace the skeleton placeholders */
   --col-primary: var(--col-primary-500);
   --col-body: var(--col-dark-900);
-  --col-body-bg: var(--col-light-300); /* white — Bootstrap's unoverridden $body-bg default in lc-tidy2026 */
+  --col-body-bg: var(
+    --col-light-300
+  ); /* white — Bootstrap's unoverridden $body-bg default in lc-tidy2026 */
 
   /* Project font families */
   --ff-heading: "Poppins", sans-serif;

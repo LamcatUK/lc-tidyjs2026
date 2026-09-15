@@ -84,6 +84,12 @@
           "origin": "theme"
         },
         {
+          "name": "light-900",
+          "slug": "light-900",
+          "color": "#b3b3b3",
+          "origin": "theme"
+        },
+        {
           "name": "light-800",
           "slug": "light-800",
           "color": "#cccccc",
@@ -165,6 +171,12 @@
           "name": "dark-300",
           "slug": "dark-300",
           "color": "#484848",
+          "origin": "theme"
+        },
+        {
+          "name": "dark-200",
+          "slug": "dark-200",
+          "color": "#595959",
           "origin": "theme"
         },
         {

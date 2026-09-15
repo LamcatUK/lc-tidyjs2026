@@ -1,0 +1,237 @@
+/*
+ * single.php's featured image + in-page table of contents. The active-
+ * section marker (a coloured left border, swapped in by src/js/toc.js as
+ * each H2 scrolls into view) needs every link to reserve the border's
+ * width up front, active or not — otherwise the text shifts sideways by
+ * the border's width the moment a link becomes active.
+ */
+
+.single-featured-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+}
+
+.single-breadcrumbs {
+  margin-top: var(--space-4);
+}
+
+.single-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: var(--space-3) 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  color: var(--col-grey-700);
+  font-size: var(--fs-small);
+}
+
+.single-meta__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.single-meta__item i {
+  color: var(--col-primary-700);
+}
+
+.toc {
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-4));
+}
+
+/*
+ * Without this, an anchor jump (clicking a Quick Links link, or loading a
+ * #hash URL directly) lands the heading right under the sticky nav — out
+ * of view, and out of toc.js's IntersectionObserver band, so the wrong
+ * link ends up marked active.
+ */
+article[class] h2[id] {
+  scroll-margin-top: calc(var(--nav-height) + var(--space-4));
+}
+
+.toc__label {
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-300);
+  font-weight: var(--fw-700);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--col-grey-700);
+}
+
+.toc__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc__link {
+  display: block;
+  padding: var(--space-1) 0 var(--space-1) var(--space-3);
+  border-left: 2px solid var(--col-grey-300);
+  color: var(--col-grey-700);
+  font-size: var(--fs-small);
+  text-wrap: pretty;
+  line-height: var(--line-height-heading);
+}
+
+.toc__link.is-active {
+  border-left-color: var(--col-primary-700);
+  color: var(--col-primary-700);
+  font-weight: var(--fw-600);
+}
+
+.single-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--col-grey-300);
+  border-bottom: 1px solid var(--col-grey-300);
+}
+
+.single-nav__link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--col-grey-300);
+  border-radius: var(--radius-100);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color var(--transition),
+    transform var(--transition);
+}
+
+.single-nav__link:hover {
+  border-color: var(--col-primary-700);
+  transform: translateY(-2px);
+}
+
+.single-nav__link--next {
+  grid-column: 2;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.single-nav__label {
+  font-size: var(--fs-200);
+  font-weight: var(--fw-600);
+  color: var(--col-primary-700);
+}
+
+.single-nav__title {
+  font-weight: var(--fw-600);
+}
+
+.related-posts__heading {
+  margin-bottom: var(--space-4);
+}
+
+.related-posts__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 992px) {
+  .related-posts__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.related-post-card {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid var(--col-grey-300);
+  border-radius: var(--radius-100);
+  overflow: hidden;
+  transition:
+    border-color var(--transition),
+    transform var(--transition);
+}
+
+.related-post-card:hover {
+  border-color: var(--col-primary-700);
+  transform: translateY(-2px);
+}
+
+.related-post-card__image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.related-post-card__title {
+  margin: var(--space-3) var(--space-3) var(--space-1);
+  font-weight: var(--fw-700);
+  text-wrap: pretty;
+}
+
+.related-post-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin: 0 var(--space-3) var(--space-2);
+  color: var(--col-dark-200);
+  font-size: var(--fs-200);
+}
+
+.related-post-card__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.related-post-card__meta-item i {
+  color: var(--col-dark-200);
+}
+
+.related-post-card__excerpt {
+  margin: 0 var(--space-3) var(--space-3);
+  color: var(--col-dark-200);
+  font-size: var(--fs-small);
+  text-wrap: pretty;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+}
+
+.pagination .page-numbers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--col-dark-200);
+  border-radius: var(--radius-100);
+  color: inherit;
+  text-decoration: none;
+  font-size: var(--fs-small);
+}
+
+.pagination .page-numbers.current {
+  border-color: var(--col-primary-700);
+  background-color: var(--col-primary-700);
+  color: var(--col-dark-900);
+  font-weight: var(--fw-600);
+}
+
+.pagination .page-numbers.dots {
+  border-color: transparent;
+}

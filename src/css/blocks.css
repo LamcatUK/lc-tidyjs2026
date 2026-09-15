@@ -161,6 +161,29 @@
 	font-weight: var(--fw-semibold);
 }
 
+/* --- src/blocks/lc-cta.css --- */
+/*
+ * .cta--post: how the CTA block renders inside a blog post (single.php) —
+ * the two-column layout (copy left, buttons right) reads as a sidebar ad
+ * there, so it collapses to one centred column instead. No .row/.col here,
+ * just a plain stack — there's nothing to lay out side by side.
+ */
+.cta.cta--post {
+	margin-top: 3rem;
+	padding: var(--space-4);
+	border-radius: var(--radius-100);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--space-4);
+	text-align: center;
+}
+
+.cta--post .d-flex.flex-column {
+	max-width: 24rem;
+	width: 100%;
+}
+
 /* --- src/blocks/lc-faq.css --- */
 /*
  * Ported from lc-tidy2026 (compiled css/child-theme.css), adapted from

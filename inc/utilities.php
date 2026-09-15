@@ -391,3 +391,155 @@ function lc_tidyjs2026_render_breadcrumbs( $breadcrumbs, $class_name = 'lc-bread
 	</nav>
 	<?php
 }
+
+/**
+ * Extract an in-page table of contents from rendered HTML, injecting an
+ * `id` onto each matched heading so the returned items' anchors actually
+ * resolve. Ids are slugified from the heading text and de-duplicated
+ * (second "Overview" becomes "overview-2", etc.) — headings are free text,
+ * not guaranteed unique.
+ *
+ * DOMDocument over a regex: content is real (if messy) HTML by this point
+ * (post the_content filter — blocks, shortcodes, wpautop already applied),
+ * and a regex heading-matcher breaks the moment a heading contains inline
+ * markup (a `<strong>`, an `<a>`, an emoji span) rather than plain text.
+ *
+ * @param string $html     Rendered HTML (e.g. apply_filters( 'the_content', $post->post_content )).
+ * @param string $selector Heading tag to extract, e.g. 'h2'.
+ * @return array{content: string, items: array<int, array{id: string, text: string}>}
+ */
+function lc_tidyjs2026_extract_toc( $html, $selector = 'h2' ) {
+	if ( '' === trim( $html ) ) {
+		return array(
+			'content' => $html,
+			'items'   => array(),
+		);
+	}
+
+	$dom = new DOMDocument();
+	// The <body> wrapper this implies is what the reconstruction step
+	// below reads back out of — LIBXML_HTML_NOIMPLIED would suppress it
+	// entirely, leaving nothing to read. The leading XML-encoding processing
+	// instruction prepended below is the standard workaround for DOMDocument
+	// otherwise mangling multi-byte (e.g. emoji, curly quotes) UTF-8 content.
+	// NOTE: that literal instruction can't be written out here in a comment —
+	// its own closing marker would end this PHP block right here, the same
+	// way a brace pair inside a comment has already broken two other parsers
+	// (a naive one and cleancss's) earlier in this project. Comments in this
+	// file must never contain that literal two-character closing sequence.
+	libxml_use_internal_errors( true );
+	$dom->loadHTML( '<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NODEFDTD );
+	libxml_clear_errors();
+
+	$headings   = $dom->getElementsByTagName( $selector );
+	$items      = array();
+	$used_slugs = array();
+
+	// Collect first (getElementsByTagName is a live NodeList — mutating
+	// element attributes mid-iteration is fine, but this keeps that
+	// separate from the counting/slugging logic below for clarity).
+	$heading_nodes = array();
+	foreach ( $headings as $heading ) {
+		$heading_nodes[] = $heading;
+	}
+
+	foreach ( $heading_nodes as $heading ) {
+		$text = trim( $heading->textContent );
+		if ( '' === $text ) {
+			continue;
+		}
+
+		// Skip headings that belong to an embedded block (e.g. the LC CTA's
+		// own <h2>) rather than the article's own prose — those blocks
+		// render as a <section>, unlike the flat markup core content blocks
+		// (paragraph, heading, image, list...) produce.
+		$in_section = false;
+		for ( $ancestor = $heading->parentNode; $ancestor; $ancestor = $ancestor->parentNode ) {
+			if ( 'section' === $ancestor->nodeName ) {
+				$in_section = true;
+				break;
+			}
+		}
+		if ( $in_section ) {
+			continue;
+		}
+
+		$slug = sanitize_title( $text );
+		if ( '' === $slug ) {
+			$slug = 'section';
+		}
+
+		if ( isset( $used_slugs[ $slug ] ) ) {
+			++$used_slugs[ $slug ];
+			$id = $slug . '-' . $used_slugs[ $slug ];
+		} else {
+			$used_slugs[ $slug ] = 1;
+			$id                  = $slug;
+		}
+
+		$heading->setAttribute( 'id', $id );
+
+		$items[] = array(
+			'id'   => $id,
+			'text' => $text,
+		);
+	}
+
+	if ( empty( $items ) ) {
+		return array(
+			'content' => $html,
+			'items'   => array(),
+		);
+	}
+
+	$body        = $dom->getElementsByTagName( 'body' )->item( 0 );
+	$new_content = '';
+	foreach ( $body->childNodes as $child ) {
+		$new_content .= $dom->saveHTML( $child );
+	}
+
+	return array(
+		'content' => $new_content,
+		'items'   => $items,
+	);
+}
+
+/**
+ * Estimate reading time from rendered post HTML, at a standard 200 words
+ * per minute. Always rounds up (and floors at 1) — "0 min read" reads as
+ * broken, "1 min read" doesn't, even for a very short post.
+ *
+ * @param string $html Rendered HTML (e.g. apply_filters( 'the_content', $post->post_content )).
+ * @return int Whole minutes, minimum 1.
+ */
+function lc_tidyjs2026_reading_time( $html ) {
+	$word_count = str_word_count( wp_strip_all_tags( $html ) );
+	return max( 1, (int) ceil( $word_count / 200 ) );
+}
+
+/**
+ * Render one post card (image, title, date/reading-time meta, excerpt) —
+ * shared by index.php's card grid and single.php's "More from the blog",
+ * so the two don't drift out of sync with each other.
+ *
+ * Expects the loop to already be on this post (called between the_post()
+ * and the next iteration), same as template tags like the_title().
+ *
+ * @return void
+ */
+function lc_tidyjs2026_render_post_card() {
+	$minutes = lc_tidyjs2026_reading_time( apply_filters( 'the_content', get_the_content() ) );
+	?>
+	<a class="related-post-card" href="<?php the_permalink(); ?>">
+		<?php if ( has_post_thumbnail() ) { ?>
+		<img class="related-post-card__image" src="<?php the_post_thumbnail_url( 'medium_large' ); ?>" alt="" loading="lazy">
+		<?php } ?>
+		<span class="related-post-card__title"><?php the_title(); ?></span>
+		<span class="related-post-card__meta">
+			<span class="related-post-card__meta-item"><i class="fa-solid fa-calendar" aria-hidden="true"></i> <?php echo esc_html( get_the_date() ); ?></span>
+			<span class="related-post-card__meta-item"><i class="fa-solid fa-clock" aria-hidden="true"></i> <?php echo esc_html( $minutes ); ?> <?php esc_html_e( 'min read', 'lc-tidyjs2026' ); ?></span>
+		</span>
+		<span class="related-post-card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 18 ) ); ?></span>
+	</a>
+	<?php
+}
