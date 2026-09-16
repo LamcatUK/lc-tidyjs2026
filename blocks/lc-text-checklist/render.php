@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$title     = $attributes['title'] ?? '';
+$btitle    = $attributes['title'] ?? '';
 $intro     = $attributes['intro'] ?? '';
 $checklist = $attributes['checklist'] ?? '';
 $outro     = $attributes['outro'] ?? '';
@@ -18,12 +18,12 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'text-chec
 	<div class="container">
 		<div class="row gap-5">
 			<div class="col-12 col-lg-4 col-xl-6">
-				<h2><?php echo esc_html( $title ); ?></h2>
+				<h2><?php echo esc_html( $btitle ); ?></h2>
 				<p class="has-600-font-size"><?php echo esc_html( $intro ); ?></p>
 			</div>
-			<div class="col-12 col-lg-8 col-xl-6 mx-auto my-auto">
-				<div class="text-checklist__list-wrapper">
-					<ul class="text-checklist__list mb-0 has-500-font-size cols-lg-2">
+			<div class="col-12 col-lg-8 col-xl-6 my-auto">
+				<div class="text-checklist__list-wrapper w-100">
+					<ul class="text-checklist__list mb-0 has-500-font-size cols-md-2">
 						<?php
 						if ( $checklist ) {
 							$items = preg_split( '/\r\n|\r|\n/', $checklist, -1, PREG_SPLIT_NO_EMPTY );

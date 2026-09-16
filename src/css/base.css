@@ -54,18 +54,35 @@ p {
 	margin: 0 0 var(--space-3);
 }
 
+/* No colour here any more — every classless <a> in the theme turned out to
+   already be covered by a more specific rule that wins regardless
+   (#footer a, .lc-breadcrumbs a, main a below), so var(--col-primary) here
+   never actually rendered. text-decoration:none stays as the shared
+   default every other rule (including main a below) builds on. */
 a {
-	color: var(--col-primary);
 	text-decoration: none;
 }
 
-/* Plain (classless) content links inside page content read better dark
-   than in the brand yellow (var(--col-primary)) — scoped to :not([class])
-   deliberately, not just relying on .btn/etc.'s own rules happening to
-   have higher specificity, so it can never fight a classed link's own
-   colour regardless of what else changes here later. */
-main a:not([class]) {
+/* Content links inside page/post body read better dark than in the brand
+   yellow (var(--col-primary)), and need to actually look like links at
+   rest — colour alone doesn't cut it — so they're bolder too, underlined
+   only on hover.
+   Explicitly excludes every link-shaped *component* in the theme
+   (.btn, .toc__link, .related-post-card, .single-nav__link) — deliberately
+   a deny-list rather than trusting each one's own rule to out-specificity
+   this by default: several of them don't actually declare font-weight or
+   text-decoration themselves, so a plain "main a" here silently bled onto
+   them (confirmed: it did, onto both .toc__link and
+   .related-post-card__excerpt, before this list existed — a component not
+   setting a property isn't the same as it being protected from one).
+   This still reaches a classed link with an unpredictable class name from
+   a form plugin or similar (e.g. a consent-text link) that isn't in this
+   list, which would otherwise fall through to the (now nonexistent)
+   default yellow `a` colour — unreadable against a light block
+   background. */
+main a:not(.btn):not(.toc__link):not(.related-post-card):not(.single-nav__link) {
 	color: var(--col-dark-900);
+	font-weight: var(--fw-600);
 }
 
 /* ...except inside a dark-background block section (has-dark-*-background-
@@ -73,18 +90,25 @@ main a:not([class]) {
    unreadable there, so a plain link just inherits the section's own
    (already light) text colour instead. Matches on both substrings so it
    only catches *-background-color classes, not a same-named text colour
-   class like has-dark-900-color. */
+   class like has-dark-900-color. Still scoped to :not([class]) here,
+   unlike the rule above: this selector's two attribute-selectors make it
+   more specific than a single-class component rule like .btn, so without
+   that exclusion it would win over .btn's own colour and wash out, say,
+   the CTA block's buttons into the section's plain text colour. */
 main [class*="has-dark-"][class*="-background-color"] a:not([class]) {
 	color: inherit;
 }
 
 /*
- * Underline-on-hover only for plain content links (no class) — cards,
- * buttons, nav items, and social/icon links all carry their own class and
- * define their own hover treatment, so they're excluded here rather than
- * needing a `text-decoration: none` override per component.
+ * Underline-on-hover for content links — same deny-list as the rule above
+ * (not :not([class]): a classed link from a form plugin or similar should
+ * still get it). Cards, buttons, nav items, and social/icon links all
+ * carry their own class and already define their own hover treatment.
+ * .service-list__item joins the list for the same reason .related-post-card
+ * did — a hover-state colour/background change of its own, with no
+ * underline wanted alongside it.
  */
-a:not([class]):hover {
+main a:not(.btn):not(.toc__link):not(.related-post-card):not(.single-nav__link):not(.service-list__item):hover {
 	text-decoration: underline;
 }
 

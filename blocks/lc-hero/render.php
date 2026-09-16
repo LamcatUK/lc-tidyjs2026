@@ -59,10 +59,10 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'hero' ) )
 			if ( ! $hide_on_contact && ! $hide_on_thank_you ) {
 				?>
 			<div class="col-12 pt-4 d-flex flex-wrap justify-content-center gap-4">
-				<a class="btn btn--lg d-none d-sm-inline-block" href="tel:<?php echo esc_attr( parse_phone( $phone ) ); ?>"><i class="fa-solid fa-phone me-2"></i> Call <?php echo esc_html( $phone ); ?></a>
-				<a class="btn btn--lg d-sm-none" href="tel:<?php echo esc_attr( parse_phone( $phone ) ); ?>"><i class="fa-solid fa-phone me-2"></i> Call Now</a>
-				<?php echo do_shortcode( '[whatsapp_link class="d-sm-none btn btn--lg has-whatsapp-background-color" icon=true text="WhatsApp Us"]' ); ?>
-				<a class="btn btn--lg btn--outline" href="/contact/">Get a Free Quote</a>
+				<a class="btn btn--lg w-100 w-sm-auto text-center d-none d-sm-inline-block" href="tel:<?php echo esc_attr( parse_phone( $phone ) ); ?>"><i class="fa-solid fa-phone me-2"></i> Call <?php echo esc_html( $phone ); ?></a>
+				<a class="btn btn--lg w-100 w-sm-auto text-center d-sm-none" href="tel:<?php echo esc_attr( parse_phone( $phone ) ); ?>"><i class="fa-solid fa-phone me-2"></i> Call Now</a>
+				<?php echo do_shortcode( '[whatsapp_link class="w-100 w-sm-auto text-center d-sm-none btn btn--lg has-whatsapp-background-color" icon=true text="WhatsApp Us"]' ); ?>
+				<a class="btn btn--lg btn--outline w-100 w-sm-auto text-center" href="/contact/">Get a Free Quote</a>
 			</div>
 				<?php
 			}

@@ -51,9 +51,9 @@ function lc_tidyjs2026_append_primary_nav_cta_items( $items, $args ) {
 	$phone = lc_tidyjs2026_get_setting( 'phone' );
 
 	$items .= '<li class="nav-item nav-item--cta"><a class="btn btn--lg" href="/contact/">Contact Us</a></li>';
-	$items .= '<li class="nav-item nav-item--cta d-sm-none"><a class="btn btn--lg" href="tel:' . esc_attr( parse_phone( $phone ) ) . '"><i class="fa-solid fa-phone me-2"></i> Call Now</a></li>';
-	$items .= '<li class="nav-item nav-item--cta d-sm-none">' . do_shortcode( '[whatsapp_link class="btn btn--lg has-whatsapp-background-color" icon="true" text="WhatsApp Us"]' ) . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- whatsapp_link() escapes internally.
-	$items .= '<li class="nav-item nav-item--cta d-sm-none"><a class="btn btn--lg btn--outline" href="/contact/">Get a Free Quote</a></li>';
+	$items .= '<li class="nav-item nav-item--cta d-lg-none"><a class="btn btn--lg" href="tel:' . esc_attr( parse_phone( $phone ) ) . '"><i class="fa-solid fa-phone me-2"></i> Call Now</a></li>';
+	$items .= '<li class="nav-item nav-item--cta d-lg-none">' . do_shortcode( '[whatsapp_link class="btn btn--lg has-whatsapp-background-color" icon="true" text="WhatsApp Us"]' ) . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- whatsapp_link() escapes internally.
+	$items .= '<li class="nav-item nav-item--cta d-lg-none"><a class="btn btn--lg btn--outline" href="/contact/">Get a Free Quote</a></li>';
 
 	return $items;
 }

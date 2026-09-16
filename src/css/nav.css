@@ -6,17 +6,17 @@
  */
 
 .navbar {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding-block: var(--space-2);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--space-2);
 }
 
 .navbar-brand {
-	font-weight: var(--fw-700);
-	text-decoration: none;
-	color: var(--col-body);
+  font-weight: var(--fw-700);
+  text-decoration: none;
+  color: var(--col-body);
 }
 
 /*
@@ -25,14 +25,14 @@
  * covers accessibility, same pattern as the old theme).
  */
 header#masthead {
-	font-family: var(--ff-heading);
-	/* Sticky, matching the source site's fixed-position header — sticky
+  font-family: var(--ff-heading);
+  /* Sticky, matching the source site's fixed-position header — sticky
 	   over fixed since it needs no main-margin-top compensation hack and
 	   plays nicely with the admin bar's own sticky offset for free. */
-	position: sticky;
-	top: 0;
-	z-index: 1030;
-	background-color: var(--col-body-bg);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background-color: var(--col-body-bg);
 }
 
 /*
@@ -43,28 +43,78 @@ header#masthead {
  * centered instead of the edge-to-edge line the old site has.
  */
 header#masthead {
-	border-bottom: 3px solid var(--col-primary-600);
+  border-bottom: 3px solid var(--col-primary-600);
 }
 
 .navbar-brand.logo {
-	display: block;
-	flex-shrink: 0;
-	width: 181px;
-	height: 50px;
-	background-image: url(../img/tidy-horizontal--dk.svg);
-	background-position: center left;
-	background-repeat: no-repeat;
-	background-size: contain;
+  display: block;
+  flex-shrink: 0;
+  width: 181px;
+  height: 50px;
+  background-image: url(../img/tidy-horizontal--dk.svg);
+  background-position: center left;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 @media (min-width: 1400px) {
-	.navbar-brand.logo {
-		width: 220px;
-	}
+  .navbar-brand.logo {
+    width: 220px;
+  }
 }
 
-header#masthead .nav-item--cta {
-	align-self: center;
+/*
+ * align-self:center means something different depending on flex-direction
+ * — vertical centering in the desktop "row" nav (restored, scoped to just
+ * that breakpoint, further down), horizontal centering in this mobile
+ * "column" dropdown. At mobile that's wrong for BOTH kinds of item here, so
+ * it isn't applied unconditionally any more:
+ *
+ * - Call Now/WhatsApp/Get a Free Quote (.d-lg-none, shown anywhere the
+ *   mobile dropdown itself shows, i.e. under 992px) stretch to fill the
+ *   dropdown's width instead, with their .btn
+ *   set to width:100% to actually fill that now-stretched box — center
+ *   alignment on the <li> made w-100 on a *descendant* of that a self-
+ *   defeating no-op, identical in shape to the grid mx-auto issue
+ *   elsewhere in this theme (an ancestor that shrinks to content makes
+ *   every descendant's 100% relative to an already-shrunk box).
+ * - "Contact Us" (the one persistent nav-item--cta) gets no override at
+ *   all — it inherits .navbar-nav's own align-items:flex-start, i.e. it
+ *   left-aligns like every other menu item, per its next rule below
+ *   reading as a normal link rather than a button at this width.
+ */
+header#masthead .nav-item--cta.d-lg-none {
+  align-self: stretch;
+}
+
+header#masthead .nav-item--cta.d-lg-none .btn {
+  width: 100%;
+}
+
+/*
+ * Below "lg", "Contact Us" should read as a normal menu item inside the
+ * mobile dropdown, not a button — undone again at "lg" below, where it's
+ * the persistent button in the always-visible bar.
+ */
+header#masthead .nav-item--cta:not(.d-lg-none) .btn {
+  display: block;
+  width: auto;
+  padding: var(--space-1) 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--col-body);
+  font-family: var(--ff-body);
+  font-size: var(--fs-300);
+  font-weight: var(--fw-400);
+  text-align: left;
+  text-transform: uppercase;
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    color: var(--col-primary-600);
+  }
 }
 
 /*
@@ -79,156 +129,208 @@ header#masthead .nav-item--cta {
  * site's actual rendered look, not its source code's intent.
  */
 header#masthead .navbar-nav > .nav-item > .nav-link {
-	font-family: var(--ff-body);
-	font-size: var(--fs-300);
-	text-transform: uppercase;
+  font-family: var(--ff-body);
+  font-size: var(--fs-300);
+  text-transform: uppercase;
 
-	&:hover,
-	&:focus {
-		color: var(--col-primary-600);
-	}
+  &:hover,
+  &:focus {
+    color: var(--col-primary-600);
+  }
 }
 
+/* col-primary-700, not -600, for the active/current state specifically —
+   matches .toc__link.is-active, and gives better contrast against the
+   white nav background for a11y than -600 does. The open-dropdown state
+   below (aria-expanded, not a "this page is current" signal) stays -600,
+   same as hover/focus. */
 header#masthead .navbar-nav > .nav-item > .nav-link.active,
-header#masthead .navbar-nav > .nav-item > .nav-link[aria-current="page"],
-header#masthead .navbar-nav > .nav-item.dropdown > .nav-link[aria-expanded="true"] {
-	color: var(--col-primary-600);
+header#masthead .navbar-nav > .nav-item > .nav-link[aria-current="page"] {
+  color: var(--col-primary-700);
+}
+
+header#masthead
+  .navbar-nav
+  > .nav-item.dropdown
+  > .nav-link[aria-expanded="true"] {
+  color: var(--col-primary-600);
 }
 
 /* Submenu links — old theme's `.dropdown-item`. */
 header#masthead .dropdown-menu .nav-link {
-	font-family: var(--ff-body);
-	color: var(--col-body);
+  font-family: var(--ff-body);
+  color: var(--col-body);
 
-	&:hover,
-	&:focus {
-		color: var(--col-primary-600);
-	}
+  &.active,
+  &[aria-current="page"] {
+    color: var(--col-primary-700);
+  }
+
+  &:hover,
+  &:focus {
+    color: var(--col-primary-600);
+  }
 }
 
 .navbar-toggler {
-	display: inline-flex;
-	align-items: center;
-	gap: var(--space-1);
-	padding: var(--space-1) var(--space-2);
-	border: 1px solid var(--col-grey-300);
-	border-radius: var(--radius-sm);
-	background: none;
-	cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--col-grey-300);
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
 }
 
 .navbar-collapse {
-	display: none;
+  display: none;
 }
 
 /* Overlays the page rather than pushing content down — positioned against
    .navbar (position: relative above), not in normal document flow. */
 .navbar-collapse.is-open {
-	display: block;
-	position: absolute;
-	top: 100%;
-	left: 0;
-	right: 0;
-	background-color: var(--col-body-bg);
-	border-top: 1px solid var(--col-grey-300);
-	box-shadow: var(--shadow-lg);
-	padding: var(--space-3);
-	max-height: calc(100vh - 100%);
-	overflow-y: auto;
-	z-index: 20;
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--col-body-bg);
+  border-top: 1px solid var(--col-grey-300);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-3);
+  max-height: calc(100vh - 100%);
+  overflow-y: auto;
+  z-index: 20;
 }
 
 .navbar-nav {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: var(--space-2);
-	margin: 0;
-	padding: 0;
-	list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .nav-link {
-	display: block;
-	text-decoration: none;
-	color: var(--col-body);
-	padding: var(--space-1) 0;
-
-	&.active,
-	&[aria-current="page"] {
-		font-weight: var(--fw-600);
-	}
+  display: block;
+  text-decoration: none;
+  color: var(--col-body);
+  padding: var(--space-1) 0;
 }
+
+/*
+ * No font-weight bump on the active item — IBM Plex Sans's 600 weight has
+ * different glyph boxes than its 400 weight, rendering visibly
+ * smaller/tighter at the same declared font-size despite identical
+ * font-size/line-height/transform on both. Colour alone (below) marks it
+ * as current.
+ */
 
 /* Submenus — nested, always visible on mobile; shown via click as a
    floating panel from "lg" up. */
 .dropdown-menu {
-	list-style: none;
-	margin: var(--space-1) 0 var(--space-1) var(--space-3);
-	padding: 0;
-	display: none;
+  list-style: none;
+  margin: var(--space-1) 0 var(--space-1) var(--space-3);
+  padding: 0;
+  display: none;
 }
 
 .dropdown-menu.is-open {
-	display: block;
+  display: block;
 }
 
 .dropdown-toggle {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--space-1);
-	width: 100%;
-	border: 0;
-	background: none;
-	font-family: inherit;
-	font-size: inherit;
-	line-height: inherit;
-	text-align: inherit;
-	cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+  width: 100%;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  cursor: pointer;
 }
 
 @media (min-width: 992px) {
-	.navbar-toggler {
-		display: none;
-	}
+  .navbar-toggler {
+    display: none;
+  }
 
-	.navbar-collapse,
-	.navbar-collapse.is-open {
-		display: block;
-		position: static;
-		width: auto;
-		max-height: none;
-		overflow-y: visible;
-		background: none;
-		border-top: 0;
-		box-shadow: none;
-		padding: 0;
-	}
+  .navbar-collapse,
+  .navbar-collapse.is-open {
+    display: block;
+    position: static;
+    width: auto;
+    max-height: none;
+    overflow-y: visible;
+    background: none;
+    border-top: 0;
+    box-shadow: none;
+    padding: 0;
+  }
 
-	.navbar-nav {
-		flex-direction: row;
-		align-items: center;
-		gap: var(--space-4); /* old theme's gap-lg-4 (1.5rem) on #menu-primary-nav */
-		margin: 0;
-	}
+  .navbar-nav {
+    flex-direction: row;
+    align-items: center;
+    gap: var(
+      --space-4
+    ); /* old theme's gap-lg-4 (1.5rem) on #menu-primary-nav */
+    margin: 0;
+  }
 
-	.dropdown {
-		position: relative;
-	}
+  /*
+   * Restores the actual button look the base (below "lg") rule above
+   * strips out — "Contact Us" is the persistent button in this
+   * always-visible bar from here up, not a dropdown menu item.
+   * align-self:center here means vertical centering (flex-direction is
+   * row at this breakpoint) against the plain nav-links either side.
+   */
+  header#masthead .nav-item--cta:not(.d-lg-none) {
+    align-self: center;
+  }
 
-	.dropdown-menu {
-		position: absolute;
-		top: 100%;
-		left: 0;
-		min-width: 10rem;
-		margin: 0;
-		padding: var(--space-2);
-		background-color: var(--col-body-bg);
-		border: 1px solid var(--col-grey-300);
-		border-radius: var(--radius-sm);
-		box-shadow: var(--shadow-lg);
-		z-index: 10;
-		white-space: nowrap; /* matches old site's Bootstrap .dropdown-item default — confirmed via computed styles */
-	}
+  header#masthead .nav-item--cta:not(.d-lg-none) .btn {
+    display: inline-block;
+    width: auto;
+    padding: 0.25rem 1.5rem;
+    border: 2px solid var(--col-primary-600);
+    border-radius: var(--radius-sm);
+    background-color: var(--col-primary-600);
+    color: var(--col-dark-900);
+    font-size: var(--fs-400);
+    font-weight: var(--fw-semibold);
+    text-align: center;
+    text-transform: uppercase;
+
+    &:hover,
+    &:focus {
+      background-color: var(--col-primary-700);
+      color: var(--col-dark-900);
+    }
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 10rem;
+    margin: 0;
+    padding: var(--space-2);
+    background-color: var(--col-body-bg);
+    border: 1px solid var(--col-grey-300);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    z-index: 10;
+    white-space: nowrap; /* matches old site's Bootstrap .dropdown-item default — confirmed via computed styles */
+  }
 }

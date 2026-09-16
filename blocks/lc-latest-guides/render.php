@@ -22,7 +22,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'latest-gu
 		<div class="latest-guides__header">
 			<h2 class="latest-guides__heading"><?php esc_html_e( 'Tidy Guides', 'lc-tidyjs2026' ); ?></h2>
 			<?php if ( $posts_page_url ) { ?>
-			<a class="btn btn--outline" href="<?php echo esc_url( $posts_page_url ); ?>"><?php esc_html_e( 'Guides', 'lc-tidyjs2026' ); ?></a>
+			<a class="btn btn--outline" href="<?php echo esc_url( $posts_page_url ); ?>"><?php esc_html_e( 'All Guides', 'lc-tidyjs2026' ); ?></a>
 			<?php } ?>
 		</div>
 		<div class="latest-guides__slider">
