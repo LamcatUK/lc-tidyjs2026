@@ -77,6 +77,7 @@
 						lc_tidyjs2026_get_setting( 'pinterest_url' ),
 						lc_tidyjs2026_get_setting( 'youtube_url' ),
 						lc_tidyjs2026_get_setting( 'linkedin_url' ),
+						lc_tidyjs2026_get_setting( 'gbp_url' ),
 					)
 				)
 			),
