@@ -23,6 +23,14 @@ function lc_tidyjs2026_setup() {
 	add_theme_support( 'editor-styles' );
 	add_theme_support( 'disable-custom-colors' );
 
+	// Fills the gap in WordPress's default responsive-image ladder — it
+	// jumps straight from 'medium' (300w) to 'medium_large' (768w) with
+	// nothing between, so a ~375-430px mobile column at 2x pixel density
+	// has no candidate closer than 768w. Applies to every image on the
+	// site, not just one block. crop=false (height 0) scales proportionally
+	// like medium_large does, so it works for any aspect ratio.
+	add_image_size( 'lc-tidyjs2026-640', 640, 0 );
+
 	// Rename/extend per project.
 	register_nav_menus(
 		array(

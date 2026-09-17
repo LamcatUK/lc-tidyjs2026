@@ -36,6 +36,11 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'hero' ) )
 							'loading'       => 'eager',
 							'fetchpriority' => 'high',
 							'alt'           => $image_alt,
+							// Overrides WP's default sizes guess, which assumes 100vw
+							// at every width up to the image's own — wrong from the
+							// col-md-6 breakpoint (768px) up, where this image is
+							// only half the row, not the full one.
+							'sizes'         => '(max-width: 767px) 100vw, 50vw',
 						)
 					);
 					?>
