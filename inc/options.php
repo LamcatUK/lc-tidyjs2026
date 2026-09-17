@@ -123,6 +123,13 @@ function lc_tidyjs2026_register_settings_page() {
 			'placeholder' => 'https://linkedin.com/...',
 			'description' => 'Leave blank to hide this icon from [social_icons].',
 		),
+		'gbp_url'                   => array(
+			'label'       => 'Google Business Profile URL',
+			'type'        => 'url',
+			'section'     => 'lc_tidyjs2026_social',
+			'placeholder' => 'https://g.page/...',
+			'description' => 'Leave blank to hide this icon from [social_icons].',
+		),
 		'ga_property'               => array(
 			'label'       => 'GA Property',
 			'type'        => 'text',

@@ -41,6 +41,12 @@ add_shortcode(
 				'label' => 'LinkedIn',
 				'icon'  => 'fa-linkedin-in',
 			),
+			// Font Awesome Free has no dedicated Google Business Profile
+			// glyph — fa-google is the closest brand icon available.
+			'gbp'       => array(
+				'label' => 'Google Business Profile',
+				'icon'  => 'fa-google',
+			),
 		);
 
 		$links = '';
