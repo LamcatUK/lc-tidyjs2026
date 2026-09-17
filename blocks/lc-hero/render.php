@@ -11,7 +11,12 @@ $title     = $attributes['title'] ?? '';
 $intro     = $attributes['intro'] ?? '';
 $image_id  = $attributes['imageId'] ?? 0;
 $image_url = $attributes['imageUrl'] ?? '';
-$image_alt = $attributes['imageAlt'] ?: $title;
+// Read alt text live from the attachment rather than trusting the block's
+// own imageAlt attribute, which is only ever a snapshot copied in once at
+// image-select time (src/edit.js) — editing the image's alt text in the
+// Media Library later wouldn't otherwise reach already-placed blocks.
+$image_alt = $image_id ? get_post_meta( $image_id, '_wp_attachment_image_alt', true ) : ( $attributes['imageAlt'] ?? '' );
+$image_alt = $image_alt ?: $title;
 $usps      = $attributes['usps'] ?? '';
 $phone     = lc_tidyjs2026_get_setting( 'phone' );
 
