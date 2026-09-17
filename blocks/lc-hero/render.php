@@ -9,6 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 $title     = $attributes['title'] ?? '';
 $intro     = $attributes['intro'] ?? '';
+$image_id  = $attributes['imageId'] ?? 0;
 $image_url = $attributes['imageUrl'] ?? '';
 $image_alt = $attributes['imageAlt'] ?: $title;
 $usps      = $attributes['usps'] ?? '';
@@ -24,7 +25,21 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'hero' ) )
 				<p class="has-700-font-size mb-5"><?php echo esc_html( $intro ); ?></p>
 			</div>
 			<div class="col-12 col-md-6 my-auto mb-4">
-				<?php if ( $image_url ) { ?>
+				<?php if ( $image_id ) { ?>
+					<?php
+					echo wp_get_attachment_image(
+						$image_id,
+						'full',
+						false,
+						array(
+							'class'         => 'hero__image',
+							'loading'       => 'eager',
+							'fetchpriority' => 'high',
+							'alt'           => $image_alt,
+						)
+					);
+					?>
+				<?php } elseif ( $image_url ) { ?>
 				<img src="<?php echo esc_url( $image_url ); ?>" class="hero__image" loading="eager" fetchpriority="high" alt="<?php echo esc_attr( $image_alt ); ?>">
 				<?php } ?>
 			</div>
