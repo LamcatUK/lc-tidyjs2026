@@ -29,7 +29,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'hero' ) )
 					<?php
 					echo wp_get_attachment_image(
 						$image_id,
-						'full',
+						'large',
 						false,
 						array(
 							'class'         => 'hero__image',
