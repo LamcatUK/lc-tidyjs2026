@@ -525,10 +525,23 @@ function lc_tidyjs2026_reading_time( $html ) {
  * Expects the loop to already be on this post (called between the_post()
  * and the next iteration), same as template tags like the_title().
  *
+ * The reading-time figure needs the_content filtered (so dynamic blocks
+ * expand to their real word count), but that filter is what runs every
+ * block's render_callback — including lc-faq/lc-blog-faq, which queue
+ * their Q&A pairs onto the page's aggregated FAQPage schema as a side
+ * effect. Post cards render OTHER posts (latest guides, related posts),
+ * so without guarding this, browsing to any page carrying a post-card
+ * block queues every FAQ from those other posts' bodies too. Snapshot
+ * and restore the queue around the throwaway render so only FAQ blocks
+ * actually placed on the current page contribute to its schema.
+ *
  * @return void
  */
 function lc_tidyjs2026_render_post_card() {
-	$minutes = lc_tidyjs2026_reading_time( apply_filters( 'the_content', get_the_content() ) );
+	global $faq_schema_items;
+	$faq_schema_items_snapshot = $faq_schema_items ?? array();
+	$minutes                   = lc_tidyjs2026_reading_time( apply_filters( 'the_content', get_the_content() ) );
+	$faq_schema_items          = $faq_schema_items_snapshot;
 	?>
 	<a class="related-post-card" href="<?php the_permalink(); ?>">
 		<?php if ( has_post_thumbnail() ) { ?>
