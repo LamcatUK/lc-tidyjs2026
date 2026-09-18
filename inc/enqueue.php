@@ -101,6 +101,19 @@ function lc_tidyjs2026_enqueue_scripts() {
 	// carries an explicit exception to the "no icon font" rule in CLAUDE.md.
 	lc_tidyjs2026_enqueue_vendor( 'fontawesome', 'fontawesome.min.css', true );
 
+	// The vendored fontawesome.min.css ships fa-solid-900 with
+	// font-display:block (up to 3s of invisible icons before falling back)
+	// rather than swap. Overriding it here via an inline style — printed
+	// right after the linked stylesheet, so it wins the cascade for this
+	// exact family/weight/style — instead of hand-editing the vendored file,
+	// which the next Font Awesome version bump would just overwrite.
+	if ( wp_style_is( 'fontawesome', 'enqueued' ) ) {
+		wp_add_inline_style(
+			'fontawesome',
+			'@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap;src:url(' . esc_url( get_stylesheet_directory_uri() . '/js/webfonts/fa-solid-900.woff2' ) . ') format("woff2")}'
+		);
+	}
+
 	// Swiper 11.2.10, vendored (js/vendor/swiper-bundle.min.{js,css}, from
 	// cdn.jsdelivr.net/npm/swiper@11) — only on pages actually using the
 	// lc-review-slider block, rather than sitewide.
