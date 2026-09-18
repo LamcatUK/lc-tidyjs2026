@@ -130,6 +130,20 @@ video {
 	display: block;
 }
 
+/* Inline brand-logo SVGs (img/icons/brands/*.svg via
+   lc_tidyjs2026_get_brand_icon()) stand in for Font Awesome's fa-brands
+   glyphs, so they need to behave the same way those did — sized in ems and
+   coloured via `color`/currentColor, inline alongside text — rather than
+   the block/max-width image reset above. */
+.icon-brand {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	max-width: none;
+	vertical-align: -0.125em;
+	fill: currentColor;
+}
+
 /*
  * Bootstrap-derived project themes get this from `.figure-caption` — this
  * skeleton has no Bootstrap to extend, so it's a plain reset instead.

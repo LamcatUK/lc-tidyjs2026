@@ -77,15 +77,29 @@ doesn't exist, no matter how standard it looks.
   vanilla replacement for Bootstrap's Collapse component (mobile nav toggle).
   `src/js/dialog.js` wires up the native `<dialog>` element (`showModal()`/
   `close()`) as the modal solution — not a JS component library.
-- **Icon font: Font Awesome 6.7.2 Free, vendored locally.** `header.php`'s
-  nav toggle button still uses an inline SVG for that one icon, but blocks
-  and editor content lean on Font Awesome (`fa-solid`, `fa-brands`, etc.)
+- **Icon font: Font Awesome 6.7.2 Free, vendored locally — `fa-solid` only.**
+  `header.php`'s nav toggle button still uses an inline SVG for that one
+  icon, but blocks and editor content lean on Font Awesome's `fa-solid`
+  glyphs (e.g. a free-text icon class field, as in the USPs-style blocks)
   the same way the old ACF-based themes did — too widely used across
   existing block content to swap for inline SVG during the ACF-to-native
   block migration. Vendored (not CDN) at `js/vendor/fontawesome.min.css` +
   `js/webfonts/*.woff2`, enqueued via `lc_tidyjs2026_enqueue_vendor()` in
   `inc/enqueue.php`. This is a deliberate, explicit exception to this
   skeleton's usual "no icon font" stance — don't revert it without asking.
+  `fa-brands` is deliberately **not** used, and `fontawesome.min.css` isn't
+  the source for brand logos: the only brand glyphs this theme needs
+  ([social_icons]' platform icons and whatsapp_link()'s WhatsApp icon) are
+  vendored as individual inline SVGs instead (`img/icons/brands/*.svg`,
+  extracted from the same FA 6.7.2 fa-brands set, CC BY 4.0), inlined via
+  `lc_tidyjs2026_get_brand_icon()` in `inc/utilities.php` and sized/coloured
+  by the `.icon-brand` rule in `src/css/base.css`. Loading the ~116KB
+  fa-brands-400.woff2 font for a handful of fixed, known-in-advance glyphs
+  wasn't worth it — unlike `fa-solid`, where editors can type any of
+  hundreds of glyph names into a block field, so vendoring the whole set is
+  the only option there. Add another brand icon by dropping its SVG into
+  `img/icons/brands/` and adding an entry in `inc/social-icons.php` (or
+  wherever it's needed) — don't reach for `fa-brands` again without asking.
 - **Buttons and cards have zero framework opinion.** `.btn` in
   `src/css/forms.css` is a bare minimal base — the theme author designs
   buttons and cards per-project rather than using a framework's look, so
