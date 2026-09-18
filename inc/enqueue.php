@@ -128,6 +128,13 @@ function lc_tidyjs2026_enqueue_scripts() {
 		// dialogs, reveal animations, everything) down with it.
 		$deps = wp_script_is( 'lenis', 'registered' ) ? array( 'lenis' ) : array();
 		wp_enqueue_script( 'lc-skeleton-theme', get_stylesheet_directory_uri() . $rel, $deps, filemtime( $abs ), true );
+
+		// Site-Wide Settings > CF7 Redirect URL, read by src/js/cf7-redirect.js.
+		wp_localize_script(
+			'lc-skeleton-theme',
+			'lcTidyjs2026Cf7',
+			array( 'redirectUrl' => lc_tidyjs2026_get_setting( 'cf7_redirect_url', '/contact/thank-you/' ) )
+		);
 	}
 }
 add_action( 'wp_enqueue_scripts', 'lc_tidyjs2026_enqueue_scripts' );

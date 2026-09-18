@@ -4,6 +4,7 @@ import { initDialogs } from './dialog';
 import { initReveal } from './reveal';
 import { initLenis } from './lenis-init';
 import { initToc } from './toc';
+import { initCf7Redirect } from './cf7-redirect';
 
 document.addEventListener('DOMContentLoaded', () => {
 	initNavToggle();
@@ -12,4 +13,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	initReveal();
 	initLenis();
 	initToc();
+	initCf7Redirect();
 });
