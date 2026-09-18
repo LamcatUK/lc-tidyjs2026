@@ -1,10 +1,12 @@
 <?php
 /**
- * [social_icons] shortcode — one <a> + Font Awesome brand icon per platform
+ * [social_icons] shortcode — one <a> + inline brand-logo SVG per platform
  * that has a URL filled in on Site-Wide Settings' Social tab (inc/options.php's
- * options page). Add another platform by adding a {slug}_url field there and
- * an entry in $platforms below (icon class must be a valid fa-brands glyph —
- * see js/vendor/fontawesome.min.css, vendored in inc/enqueue.php).
+ * options page). Add another platform by adding a {slug}_url field there, an
+ * entry in $platforms below, and a matching SVG in img/icons/brands/ (see
+ * lc_tidyjs2026_get_brand_icon() in inc/utilities.php — these used to be
+ * Font Awesome fa-brands glyphs, swapped for vendored SVGs so the ~116KB
+ * fa-brands-400.woff2 font file doesn't need loading for a handful of icons).
  *
  * @package lc-tidyjs2026
  */
@@ -19,33 +21,33 @@ add_shortcode(
 		$platforms = array(
 			'facebook'  => array(
 				'label' => 'Facebook',
-				'icon'  => 'fa-facebook-f',
+				'icon'  => 'facebook-f',
 			),
 			'instagram' => array(
 				'label' => 'Instagram',
-				'icon'  => 'fa-instagram',
+				'icon'  => 'instagram',
 			),
 			'twitter'   => array(
 				'label' => 'X (Twitter)',
-				'icon'  => 'fa-x-twitter',
+				'icon'  => 'x-twitter',
 			),
 			'pinterest' => array(
 				'label' => 'Pinterest',
-				'icon'  => 'fa-pinterest-p',
+				'icon'  => 'pinterest-p',
 			),
 			'youtube'   => array(
 				'label' => 'YouTube',
-				'icon'  => 'fa-youtube',
+				'icon'  => 'youtube',
 			),
 			'linkedin'  => array(
 				'label' => 'LinkedIn',
-				'icon'  => 'fa-linkedin-in',
+				'icon'  => 'linkedin-in',
 			),
 			// Font Awesome Free has no dedicated Google Business Profile
-			// glyph — fa-google is the closest brand icon available.
+			// glyph — google is the closest brand icon available.
 			'gbp'       => array(
 				'label' => 'Google Business Profile',
-				'icon'  => 'fa-google',
+				'icon'  => 'google',
 			),
 		);
 
@@ -55,7 +57,7 @@ add_shortcode(
 			if ( ! $url ) {
 				continue;
 			}
-			$links .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener noreferrer" aria-label="' . esc_attr( $platform['label'] ) . '"><i class="fa-brands ' . esc_attr( $platform['icon'] ) . '" aria-hidden="true"></i></a>';
+			$links .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener noreferrer" aria-label="' . esc_attr( $platform['label'] ) . '">' . lc_tidyjs2026_get_brand_icon( $platform['icon'] ) . '</a>';
 		}
 
 		if ( ! $links ) {
@@ -64,6 +66,6 @@ add_shortcode(
 
 		$classes = trim( 'social-icons ' . sanitize_html_class( $atts['class'] ) );
 
-		return '<div class="' . esc_attr( $classes ) . '">' . $links . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $links built from esc_url()/esc_attr() above plus get_icon()'s already-sanitised theme SVGs.
+		return '<div class="' . esc_attr( $classes ) . '">' . $links . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $links built from esc_url()/esc_attr() above plus lc_tidyjs2026_get_brand_icon()'s already-sanitised theme SVGs.
 	}
 );
