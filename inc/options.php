@@ -81,6 +81,13 @@ function lc_tidyjs2026_register_settings_page() {
 			'type'    => 'text',
 			'section' => 'lc_tidyjs2026_general',
 		),
+		'cf7_redirect_url'          => array(
+			'label'       => 'CF7 Redirect URL',
+			'type'        => 'text',
+			'section'     => 'lc_tidyjs2026_general',
+			'placeholder' => '/contact/thank-you/',
+			'description' => 'Path or URL to send visitors to after any Contact Form 7 form submits successfully (src/js/cf7-redirect.js). Defaults to /contact/thank-you/ if left blank.',
+		),
 		'facebook_url'              => array(
 			'label'       => 'Facebook URL',
 			'type'        => 'url',

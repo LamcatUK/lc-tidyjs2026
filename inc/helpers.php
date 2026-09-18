@@ -9,38 +9,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Drop jQuery/jQuery-migrate from the front end. The only thing on this site
- * pulling them in is the "Redirect for CF7" plugin (wpcf7-redirect) — its own
- * script is a jQuery wrapper around the native wpcf7mailsent DOM event, which
- * src/js/cf7-redirect.js now listens for directly. Matching the plugin's own
- * script by its src path (rather than a guessed handle) so this keeps working
- * if the plugin renames its handle on update.
- *
- * Runs late (priority 20) so it runs after the plugin's own wp_enqueue_scripts
- * callback has registered its script.
- *
- * @return void
- */
-function lc_tidyjs2026_drop_jquery_for_cf7_redirect() {
-	if ( is_admin() ) {
-		return;
-	}
-
-	foreach ( wp_scripts()->registered as $handle => $script ) {
-		if ( $script->src && false !== strpos( $script->src, 'wpcf7-redirect' ) ) {
-			wp_dequeue_script( $handle );
-			wp_deregister_script( $handle );
-		}
-	}
-
-	wp_dequeue_script( 'jquery-migrate' );
-	wp_deregister_script( 'jquery-migrate' );
-	wp_dequeue_script( 'jquery' );
-	wp_deregister_script( 'jquery' );
-}
-add_action( 'wp_enqueue_scripts', 'lc_tidyjs2026_drop_jquery_for_cf7_redirect', 20 );
-
-/**
  * Testimonial CPT metabox — quote (textarea) + location (text), replacing
  * the block editor entirely for this post type (see inc/posttypes.php,
  * 'testimonial' registered with no 'editor' support and show_in_rest
