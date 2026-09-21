@@ -6,7 +6,7 @@ import RepeaterField from '../../_shared/RepeaterField';
 
 const FAQ_FIELDS = [
 	{ name: 'question', label: 'Question', type: 'text' },
-	{ name: 'answer', label: 'Answer', type: 'textarea' },
+	{ name: 'answer', label: 'Answer', type: 'richtext' },
 ];
 
 const EMPTY_FAQ_ITEM = {

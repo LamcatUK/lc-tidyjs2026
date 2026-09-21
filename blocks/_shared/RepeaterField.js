@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { MediaUpload, MediaUploadCheck, RichText } from '@wordpress/block-editor';
 import { TextControl, TextareaControl, ToggleControl, Button, RadioControl } from '@wordpress/components';
 
 /**
@@ -27,7 +27,7 @@ import { TextControl, TextareaControl, ToggleControl, Button, RadioControl } fro
  * @param {string}   props.label    Field group label.
  * @param {Object[]} props.value    Current rows.
  * @param {Function} props.onChange ( rows ) => void
- * @param {Object[]} props.fields   [ { name, label, type: 'text'|'number'|'textarea'|'image'|'file'|'link'|'radio', help, mimeTypes, linkTarget, options } ]
+ * @param {Object[]} props.fields   [ { name, label, type: 'text'|'number'|'textarea'|'richtext'|'image'|'file'|'link'|'radio', help, mimeTypes, linkTarget, options } ]
  *                                  `linkTarget` (link fields only) adds an "open in new tab" toggle,
  *                                  storing `{name}Target` on the row — same opt-in shape as the
  *                                  top-level `link` field type's `link_target` option. `options`
@@ -196,6 +196,24 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 									onChange={ ( v ) => updateRow( index, { [ field.name ]: v } ) }
 									help={ field.help }
 								/>
+							);
+						}
+
+						if ( 'richtext' === field.type ) {
+							return (
+								<div className="lc-tidyjs2026-editor-field" key={ field.name }>
+									{ isColumn && (
+										<label className="lc-tidyjs2026-editor-field__label">{ field.label }</label>
+									) }
+									<RichText
+										tagName="div"
+										className="lc-tidyjs2026-editor-field__control"
+										aria-label={ field.label }
+										placeholder={ isColumn ? undefined : field.label }
+										value={ row[ field.name ] || '' }
+										onChange={ ( v ) => updateRow( index, { [ field.name ]: v } ) }
+									/>
+								</div>
 							);
 						}
 
