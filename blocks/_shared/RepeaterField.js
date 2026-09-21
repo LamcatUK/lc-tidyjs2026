@@ -207,6 +207,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 									) }
 									<RichText
 										tagName="div"
+										identifier={ `${ field.name }-${ index }` }
 										className="lc-tidyjs2026-editor-field__control"
 										aria-label={ field.label }
 										placeholder={ isColumn ? undefined : field.label }

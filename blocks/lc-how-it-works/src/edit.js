@@ -28,6 +28,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				<label className="lc-tidyjs2026-editor-field__label">{ __( 'Step 1 Content', 'lc-tidyjs2026' ) }</label>
 				<RichText
 					tagName="div"
+					identifier="step1Content"
 					className="lc-tidyjs2026-editor-field__control"
 					aria-label={ __( 'Step 1 Content', 'lc-tidyjs2026' ) }
 					placeholder={ __( 'Step 1 Content', 'lc-tidyjs2026' ) }
@@ -44,6 +45,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				<label className="lc-tidyjs2026-editor-field__label">{ __( 'Step 2 Content', 'lc-tidyjs2026' ) }</label>
 				<RichText
 					tagName="div"
+					identifier="step2Content"
 					className="lc-tidyjs2026-editor-field__control"
 					aria-label={ __( 'Step 2 Content', 'lc-tidyjs2026' ) }
 					placeholder={ __( 'Step 2 Content', 'lc-tidyjs2026' ) }
@@ -60,6 +62,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				<label className="lc-tidyjs2026-editor-field__label">{ __( 'Step 3 Content', 'lc-tidyjs2026' ) }</label>
 				<RichText
 					tagName="div"
+					identifier="step3Content"
 					className="lc-tidyjs2026-editor-field__control"
 					aria-label={ __( 'Step 3 Content', 'lc-tidyjs2026' ) }
 					placeholder={ __( 'Step 3 Content', 'lc-tidyjs2026' ) }

@@ -286,7 +286,7 @@ for i in "${!field_names[@]}"; do
       field_html+=("\t\t\t<TextareaControl\n\t\t\t\tlabel={ __( '${label}', '${theme_slug}' ) }\n\t\t\t\tvalue={ ${name} }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}: value } ) }${help_attr}\n\t\t\t/>\n")
       ;;
     richtext)
-      field_html+=("\t\t\t<div className=\"lc-tidyjs2026-editor-field\">\n\t\t\t\t<label className=\"lc-tidyjs2026-editor-field__label\">{ __( '${label}', '${theme_slug}' ) }</label>\n\t\t\t\t<RichText\n\t\t\t\t\ttagName=\"div\"\n\t\t\t\t\tclassName=\"lc-tidyjs2026-editor-field__control\"\n\t\t\t\t\taria-label={ __( '${label}', '${theme_slug}' ) }\n\t\t\t\t\tplaceholder={ __( '${label}', '${theme_slug}' ) }\n\t\t\t\t\tvalue={ ${name} }\n\t\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}: value } ) }\n\t\t\t\t/>${help_para}\n\t\t\t</div>\n")
+      field_html+=("\t\t\t<div className=\"lc-tidyjs2026-editor-field\">\n\t\t\t\t<label className=\"lc-tidyjs2026-editor-field__label\">{ __( '${label}', '${theme_slug}' ) }</label>\n\t\t\t\t<RichText\n\t\t\t\t\ttagName=\"div\"\n\t\t\t\t\tidentifier=\"${name}\"\n\t\t\t\t\tclassName=\"lc-tidyjs2026-editor-field__control\"\n\t\t\t\t\taria-label={ __( '${label}', '${theme_slug}' ) }\n\t\t\t\t\tplaceholder={ __( '${label}', '${theme_slug}' ) }\n\t\t\t\t\tvalue={ ${name} }\n\t\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}: value } ) }\n\t\t\t\t/>${help_para}\n\t\t\t</div>\n")
       ;;
     checkbox)
       field_html+=("\t\t\t<ToggleControl\n\t\t\t\tlabel={ __( '${label}', '${theme_slug}' ) }\n\t\t\t\tchecked={ ${name} }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}: value } ) }${help_attr}\n\t\t\t/>\n")
