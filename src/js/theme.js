@@ -5,6 +5,7 @@ import { initReveal } from './reveal';
 import { initLenis } from './lenis-init';
 import { initToc } from './toc';
 import { initCf7Redirect } from './cf7-redirect';
+import { initClickTracking } from './click-tracking';
 
 document.addEventListener('DOMContentLoaded', () => {
 	initNavToggle();
@@ -14,4 +15,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	initLenis();
 	initToc();
 	initCf7Redirect();
+	initClickTracking();
 });
