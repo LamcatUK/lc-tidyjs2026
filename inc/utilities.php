@@ -60,7 +60,7 @@ function whatsapp_link( $atts = array() ) {
 	$number    = ltrim( parse_phone( $phone ), '+' );
 	$site_name = get_bloginfo( 'name' );
 	$message   = rawurlencode( "I'm contacting you from the {$site_name} website..." );
-	$icon_html = ( 'true' === $atts['icon'] || true === $atts['icon'] ) ? '<i class="fa-brands fa-whatsapp me-2"></i> ' : '';
+	$icon_html = ( 'true' === $atts['icon'] || true === $atts['icon'] ) ? lc_tidyjs2026_get_brand_icon( 'whatsapp', 'me-2' ) . ' ' : '';
 	$link_text = $icon_html . wp_kses_post( $atts['text'] );
 	$class     = esc_attr( $atts['class'] );
 
@@ -212,6 +212,40 @@ function get_icon( $name ) {
 	}
 
 	return file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+}
+
+/**
+ * Inline a vendored brand-logo SVG from img/icons/brands/ by slug — the same
+ * shapes as Font Awesome's fa-brands glyphs (extracted from the exact
+ * fa-brands-400 6.7.2 version already vendored in js/webfonts/, CC BY 4.0 —
+ * see js/webfonts/LICENSE.txt), so [social_icons] and whatsapp_link() don't
+ * need to load the ~116KB fa-brands-400.woff2 font file for the handful of
+ * brand glyphs they actually use. Separate from get_icon() (a different
+ * folder, brands/, so these don't show up in get_icon_choices()' editor
+ * picker) but otherwise the same pattern.
+ *
+ * @param string $name        Icon slug — matches a filename in img/icons/brands/ without the extension.
+ * @param string $extra_class Additional class(es) to add alongside the icon-brand class, e.g. a spacing utility.
+ * @return string SVG markup, or an empty string if the icon doesn't exist.
+ */
+function lc_tidyjs2026_get_brand_icon( $name, $extra_class = '' ) {
+	if ( ! $name ) {
+		return '';
+	}
+
+	$path = get_template_directory() . '/img/icons/brands/' . basename( $name ) . '.svg';
+
+	if ( ! file_exists( $path ) ) {
+		return '';
+	}
+
+	$svg = file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+
+	if ( $extra_class ) {
+		$svg = str_replace( 'class="icon-brand"', 'class="icon-brand ' . esc_attr( $extra_class ) . '"', $svg );
+	}
+
+	return $svg;
 }
 
 /**
@@ -525,10 +559,23 @@ function lc_tidyjs2026_reading_time( $html ) {
  * Expects the loop to already be on this post (called between the_post()
  * and the next iteration), same as template tags like the_title().
  *
+ * The reading-time figure needs the_content filtered (so dynamic blocks
+ * expand to their real word count), but that filter is what runs every
+ * block's render_callback — including lc-faq/lc-blog-faq, which queue
+ * their Q&A pairs onto the page's aggregated FAQPage schema as a side
+ * effect. Post cards render OTHER posts (latest guides, related posts),
+ * so without guarding this, browsing to any page carrying a post-card
+ * block queues every FAQ from those other posts' bodies too. Snapshot
+ * and restore the queue around the throwaway render so only FAQ blocks
+ * actually placed on the current page contribute to its schema.
+ *
  * @return void
  */
 function lc_tidyjs2026_render_post_card() {
-	$minutes = lc_tidyjs2026_reading_time( apply_filters( 'the_content', get_the_content() ) );
+	global $faq_schema_items;
+	$faq_schema_items_snapshot = $faq_schema_items ?? array();
+	$minutes                   = lc_tidyjs2026_reading_time( apply_filters( 'the_content', get_the_content() ) );
+	$faq_schema_items          = $faq_schema_items_snapshot;
 	?>
 	<a class="related-post-card" href="<?php the_permalink(); ?>">
 		<?php if ( has_post_thumbnail() ) { ?>

@@ -9,6 +9,34 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Load fontawesome.min.css non-render-blocking via the standard
+ * preload-then-swap technique, with a <noscript> fallback for JS-disabled
+ * browsers. theme.min.css stays render-blocking deliberately — it defines
+ * layout/colour for the whole page, and this Grid-based theme doesn't
+ * tolerate a flash of unstyled content well — but fontawesome.min.css only
+ * affects icon glyphs, so icons rendering a beat late is an acceptable
+ * trade for taking ~25KB out of the critical rendering path on every page.
+ *
+ * @param string $html   Existing <link> tag markup.
+ * @param string $handle Style handle being filtered.
+ * @return string
+ */
+function lc_tidyjs2026_defer_fontawesome_css( $html, $handle ) {
+	if ( 'fontawesome' !== $handle ) {
+		return $html;
+	}
+
+	$preload = preg_replace(
+		"/rel=(['\"])stylesheet\\1/",
+		'rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"',
+		$html
+	);
+
+	return $preload . '<noscript>' . $html . '</noscript>';
+}
+add_filter( 'style_loader_tag', 'lc_tidyjs2026_defer_fontawesome_css', 10, 2 );
+
+/**
  * Enqueue theme.min.css.
  *
  * @return void
@@ -128,6 +156,13 @@ function lc_tidyjs2026_enqueue_scripts() {
 		// dialogs, reveal animations, everything) down with it.
 		$deps = wp_script_is( 'lenis', 'registered' ) ? array( 'lenis' ) : array();
 		wp_enqueue_script( 'lc-skeleton-theme', get_stylesheet_directory_uri() . $rel, $deps, filemtime( $abs ), true );
+
+		// Site-Wide Settings > CF7 Redirect URL, read by src/js/cf7-redirect.js.
+		wp_localize_script(
+			'lc-skeleton-theme',
+			'lcTidyjs2026Cf7',
+			array( 'redirectUrl' => lc_tidyjs2026_get_setting( 'cf7_redirect_url', '/contact/thank-you/' ) )
+		);
 	}
 }
 add_action( 'wp_enqueue_scripts', 'lc_tidyjs2026_enqueue_scripts' );

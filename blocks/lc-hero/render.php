@@ -9,8 +9,14 @@ defined( 'ABSPATH' ) || exit;
 
 $title     = $attributes['title'] ?? '';
 $intro     = $attributes['intro'] ?? '';
+$image_id  = $attributes['imageId'] ?? 0;
 $image_url = $attributes['imageUrl'] ?? '';
-$image_alt = $attributes['imageAlt'] ?: $title;
+// Read alt text live from the attachment rather than trusting the block's
+// own imageAlt attribute, which is only ever a snapshot copied in once at
+// image-select time (src/edit.js) — editing the image's alt text in the
+// Media Library later wouldn't otherwise reach already-placed blocks.
+$image_alt = $image_id ? get_post_meta( $image_id, '_wp_attachment_image_alt', true ) : ( $attributes['imageAlt'] ?? '' );
+$image_alt = $image_alt ?: $title;
 $usps      = $attributes['usps'] ?? '';
 $phone     = lc_tidyjs2026_get_setting( 'phone' );
 
@@ -24,7 +30,26 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'hero' ) )
 				<p class="has-700-font-size mb-5"><?php echo esc_html( $intro ); ?></p>
 			</div>
 			<div class="col-12 col-md-6 my-auto mb-4">
-				<?php if ( $image_url ) { ?>
+				<?php if ( $image_id ) { ?>
+					<?php
+					echo wp_get_attachment_image(
+						$image_id,
+						'large',
+						false,
+						array(
+							'class'         => 'hero__image',
+							'loading'       => 'eager',
+							'fetchpriority' => 'high',
+							'alt'           => $image_alt,
+							// Overrides WP's default sizes guess, which assumes 100vw
+							// at every width up to the image's own — wrong from the
+							// col-md-6 breakpoint (768px) up, where this image is
+							// only half the row, not the full one.
+							'sizes'         => '(max-width: 767px) 100vw, 50vw',
+						)
+					);
+					?>
+				<?php } elseif ( $image_url ) { ?>
 				<img src="<?php echo esc_url( $image_url ); ?>" class="hero__image" loading="eager" fetchpriority="high" alt="<?php echo esc_attr( $image_alt ); ?>">
 				<?php } ?>
 			</div>

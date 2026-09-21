@@ -440,6 +440,13 @@
 	border-color: var(--col-primary-500);
 	color: var(--col-primary-400);
 }
+a.lc-other-services__link {
+	color: var(--col-primary) !important;
+	text-decoration: none;
+}
+a.lc-other-services__link:hover {
+	text-decoration: none !important;
+}
 
 /* --- src/blocks/lc-review-slider.css --- */
 /* Ported from lc-tidy2026 (compiled css/child-theme.css). */

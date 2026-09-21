@@ -14,7 +14,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'areas' ) 
 ?>
 <section <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() already escapes; also carries the block's anchor id and any chosen background/text colour classes (color support in block.json). ?>>
 	<div class="container py-5">
-		<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/img/map.png' ); ?>" class="areas__map" alt="" loading="lazy">
+		<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/img/map.png' ); ?>" class="areas__map" alt="<?php esc_attr_e( 'A map of the Isle of Man with markers showing the areas covered by our waste clearance service', 'lc-tidyjs2026' ); ?>" loading="lazy">
 		<div class="row">
 			<div class="col-12 col-md-7">
 				<h2><?php echo esc_html( $area ); ?></h2>

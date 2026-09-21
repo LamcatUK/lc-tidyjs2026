@@ -68,7 +68,7 @@ a {
    rest — colour alone doesn't cut it — so they're bolder too, underlined
    only on hover.
    Explicitly excludes every link-shaped *component* in the theme
-   (.btn, .toc__link, .related-post-card, .single-nav__link) — deliberately
+   (.btn, .toc__link, .related-post-card, .single-nav__link, .service-card) — deliberately
    a deny-list rather than trusting each one's own rule to out-specificity
    this by default: several of them don't actually declare font-weight or
    text-decoration themselves, so a plain "main a" here silently bled onto
@@ -80,7 +80,7 @@ a {
    list, which would otherwise fall through to the (now nonexistent)
    default yellow `a` colour — unreadable against a light block
    background. */
-main a:not(.btn):not(.toc__link):not(.related-post-card):not(.single-nav__link) {
+main a:not(.btn):not(.toc__link):not(.related-post-card):not(.single-nav__link):not(.service-card) {
 	color: var(--col-dark-900);
 	font-weight: var(--fw-600);
 }
@@ -99,16 +99,26 @@ main [class*="has-dark-"][class*="-background-color"] a:not([class]) {
 	color: inherit;
 }
 
+/* A link inside a block carrying a has-{slug}-color *text* colour class
+   (Gutenberg's colour-palette utility, not the background one above) should
+   match that colour too, not the near-black default from the main a rule
+   above, which otherwise wins on specificity. !important because this has
+   to beat that rule outright, not just tie on specificity like the
+   :not([class]) rule above does. */
+.has-light-800-color a {
+	color: var(--col-light-800) !important;
+}
+
 /*
  * Underline-on-hover for content links — same deny-list as the rule above
  * (not :not([class]): a classed link from a form plugin or similar should
  * still get it). Cards, buttons, nav items, and social/icon links all
  * carry their own class and already define their own hover treatment.
- * .service-list__item joins the list for the same reason .related-post-card
- * did — a hover-state colour/background change of its own, with no
- * underline wanted alongside it.
+ * .service-list__item and .service-card join the list for the same reason
+ * .related-post-card did — a hover-state colour/background change of their
+ * own, with no underline wanted alongside it.
  */
-main a:not(.btn):not(.toc__link):not(.related-post-card):not(.single-nav__link):not(.service-list__item):hover {
+main a:not(.btn):not(.toc__link):not(.related-post-card):not(.single-nav__link):not(.service-list__item):not(.service-card):hover {
 	text-decoration: underline;
 }
 
@@ -118,6 +128,20 @@ video {
 	max-width: 100%;
 	height: auto;
 	display: block;
+}
+
+/* Inline brand-logo SVGs (img/icons/brands/*.svg via
+   lc_tidyjs2026_get_brand_icon()) stand in for Font Awesome's fa-brands
+   glyphs, so they need to behave the same way those did — sized in ems and
+   coloured via `color`/currentColor, inline alongside text — rather than
+   the block/max-width image reset above. */
+.icon-brand {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	max-width: none;
+	vertical-align: -0.125em;
+	fill: currentColor;
 }
 
 /*
