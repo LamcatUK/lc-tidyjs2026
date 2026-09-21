@@ -35,17 +35,17 @@ $wrapper_attributes = get_block_wrapper_attributes(
 			<div class="col-12 col-md-4 mx-md-auto my-4" data-reveal="up">
 				<div class="how-it-works__number has-1000-font-size fw-semibold ff-heading has-primary-500-color">1</div>
 				<h3 class="how-it-works__title has-600-font-size has-white-color"><?php echo esc_html( $step_1_title ); ?></h3>
-				<p class="how-it-works__text has-400-font-size has-light-800-color mb-0"><?php echo esc_html( $step_1_content ); ?></p>
+				<div class="how-it-works__text has-400-font-size has-light-800-color mb-0"><?php echo wp_kses_post( $step_1_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_kses_post() output. ?></div>
 			</div>
 			<div class="col-12 col-md-4 mx-md-auto my-4" data-reveal="up" data-reveal-delay="200">
 				<div class="how-it-works__number has-1000-font-size fw-semibold ff-heading has-primary-500-color">2</div>
 				<h3 class="how-it-works__title has-600-font-size has-white-color"><?php echo esc_html( $step_2_title ); ?></h3>
-				<p class="how-it-works__text has-400-font-size has-light-800-color mb-0"><?php echo esc_html( $step_2_content ); ?></p>
+				<div class="how-it-works__text has-400-font-size has-light-800-color mb-0"><?php echo wp_kses_post( $step_2_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_kses_post() output. ?></div>
 			</div>
 			<div class="col-12 col-md-4 mx-md-auto my-4" data-reveal="up" data-reveal-delay="400">
 				<div class="how-it-works__number has-1000-font-size fw-semibold ff-heading has-primary-500-color">3</div>
 				<h3 class="how-it-works__title has-600-font-size has-white-color"><?php echo esc_html( $step_3_title ); ?></h3>
-				<p class="how-it-works__text has-400-font-size has-light-800-color mb-0"><?php echo esc_html( $step_3_content ); ?></p>
+				<div class="how-it-works__text has-400-font-size has-light-800-color mb-0"><?php echo wp_kses_post( $step_3_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_kses_post() output. ?></div>
 			</div>
 		</div>
 		<?php if ( $highlight ) { ?>

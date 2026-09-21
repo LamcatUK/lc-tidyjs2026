@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { TextControl, TextareaControl } from '@wordpress/components';
 import EditorBlockShell from '../../_shared/EditorBlockShell';
 
@@ -24,31 +24,49 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				value={ step1Title }
 				onChange={ ( value ) => setAttributes( { step1Title: value } ) }
 			/>
-			<TextControl
-				label={ __( 'Step 1 Content', 'lc-tidyjs2026' ) }
-				value={ step1Content }
-				onChange={ ( value ) => setAttributes( { step1Content: value } ) }
-			/>
+			<div className="lc-tidyjs2026-editor-field">
+				<label className="lc-tidyjs2026-editor-field__label">{ __( 'Step 1 Content', 'lc-tidyjs2026' ) }</label>
+				<RichText
+					tagName="div"
+					className="lc-tidyjs2026-editor-field__control"
+					aria-label={ __( 'Step 1 Content', 'lc-tidyjs2026' ) }
+					placeholder={ __( 'Step 1 Content', 'lc-tidyjs2026' ) }
+					value={ step1Content }
+					onChange={ ( value ) => setAttributes( { step1Content: value } ) }
+				/>
+			</div>
 			<TextControl
 				label={ __( 'Step 2 Title', 'lc-tidyjs2026' ) }
 				value={ step2Title }
 				onChange={ ( value ) => setAttributes( { step2Title: value } ) }
 			/>
-			<TextControl
-				label={ __( 'Step 2 Content', 'lc-tidyjs2026' ) }
-				value={ step2Content }
-				onChange={ ( value ) => setAttributes( { step2Content: value } ) }
-			/>
+			<div className="lc-tidyjs2026-editor-field">
+				<label className="lc-tidyjs2026-editor-field__label">{ __( 'Step 2 Content', 'lc-tidyjs2026' ) }</label>
+				<RichText
+					tagName="div"
+					className="lc-tidyjs2026-editor-field__control"
+					aria-label={ __( 'Step 2 Content', 'lc-tidyjs2026' ) }
+					placeholder={ __( 'Step 2 Content', 'lc-tidyjs2026' ) }
+					value={ step2Content }
+					onChange={ ( value ) => setAttributes( { step2Content: value } ) }
+				/>
+			</div>
 			<TextControl
 				label={ __( 'Step 3 Title', 'lc-tidyjs2026' ) }
 				value={ step3Title }
 				onChange={ ( value ) => setAttributes( { step3Title: value } ) }
 			/>
-			<TextControl
-				label={ __( 'Step 3 Content', 'lc-tidyjs2026' ) }
-				value={ step3Content }
-				onChange={ ( value ) => setAttributes( { step3Content: value } ) }
-			/>
+			<div className="lc-tidyjs2026-editor-field">
+				<label className="lc-tidyjs2026-editor-field__label">{ __( 'Step 3 Content', 'lc-tidyjs2026' ) }</label>
+				<RichText
+					tagName="div"
+					className="lc-tidyjs2026-editor-field__control"
+					aria-label={ __( 'Step 3 Content', 'lc-tidyjs2026' ) }
+					placeholder={ __( 'Step 3 Content', 'lc-tidyjs2026' ) }
+					value={ step3Content }
+					onChange={ ( value ) => setAttributes( { step3Content: value } ) }
+				/>
+			</div>
 			<TextControl
 				label={ __( 'Highlight', 'lc-tidyjs2026' ) }
 				value={ highlight }
