@@ -499,12 +499,12 @@ function lc_tidyjs2026_render_blog_collection_schema() {
 	}
 
 	$schema = array(
-		'@context' => 'https://schema.org',
-		'@type'    => 'CollectionPage',
-		'@id'      => get_permalink( $page_id ) . '#webpage',
-		'url'      => $url,
-		'name'     => wp_strip_all_tags( get_the_title( $page_id ) ),
-		'about'    => array( '@id' => home_url( '/#organization' ) ),
+		'@type'      => 'CollectionPage',
+		'@id'        => get_permalink( $page_id ) . '#webpage',
+		'url'        => $url,
+		'name'       => wp_strip_all_tags( get_the_title( $page_id ) ),
+		'about'      => array( '@id' => home_url( '/#organization' ) ),
+		'breadcrumb' => array( '@id' => get_permalink( $page_id ) . '#breadcrumb' ),
 	);
 
 	if ( function_exists( 'lcp_yeast_seo_current_og_description' ) ) {
@@ -522,7 +522,33 @@ function lc_tidyjs2026_render_blog_collection_schema() {
 		'itemListElement' => $items,
 	);
 
-	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode() output.
+	// Home > Guides, always ending at the main Guides page (paginated
+	// views share it rather than adding a "Page 2" crumb).
+	$breadcrumb = array(
+		'@type'           => 'BreadcrumbList',
+		'@id'             => get_permalink( $page_id ) . '#breadcrumb',
+		'itemListElement' => array(
+			array(
+				'@type'    => 'ListItem',
+				'position' => 1,
+				'name'     => __( 'Home', 'lc-tidyjs2026' ),
+				'item'     => home_url( '/' ),
+			),
+			array(
+				'@type'    => 'ListItem',
+				'position' => 2,
+				'name'     => wp_strip_all_tags( get_the_title( $page_id ) ),
+				'item'     => get_permalink( $page_id ),
+			),
+		),
+	);
+
+	$graph = array(
+		'@context' => 'https://schema.org',
+		'@graph'   => array( $schema, $breadcrumb ),
+	);
+
+	echo '<script type="application/ld+json">' . wp_json_encode( $graph, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode() output.
 }
 
 /**
