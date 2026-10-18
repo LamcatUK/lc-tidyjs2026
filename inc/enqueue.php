@@ -9,20 +9,44 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Load fontawesome.min.css non-render-blocking via the standard
+ * Whether a stylesheet handle is non-critical, i.e. safe to load without
+ * blocking first paint. Matches exact handles or, for plugins that suffix a
+ * hash/ID onto theirs, a handle prefix.
+ *
+ * - fontawesome: only affects icon glyphs.
+ * - swiper-style: the review/latest-guides sliders sit below the fold.
+ * - contact-form-7: validation/ajax-state styling only, no layout.
+ * - trustindex-widget-css-*: the Google reviews widget, below the fold.
+ *
+ * theme.min.css stays render-blocking deliberately (below), and the
+ * Complianz banner stylesheets are left alone — they belong to the cookie
+ * banner, which must not flash unstyled.
+ *
+ * @param string $handle Style handle.
+ * @return bool
+ */
+function lc_tidyjs2026_is_deferred_style( $handle ) {
+	$exact = array( 'fontawesome', 'swiper-style', 'contact-form-7' );
+
+	return in_array( $handle, $exact, true ) || 0 === strpos( $handle, 'trustindex-widget-css' );
+}
+
+/**
+ * Load non-critical stylesheets non-render-blocking via the standard
  * preload-then-swap technique, with a <noscript> fallback for JS-disabled
  * browsers. theme.min.css stays render-blocking deliberately — it defines
  * layout/colour for the whole page, and this Grid-based theme doesn't
- * tolerate a flash of unstyled content well — but fontawesome.min.css only
- * affects icon glyphs, so icons rendering a beat late is an acceptable
- * trade for taking ~25KB out of the critical rendering path on every page.
+ * tolerate a flash of unstyled content well — but the stylesheets matched
+ * by lc_tidyjs2026_is_deferred_style() only affect things below the fold or
+ * cosmetic states, so loading them a beat late takes them out of the
+ * critical rendering path on every page that uses them.
  *
  * @param string $html   Existing <link> tag markup.
  * @param string $handle Style handle being filtered.
  * @return string
  */
-function lc_tidyjs2026_defer_fontawesome_css( $html, $handle ) {
-	if ( 'fontawesome' !== $handle ) {
+function lc_tidyjs2026_defer_noncritical_css( $html, $handle ) {
+	if ( ! lc_tidyjs2026_is_deferred_style( $handle ) ) {
 		return $html;
 	}
 
@@ -34,7 +58,7 @@ function lc_tidyjs2026_defer_fontawesome_css( $html, $handle ) {
 
 	return $preload . '<noscript>' . $html . '</noscript>';
 }
-add_filter( 'style_loader_tag', 'lc_tidyjs2026_defer_fontawesome_css', 10, 2 );
+add_filter( 'style_loader_tag', 'lc_tidyjs2026_defer_noncritical_css', 10, 2 );
 
 /**
  * Enqueue theme.min.css.
