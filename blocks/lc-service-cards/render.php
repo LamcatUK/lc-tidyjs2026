@@ -50,7 +50,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 				<?php } ?>
 					<?php if ( $icon_url ) { ?>
 					<div class="service-card__icon-wrapper">
-						<img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $svc_title ); ?>" class="service-card__icon" loading="lazy">
+						<img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $svc_title ); ?>" class="service-card__icon" width="98" height="76" loading="lazy">
 					</div>
 					<?php } ?>
 					<h3 class="service-card__title has-600-font-size has-white-color"><?php echo esc_html( $svc_title ); ?></h3>

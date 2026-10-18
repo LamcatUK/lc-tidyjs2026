@@ -2527,6 +2527,7 @@ article[class] h2[id] {
   right: 0;
   top: 50%;
   height: 110%;
+  width: auto;
   pointer-events: none;
   z-index: -1;
   opacity: 0;

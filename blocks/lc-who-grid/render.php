@@ -30,7 +30,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'who-grid'
 			<<?php echo esc_attr( $tag ); ?> class="who-grid__item" <?php echo $link_url ? 'href="' . esc_url( $link_url ) . '"' : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_url() above. ?>>
 				<?php if ( $icon_url ) { ?>
 				<div class="who-grid__icon-wrapper">
-					<img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $item_title ); ?>" class="who-grid__icon" loading="lazy">
+					<img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $item_title ); ?>" class="who-grid__icon" width="98" height="76" loading="lazy">
 				</div>
 				<?php } ?>
 				<h3 class="who-grid__item-title has-600-font-size mb-0"><?php echo esc_html( $item_title ); ?></h3>

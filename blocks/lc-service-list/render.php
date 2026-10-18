@@ -29,7 +29,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'service-l
 			<a class="service-list__item" href="<?php echo esc_url( $link_url ); ?>">
 				<?php if ( $icon_url ) { ?>
 				<div class="service-list__icon-wrapper">
-					<img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $link_title ); ?>" class="service-list__icon" loading="lazy">
+					<img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $link_title ); ?>" class="service-list__icon" width="98" height="76" loading="lazy">
 				</div>
 				<?php } ?>
 				<div class="service-list__text">

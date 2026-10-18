@@ -25,7 +25,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'benefits 
 			<div class="benefit" data-reveal="fade" data-reveal-delay="<?php echo esc_attr( ( $index + 1 ) * 200 ); ?>">
 				<?php if ( $icon_url ) { ?>
 				<div class="benefit__icon-wrapper">
-					<img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $b_title ); ?>" class="benefit__icon" loading="lazy">
+					<img src="<?php echo esc_url( $icon_url ); ?>" alt="<?php echo esc_attr( $b_title ); ?>" class="benefit__icon" width="98" height="76" loading="lazy">
 				</div>
 				<?php } ?>
 				<h3 class="benefit__title has-600-font-size has-white-color"><?php echo esc_html( $b_title ); ?></h3>
