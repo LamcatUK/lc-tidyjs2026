@@ -31,7 +31,10 @@ while ( have_posts() ) {
 				<article <?php post_class(); ?>>
 					<h1><?php the_title(); ?></h1>
 					<ul class="single-meta">
-						<li class="single-meta__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i> <?php echo esc_html( get_the_date() ); ?></li>
+						<li class="single-meta__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i> <time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time></li>
+						<?php if ( get_the_modified_date( 'Y-m-d' ) !== get_the_date( 'Y-m-d' ) ) { ?>
+						<li class="single-meta__item"><i class="fa-solid fa-rotate" aria-hidden="true"></i> <?php esc_html_e( 'Updated', 'lc-tidyjs2026' ); ?> <time datetime="<?php echo esc_attr( get_the_modified_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_modified_date() ); ?></time></li>
+						<?php } ?>
 						<li class="single-meta__item"><i class="fa-solid fa-user" aria-hidden="true"></i> <?php esc_html_e( 'Tidy Solutions', 'lc-tidyjs2026' ); ?></li>
 						<li class="single-meta__item"><i class="fa-solid fa-clock" aria-hidden="true"></i> <?php echo esc_html( lc_tidyjs2026_reading_time( $toc['content'] ) ); ?> <?php esc_html_e( 'min read', 'lc-tidyjs2026' ); ?></li>
 					</ul>

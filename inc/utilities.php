@@ -592,7 +592,7 @@ function lc_tidyjs2026_render_post_card() {
 		<?php } ?>
 		<span class="related-post-card__title"><?php the_title(); ?></span>
 		<span class="related-post-card__meta">
-			<span class="related-post-card__meta-item"><i class="fa-solid fa-calendar" aria-hidden="true"></i> <?php echo esc_html( get_the_date() ); ?></span>
+			<span class="related-post-card__meta-item"><i class="fa-solid fa-calendar" aria-hidden="true"></i> <time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time></span>
 			<span class="related-post-card__meta-item"><i class="fa-solid fa-clock" aria-hidden="true"></i> <?php echo esc_html( $minutes ); ?> <?php esc_html_e( 'min read', 'lc-tidyjs2026' ); ?></span>
 		</span>
 		<span class="related-post-card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 18 ) ); ?></span>
