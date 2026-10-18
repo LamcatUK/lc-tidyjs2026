@@ -599,3 +599,38 @@ function lc_tidyjs2026_render_post_card() {
 	</a>
 	<?php
 }
+
+/**
+ * Format a byte count for display next to a download link — whole kb,
+ * switching to 1dp Mb at 1MB+ ("235kb", "1.2Mb").
+ *
+ * @param int $bytes Byte count.
+ * @return string
+ */
+function lc_tidyjs2026_format_file_size( $bytes ) {
+	$bytes = (int) $bytes;
+
+	if ( $bytes >= 1048576 ) {
+		return rtrim( rtrim( number_format( $bytes / 1048576, 1 ), '0' ), '.' ) . 'Mb';
+	}
+
+	return round( $bytes / 1024 ) . 'kb';
+}
+
+/**
+ * Uppercase file extension for an attachment, read straight off the real
+ * file path — deliberately not wp_check_filetype(), which only recognises
+ * WordPress's allowed-uploads list and returns blank for anything else.
+ *
+ * @param int $attachment_id Attachment ID.
+ * @return string e.g. "PDF", "XHTML", or "" when unresolvable.
+ */
+function lc_tidyjs2026_get_attachment_ext( $attachment_id ) {
+	$path = get_attached_file( (int) $attachment_id );
+
+	if ( ! $path ) {
+		return '';
+	}
+
+	return strtoupper( pathinfo( $path, PATHINFO_EXTENSION ) );
+}
