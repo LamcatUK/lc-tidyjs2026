@@ -393,7 +393,13 @@ function lc_tidyjs2026_get_breadcrumbs( $post_id = 0 ) {
 }
 
 /**
- * Render breadcrumb markup with schema metadata.
+ * Render breadcrumb markup, plus the matching BreadcrumbList JSON-LD.
+ *
+ * The schema is JSON-LD (same format as the rest of the site's structured
+ * data) rather than microdata on the <nav>, and is printed once per
+ * request even if two breadcrumb renders land on the same page. The
+ * current page's own item has no stored URL, so it falls back to the
+ * queried object's permalink.
  *
  * @param array  $breadcrumbs Breadcrumb items.
  * @param string $class_name  Wrapper class name.
@@ -403,27 +409,58 @@ function lc_tidyjs2026_get_breadcrumbs( $post_id = 0 ) {
  * @return void
  */
 function lc_tidyjs2026_render_breadcrumbs( $breadcrumbs, $class_name = 'lc-breadcrumbs', $extra_attrs = '' ) {
+	static $schema_printed = false;
+
 	if ( empty( $breadcrumbs ) || ! is_array( $breadcrumbs ) || is_front_page() ) {
 		return;
 	}
 	?>
-	<nav class="<?php echo esc_attr( $class_name ); ?>" aria-label="Breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" <?php echo $extra_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- caller's responsibility, documented above. ?>>
+	<nav class="<?php echo esc_attr( $class_name ); ?>" aria-label="Breadcrumb" <?php echo $extra_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- caller's responsibility, documented above. ?>>
 		<div class="container">
 			<ol class="lc-breadcrumbs__list">
-				<?php foreach ( $breadcrumbs as $index => $breadcrumb ) { ?>
-					<li class="lc-breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+				<?php foreach ( $breadcrumbs as $breadcrumb ) { ?>
+					<li class="lc-breadcrumbs__item">
 						<?php if ( ! empty( $breadcrumb['url'] ) ) { ?>
-							<a href="<?php echo esc_url( $breadcrumb['url'] ); ?>" itemprop="item"><span itemprop="name"><?php echo esc_html( $breadcrumb['label'] ); ?></span></a>
+							<a href="<?php echo esc_url( $breadcrumb['url'] ); ?>"><?php echo esc_html( $breadcrumb['label'] ); ?></a>
 						<?php } else { ?>
-							<span itemprop="name" aria-current="page"><?php echo esc_html( $breadcrumb['label'] ); ?></span>
+							<span aria-current="page"><?php echo esc_html( $breadcrumb['label'] ); ?></span>
 						<?php } ?>
-						<meta itemprop="position" content="<?php echo esc_attr( $index + 1 ); ?>">
 					</li>
 				<?php } ?>
 			</ol>
 		</div>
 	</nav>
 	<?php
+	if ( $schema_printed ) {
+		return;
+	}
+
+	$schema_printed = true;
+	$current_url    = is_singular() ? get_permalink( get_queried_object_id() ) : '';
+	$list_items     = array();
+
+	foreach ( array_values( $breadcrumbs ) as $index => $breadcrumb ) {
+		$item_url = ! empty( $breadcrumb['url'] ) ? $breadcrumb['url'] : $current_url;
+		$entry    = array(
+			'@type'    => 'ListItem',
+			'position' => $index + 1,
+			'name'     => wp_strip_all_tags( $breadcrumb['label'] ),
+		);
+
+		if ( $item_url ) {
+			$entry['item'] = $item_url;
+		}
+
+		$list_items[] = $entry;
+	}
+
+	$schema = array(
+		'@context'        => 'https://schema.org',
+		'@type'           => 'BreadcrumbList',
+		'itemListElement' => $list_items,
+	);
+
+	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode() output.
 }
 
 /**
