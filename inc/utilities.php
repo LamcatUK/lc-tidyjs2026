@@ -464,6 +464,68 @@ function lc_tidyjs2026_render_breadcrumbs( $breadcrumbs, $class_name = 'lc-bread
 }
 
 /**
+ * Print CollectionPage JSON-LD for the blog index ("Guides"), built from
+ * the posts actually in the current loop so it updates itself as guides
+ * are added, removed or paginated — no per-page schema to maintain.
+ *
+ * Names and URLs come from the main query; the description reuses the
+ * Posts page's Yeast SEO meta description when the plugin is active, and
+ * is omitted otherwise. Item positions continue across pagination pages.
+ *
+ * @return void
+ */
+function lc_tidyjs2026_render_blog_collection_schema() {
+	global $wp_query;
+
+	$page_id = (int) get_option( 'page_for_posts' );
+
+	if ( ! $page_id || empty( $wp_query->posts ) ) {
+		return;
+	}
+
+	$paged    = max( 1, (int) get_query_var( 'paged' ) );
+	$per_page = max( 1, (int) get_query_var( 'posts_per_page' ) );
+	$offset   = ( $paged - 1 ) * $per_page;
+	$url      = $paged > 1 ? get_pagenum_link( $paged ) : get_permalink( $page_id );
+	$items    = array();
+
+	foreach ( $wp_query->posts as $index => $post ) {
+		$items[] = array(
+			'@type'    => 'ListItem',
+			'position' => $offset + $index + 1,
+			'name'     => wp_strip_all_tags( get_the_title( $post ) ),
+			'url'      => get_permalink( $post ),
+		);
+	}
+
+	$schema = array(
+		'@context' => 'https://schema.org',
+		'@type'    => 'CollectionPage',
+		'@id'      => get_permalink( $page_id ) . '#webpage',
+		'url'      => $url,
+		'name'     => wp_strip_all_tags( get_the_title( $page_id ) ),
+		'about'    => array( '@id' => home_url( '/#organization' ) ),
+	);
+
+	if ( function_exists( 'lcp_yeast_seo_current_og_description' ) ) {
+		$description = trim( (string) lcp_yeast_seo_current_og_description() );
+
+		if ( '' !== $description ) {
+			$schema['description'] = $description;
+		}
+	}
+
+	$schema['mainEntity'] = array(
+		'@type'           => 'ItemList',
+		'@id'             => get_permalink( $page_id ) . '#postlist',
+		'numberOfItems'   => count( $items ),
+		'itemListElement' => $items,
+	);
+
+	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode() output.
+}
+
+/**
  * Extract an in-page table of contents from rendered HTML, injecting an
  * `id` onto each matched heading so the returned items' anchors actually
  * resolve. Ids are slugified from the heading text and de-duplicated

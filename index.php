@@ -18,6 +18,10 @@ if ( is_home() && ! is_front_page() ) {
 	}
 }
 
+if ( is_home() && ! is_front_page() ) {
+	lc_tidyjs2026_render_blog_collection_schema();
+}
+
 if ( have_posts() ) {
 	?>
 	<div class="container pb-5">
