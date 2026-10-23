@@ -114,11 +114,22 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 										value={ row[ `${ field.name }Text` ] || '' }
 										onChange={ ( v ) => updateRow( index, { [ `${ field.name }Text` ]: v } ) }
 									/>
-									<SiteUrlInput
-										placeholder={ isColumn ? undefined : __( `${ field.label } URL`, 'lc-tidyjs2026' ) }
-										value={ row[ field.name ] || '' }
-										onChange={ ( v ) => updateRow( index, { [ field.name ]: v } ) }
-									/>
+									<div className="lc-tidyjs2026-repeater-field__url">
+										<label
+											className={
+												isColumn
+													? 'lc-tidyjs2026-editor-field__label'
+													: 'lc-tidyjs2026-repeater-field__sr-only'
+											}
+										>
+											{ __( `${ field.label } URL`, 'lc-tidyjs2026' ) }
+										</label>
+										<SiteUrlInput
+											placeholder={ isColumn ? undefined : __( `${ field.label } URL`, 'lc-tidyjs2026' ) }
+											value={ row[ field.name ] || '' }
+											onChange={ ( v ) => updateRow( index, { [ field.name ]: v } ) }
+										/>
+									</div>
 									{ field.help && <p className="lc-tidyjs2026-editor-field__help">{ field.help }</p> }
 									{ field.linkTarget && (
 										<ToggleControl

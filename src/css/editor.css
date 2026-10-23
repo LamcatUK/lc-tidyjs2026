@@ -442,3 +442,32 @@
 	padding: 0;
 	margin: 0;
 }
+
+/* The link URL's label in the inline row layout: kept for screen readers, not shown (the placeholder says it). */
+.lc-tidyjs2026-repeater-field__sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/*
+ * The link URL field (label + SiteUrlInput) lines up with its neighbouring
+ * TextControl. The input already matches; the label needs core's own
+ * BaseControl label type (system font, 11px), since the theme's body font
+ * and root size are inherited into the editor canvas.
+ */
+.lc-tidyjs2026-repeater-field__url {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.lc-tidyjs2026-repeater-field__url > .lc-tidyjs2026-editor-field__label {
+	margin: 0;
+	font-family: -apple-system, system-ui, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 1.4;
+}

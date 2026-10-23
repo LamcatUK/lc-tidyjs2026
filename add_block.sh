@@ -208,6 +208,7 @@ echo "Created: ${block_dir}/src/index.js"
 # ---------------------------------------------------------------------------
 need_richtext=0
 need_media=0
+need_siteurl=0
 need_textcontrol=0
 need_textareacontrol=0
 need_selectcontrol=0
@@ -217,12 +218,14 @@ need_button=0
 for i in "${!field_types[@]}"; do
   type="${field_types[$i]}"
   case "$type" in
-    text|url|number) need_textcontrol=1 ;;
+    text|number) need_textcontrol=1 ;;
+    url) need_siteurl=1 ;;
     textarea) need_textareacontrol=1 ;;
     richtext) need_richtext=1 ;;
     image) need_media=1 ;;
     link)
       need_textcontrol=1
+      need_siteurl=1
       [ "${field_link_targets[$i]}" = "1" ] && need_togglecontrol=1
       ;;
     select) need_selectcontrol=1 ;;
@@ -275,7 +278,10 @@ for i in "${!field_names[@]}"; do
   [ -n "$help" ] && help_para="\n\t\t\t\t<p className=\"lc-tidyjs2026-editor-field__help\">{ __( '${help}', '${theme_slug}' ) }</p>"
 
   case "$type" in
-    text|url)
+    url)
+      field_html+=("\t\t\t<div className=\"lc-tidyjs2026-editor-field\">\n\t\t\t\t<label className=\"lc-tidyjs2026-editor-field__label\">{ __( '${label}', '${theme_slug}' ) }</label>\n\t\t\t\t<SiteUrlInput\n\t\t\t\t\tvalue={ ${name} }\n\t\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}: value } ) }\n\t\t\t\t/>${help_para}\n\t\t\t</div>\n")
+      ;;
+    text)
       field_html+=("\t\t\t<TextControl\n\t\t\t\tlabel={ __( '${label}', '${theme_slug}' ) }\n\t\t\t\tvalue={ ${name} }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}: value } ) }${help_attr}\n\t\t\t/>\n")
       ;;
     number)
@@ -303,7 +309,7 @@ for i in "${!field_names[@]}"; do
       field_html+=("\t\t\t<div className=\"lc-tidyjs2026-editor-field\">\n\t\t\t\t<label className=\"lc-tidyjs2026-editor-field__label\">{ __( '${label}', '${theme_slug}' ) }</label>\n\t\t\t\t<ImagePicker\n\t\t\t\t\tid={ ${name}Id }\n\t\t\t\t\turl={ ${name}Url }\n\t\t\t\t\tsize={ 200 }\n\t\t\t\t\tonSelect={ ( media ) =>\n\t\t\t\t\t\tsetAttributes( {\n\t\t\t\t\t\t\t${name}Id: media.id,\n\t\t\t\t\t\t\t${name}Url: media.url,\n\t\t\t\t\t\t\t${name}Alt: media.alt || '',\n\t\t\t\t\t\t} )\n\t\t\t\t\t}\n\t\t\t\t\tonRemove={ () => setAttributes( { ${name}Id: 0, ${name}Url: '', ${name}Alt: '' } ) }\n\t\t\t\t/>${help_para}\n\t\t\t</div>\n")
       ;;
     link)
-      link_html="\t\t\t<TextControl\n\t\t\t\tlabel={ __( '${label} Text', '${theme_slug}' ) }\n\t\t\t\tvalue={ ${name}Text }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}Text: value } ) }\n\t\t\t/>\n\t\t\t<TextControl\n\t\t\t\ttype=\"url\"\n\t\t\t\tlabel={ __( '${label} URL', '${theme_slug}' ) }\n\t\t\t\tvalue={ ${name}Url }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}Url: value } ) }${help_attr}\n\t\t\t/>\n"
+      link_html="\t\t\t<TextControl\n\t\t\t\tlabel={ __( '${label} Text', '${theme_slug}' ) }\n\t\t\t\tvalue={ ${name}Text }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}Text: value } ) }\n\t\t\t/>\n\t\t\t<div className=\"lc-tidyjs2026-editor-field\">\n\t\t\t\t<label className=\"lc-tidyjs2026-editor-field__label\">{ __( '${label} URL', '${theme_slug}' ) }</label>\n\t\t\t\t<SiteUrlInput\n\t\t\t\t\tvalue={ ${name}Url }\n\t\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}Url: value } ) }\n\t\t\t\t/>${help_para}\n\t\t\t</div>\n"
       if [ "${field_link_targets[$i]}" = "1" ]; then
         link_html+="\t\t\t<ToggleControl\n\t\t\t\tlabel={ __( 'Open ${label} in a new tab', '${theme_slug}' ) }\n\t\t\t\tchecked={ ${name}Target }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}Target: value } ) }\n\t\t\t/>\n"
       fi
@@ -343,6 +349,7 @@ done
   echo "import { ${blockeditor_imports} } from '@wordpress/block-editor';"
   [ -n "$components_import_line" ] && echo "import { ${components_import_line} } from '@wordpress/components';"
   echo "import EditorBlockShell from '../../_shared/EditorBlockShell';"
+  [ "$need_siteurl" = "1" ] && echo "import SiteUrlInput from '../../_shared/SiteUrlInput';"
   [ "$need_media" = "1" ] && echo "import ImagePicker from '../../_shared/ImagePicker';"
   echo ""
   echo "export default function Edit( { attributes, setAttributes, clientId } ) {"
