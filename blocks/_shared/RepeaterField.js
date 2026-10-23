@@ -1,6 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import { MediaUpload, MediaUploadCheck, RichText } from '@wordpress/block-editor';
 import { TextControl, TextareaControl, ToggleControl, Button, RadioControl } from '@wordpress/components';
+import useRowMotion from './useRowMotion';
+import ImagePicker from './ImagePicker';
+import SiteUrlInput from './SiteUrlInput';
 
 /**
  * Generic repeater UI for a block attribute holding an array of row objects.
@@ -46,29 +49,14 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 		onChange( next );
 	}
 
-	function addRow() {
-		onChange( [ ...rows, { ...emptyRow } ] );
-	}
+	const { keys, setRowRef, movedKey, addRow, moveRow, removeRow } = useRowMotion( rows, onChange );
 
-	function removeRow( index ) {
+	function confirmRemove( index ) {
 		// eslint-disable-next-line no-alert -- a plain confirm() is enough
 		// friction for an irreversible remove; no undo exists for this field.
-		if ( ! window.confirm( __( 'Remove this row?', 'lc-tidyjs2026' ) ) ) {
-			return;
+		if ( window.confirm( __( 'Remove this row?', 'lc-tidyjs2026' ) ) ) {
+			removeRow( index );
 		}
-		onChange( rows.filter( ( _row, i ) => i !== index ) );
-	}
-
-	function moveRow( index, direction ) {
-		const target = index + direction;
-		if ( target < 0 || target >= rows.length ) {
-			return;
-		}
-		const next = rows.slice();
-		const tmp = next[ index ];
-		next[ index ] = next[ target ];
-		next[ target ] = tmp;
-		onChange( next );
 	}
 
 	return (
@@ -82,7 +70,11 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 			<label className="lc-tidyjs2026-editor-field__label">{ label }</label>
 			<div className="lc-tidyjs2026-repeater-field__rows">
 			{ rows.map( ( row, index ) => (
-				<div className="lc-tidyjs2026-repeater-field__row" key={ index }>
+				<div
+					className={ 'lc-tidyjs2026-repeater-field__row' + ( keys[ index ] === movedKey ? ' is-moved' : '' ) }
+					key={ keys[ index ] }
+					ref={ setRowRef( keys[ index ] ) }
+				>
 					<span className="lc-tidyjs2026-repeater-field__number">{ index + 1 }</span>
 					{ fields.map( ( field ) => {
 						if ( 'image' === field.type ) {
@@ -91,30 +83,23 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 									{ isColumn && (
 										<label className="lc-tidyjs2026-editor-field__label">{ field.label }</label>
 									) }
-									<MediaUploadCheck>
-									<MediaUpload
+									<ImagePicker
+										id={ row[ field.name ] }
+										url={ row[ `${ field.name }Url` ] }
+										size={ 60 }
 										onSelect={ ( media ) =>
 											updateRow( index, {
 												[ field.name ]: media.id,
 												[ `${ field.name }Url` ]: media.url,
 											} )
 										}
-										allowedTypes={ [ 'image' ] }
-										value={ row[ field.name ] }
-										render={ ( { open } ) => (
-											<div className="lc-tidyjs2026-repeater-field__image">
-												{ row[ `${ field.name }Url` ] && (
-													<img src={ row[ `${ field.name }Url` ] } alt="" />
-												) }
-												<Button variant="secondary" size="small" onClick={ open }>
-													{ row[ field.name ]
-														? __( 'Replace', 'lc-tidyjs2026' )
-														: __( 'Select', 'lc-tidyjs2026' ) }
-												</Button>
-											</div>
-										) }
+										onRemove={ () =>
+											updateRow( index, {
+												[ field.name ]: 0,
+												[ `${ field.name }Url` ]: '',
+											} )
+										}
 									/>
-									</MediaUploadCheck>
 								</div>
 							);
 						}
@@ -129,15 +114,12 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 										value={ row[ `${ field.name }Text` ] || '' }
 										onChange={ ( v ) => updateRow( index, { [ `${ field.name }Text` ]: v } ) }
 									/>
-									<TextControl
-										type="url"
-										label={ __( `${ field.label } URL`, 'lc-tidyjs2026' ) }
-										hideLabelFromVision={ ! isColumn }
+									<SiteUrlInput
 										placeholder={ isColumn ? undefined : __( `${ field.label } URL`, 'lc-tidyjs2026' ) }
 										value={ row[ field.name ] || '' }
 										onChange={ ( v ) => updateRow( index, { [ field.name ]: v } ) }
-										help={ field.help }
 									/>
+									{ field.help && <p className="lc-tidyjs2026-editor-field__help">{ field.help }</p> }
 									{ field.linkTarget && (
 										<ToggleControl
 											label={ __( `Open ${ field.label } in a new tab`, 'lc-tidyjs2026' ) }
@@ -261,6 +243,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 					<div className="lc-tidyjs2026-repeater-field__row-actions">
 						<Button
 							size="small"
+							data-move="up"
 							label={ __( 'Move up', 'lc-tidyjs2026' ) }
 							onClick={ () => moveRow( index, -1 ) }
 							disabled={ 0 === index }
@@ -269,6 +252,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 						</Button>
 						<Button
 							size="small"
+							data-move="down"
 							label={ __( 'Move down', 'lc-tidyjs2026' ) }
 							onClick={ () => moveRow( index, 1 ) }
 							disabled={ index === rows.length - 1 }
@@ -279,7 +263,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 							size="small"
 							isDestructive
 							label={ __( 'Remove', 'lc-tidyjs2026' ) }
-							onClick={ () => removeRow( index ) }
+							onClick={ () => confirmRemove( index ) }
 						>
 							&times;
 						</Button>
@@ -287,7 +271,7 @@ export default function RepeaterField( { label, value, onChange, fields, emptyRo
 				</div>
 			) ) }
 			</div>
-			<Button variant="primary" onClick={ addRow }>
+			<Button variant="primary" onClick={ () => addRow( emptyRow ) }>
 				{ __( 'Add row', 'lc-tidyjs2026' ) }
 			</Button>
 		</div>

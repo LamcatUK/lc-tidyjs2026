@@ -210,6 +210,13 @@ blocks/                 One directory per block (add_block.sh scaffolds here)
                         Renders its own add/move-up/move-down/remove controls — no native Gutenberg UI
                         exists for this outside InnerBlocks. Matching CSS in src/css/editor.css
                         (.lc-tidyjs2026-repeater-field*).
+    ImagePicker.js       Single media-library image: thumbnail + Select/Replace + Remove. Takes `id`, `url`,
+                        `onSelect( media )`, `onRemove()`, `size`. RepeaterField's image fields and
+                        add_block.sh's image fields use it.
+    useMediaUrl.js       Looks a thumbnail URL up from a media ID when the block stored none (imported content).
+    SiteUrlInput.js      Core's URLInput typeahead (pages/posts) with the popover fix (suggestions only while the
+                        field is focused) and same-site URLs stored root-relative. RepeaterField's link URL uses it.
+    useRowMotion.js      Stable row keys + slide/highlight on move for RepeaterField (CSS: .is-moved in editor.css).
     PostTypePicker.js    Generic single-post picker — the block-editor equivalent of ACF's single
                         `post_object` field (`return_format: object`). Search-as-you-type via
                         `ComboboxControl`, backed by `@wordpress/core-data` rather than a custom REST

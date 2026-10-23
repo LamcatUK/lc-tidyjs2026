@@ -220,7 +220,7 @@ for i in "${!field_types[@]}"; do
     text|url|number) need_textcontrol=1 ;;
     textarea) need_textareacontrol=1 ;;
     richtext) need_richtext=1 ;;
-    image) need_media=1; need_button=1 ;;
+    image) need_media=1 ;;
     link)
       need_textcontrol=1
       [ "${field_link_targets[$i]}" = "1" ] && need_togglecontrol=1
@@ -232,7 +232,6 @@ done
 
 blockeditor_imports="useBlockProps"
 [ "$need_richtext" = "1" ] && blockeditor_imports="${blockeditor_imports}, RichText"
-[ "$need_media" = "1" ] && blockeditor_imports="${blockeditor_imports}, MediaUpload, MediaUploadCheck"
 
 components_imports=()
 [ "$need_textcontrol" = "1" ] && components_imports+=("TextControl")
@@ -301,7 +300,7 @@ for i in "${!field_names[@]}"; do
       field_html+=("\t\t\t<SelectControl\n\t\t\t\tlabel={ __( '${label}', '${theme_slug}' ) }\n\t\t\t\tvalue={ ${name} }\n\t\t\t\toptions={ [\n\t\t\t\t\t{ label: '', value: '' },\n$(printf "%b" "$options_js")\t\t\t\t] }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}: value } ) }${help_attr}\n\t\t\t/>\n")
       ;;
     image)
-      field_html+=("\t\t\t<div className=\"lc-tidyjs2026-editor-field\">\n\t\t\t\t<label className=\"lc-tidyjs2026-editor-field__label\">{ __( '${label}', '${theme_slug}' ) }</label>\n\t\t\t\t<MediaUploadCheck>\n\t\t\t\t\t<MediaUpload\n\t\t\t\t\t\tonSelect={ ( media ) =>\n\t\t\t\t\t\t\tsetAttributes( {\n\t\t\t\t\t\t\t\t${name}Id: media.id,\n\t\t\t\t\t\t\t\t${name}Url: media.url,\n\t\t\t\t\t\t\t\t${name}Alt: media.alt || '',\n\t\t\t\t\t\t\t} )\n\t\t\t\t\t\t}\n\t\t\t\t\t\tallowedTypes={ [ 'image' ] }\n\t\t\t\t\t\tvalue={ ${name}Id }\n\t\t\t\t\t\trender={ ( { open } ) => (\n\t\t\t\t\t\t\t<div className=\"lc-tidyjs2026-editor-field__control\">\n\t\t\t\t\t\t\t\t{ ${name}Url && (\n\t\t\t\t\t\t\t\t\t<img\n\t\t\t\t\t\t\t\t\t\tsrc={ ${name}Url }\n\t\t\t\t\t\t\t\t\t\talt={ ${name}Alt }\n\t\t\t\t\t\t\t\t\t\tstyle={ { maxWidth: '200px', display: 'block', marginBottom: '8px' } }\n\t\t\t\t\t\t\t\t\t/>\n\t\t\t\t\t\t\t\t) }\n\t\t\t\t\t\t\t\t<Button variant=\"secondary\" onClick={ open }>\n\t\t\t\t\t\t\t\t\t{ ${name}Url ? __( 'Replace ${label}', '${theme_slug}' ) : __( 'Select ${label}', '${theme_slug}' ) }\n\t\t\t\t\t\t\t\t</Button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t) }\n\t\t\t\t\t/>\n\t\t\t\t</MediaUploadCheck>${help_para}\n\t\t\t</div>\n")
+      field_html+=("\t\t\t<div className=\"lc-tidyjs2026-editor-field\">\n\t\t\t\t<label className=\"lc-tidyjs2026-editor-field__label\">{ __( '${label}', '${theme_slug}' ) }</label>\n\t\t\t\t<ImagePicker\n\t\t\t\t\tid={ ${name}Id }\n\t\t\t\t\turl={ ${name}Url }\n\t\t\t\t\tsize={ 200 }\n\t\t\t\t\tonSelect={ ( media ) =>\n\t\t\t\t\t\tsetAttributes( {\n\t\t\t\t\t\t\t${name}Id: media.id,\n\t\t\t\t\t\t\t${name}Url: media.url,\n\t\t\t\t\t\t\t${name}Alt: media.alt || '',\n\t\t\t\t\t\t} )\n\t\t\t\t\t}\n\t\t\t\t\tonRemove={ () => setAttributes( { ${name}Id: 0, ${name}Url: '', ${name}Alt: '' } ) }\n\t\t\t\t/>${help_para}\n\t\t\t</div>\n")
       ;;
     link)
       link_html="\t\t\t<TextControl\n\t\t\t\tlabel={ __( '${label} Text', '${theme_slug}' ) }\n\t\t\t\tvalue={ ${name}Text }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}Text: value } ) }\n\t\t\t/>\n\t\t\t<TextControl\n\t\t\t\ttype=\"url\"\n\t\t\t\tlabel={ __( '${label} URL', '${theme_slug}' ) }\n\t\t\t\tvalue={ ${name}Url }\n\t\t\t\tonChange={ ( value ) => setAttributes( { ${name}Url: value } ) }${help_attr}\n\t\t\t/>\n"
@@ -344,6 +343,7 @@ done
   echo "import { ${blockeditor_imports} } from '@wordpress/block-editor';"
   [ -n "$components_import_line" ] && echo "import { ${components_import_line} } from '@wordpress/components';"
   echo "import EditorBlockShell from '../../_shared/EditorBlockShell';"
+  [ "$need_media" = "1" ] && echo "import ImagePicker from '../../_shared/ImagePicker';"
   echo ""
   echo "export default function Edit( { attributes, setAttributes, clientId } ) {"
   if [ -n "$attr_destructure_line" ]; then

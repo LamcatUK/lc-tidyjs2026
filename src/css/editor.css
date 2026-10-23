@@ -389,3 +389,56 @@
 	margin-top: 0.75rem;
 	margin-bottom: 1.5rem;
 }
+
+/* A single image picker: thumbnail, then Replace and Remove. */
+.lc-tidyjs2026-image-picker img {
+	display: block;
+	height: auto;
+	margin-bottom: 0.5rem;
+	border: 1px solid #ddd;
+	background: #fff;
+}
+
+.lc-tidyjs2026-image-picker__actions {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+/*
+ * A row that has just been moved (blocks/_shared/useRowMotion.js): a yellow
+ * tint that fades out. With reduced motion it shows for the same time with
+ * no fade.
+ */
+.lc-tidyjs2026-repeater-field__row.is-moved {
+	animation: lc-tidyjs2026-row-moved 1.2s ease-out;
+}
+
+@keyframes lc-tidyjs2026-row-moved {
+	from {
+		background-color: rgb(255 180 34 / 0.4);
+	}
+
+	to {
+		background-color: transparent;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lc-tidyjs2026-repeater-field__row.is-moved {
+		animation: none;
+		background-color: rgb(255 180 34 / 0.4);
+	}
+}
+
+/*
+ * A URL input (SiteUrlInput) is three WordPress field wrappers deep, and each
+ * one picks up the block-wide field padding. Only the outermost keeps it.
+ */
+.lc-tidyjs2026-editor-field .block-editor-url-input,
+.lc-tidyjs2026-editor-field .block-editor-url-input .components-base-control,
+.lc-tidyjs2026-repeater-field__link .block-editor-url-input,
+.lc-tidyjs2026-repeater-field__link .block-editor-url-input .components-base-control {
+	padding: 0;
+	margin: 0;
+}

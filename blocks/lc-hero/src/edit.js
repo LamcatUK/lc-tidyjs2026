@@ -1,7 +1,8 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { TextControl, TextareaControl, Button } from '@wordpress/components';
+import { useBlockProps } from '@wordpress/block-editor';
+import { TextControl, TextareaControl } from '@wordpress/components';
 import EditorBlockShell from '../../_shared/EditorBlockShell';
+import ImagePicker from '../../_shared/ImagePicker';
 
 export default function Edit( { attributes, setAttributes, clientId } ) {
 	const { title, intro, imageId, imageUrl, imageAlt, usps } = attributes;
@@ -21,33 +22,19 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			/>
 			<div className="lc-tidyjs2026-editor-field">
 				<label className="lc-tidyjs2026-editor-field__label">{ __( 'Image', 'lc-tidyjs2026' ) }</label>
-				<MediaUploadCheck>
-					<MediaUpload
-						onSelect={ ( media ) =>
-							setAttributes( {
-								imageId: media.id,
-								imageUrl: media.url,
-								imageAlt: media.alt || '',
-							} )
-						}
-						allowedTypes={ [ 'image' ] }
-						value={ imageId }
-						render={ ( { open } ) => (
-							<div className="lc-tidyjs2026-editor-field__control">
-								{ imageUrl && (
-									<img
-										src={ imageUrl }
-										alt={ imageAlt }
-										style={ { maxWidth: '200px', display: 'block', marginBottom: '8px' } }
-									/>
-								) }
-								<Button variant="secondary" onClick={ open }>
-									{ imageUrl ? __( 'Replace Image', 'lc-tidyjs2026' ) : __( 'Select Image', 'lc-tidyjs2026' ) }
-								</Button>
-							</div>
-						) }
-					/>
-				</MediaUploadCheck>
+				<ImagePicker
+					id={ imageId }
+					url={ imageUrl }
+					size={ 200 }
+					onSelect={ ( media ) =>
+						setAttributes( {
+							imageId: media.id,
+							imageUrl: media.url,
+							imageAlt: media.alt || '',
+						} )
+					}
+					onRemove={ () => setAttributes( { imageId: 0, imageUrl: '', imageAlt: '' } ) }
+				/>
 			</div>
 			<TextareaControl
 				label={ __( 'Usps', 'lc-tidyjs2026' ) }
