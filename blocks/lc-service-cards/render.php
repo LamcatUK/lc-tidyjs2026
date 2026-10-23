@@ -18,7 +18,7 @@ $services = $attributes['services'] ?? array();
 $anchor_id           = ! empty( $attributes['anchor'] ) ? $attributes['anchor'] : 'services';
 $wrapper_attributes = get_block_wrapper_attributes(
 	array(
-		'class' => 'service-cards py-5 has-dark-800-background-color',
+		'class' => 'service-cards py-5 has-dark-800-background-color' . ( count( $services ) % 2 ? ' service-cards--odd' : '' ),
 		'id'    => $anchor_id,
 	)
 );

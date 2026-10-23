@@ -66,3 +66,38 @@
   border-color: var(--col-dark-400);
   transform: translateY(-2px);
 }
+
+/* Odd card count: three columns, card content split icon | title + text. */
+.service-cards--odd .service-cards__grid {
+  grid-auto-rows: auto;
+}
+@media (min-width: 992px) {
+  .service-cards--odd .service-cards__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.service-cards--odd .service-card__wrapper {
+  display: grid;
+  grid-row: auto;
+  grid-template-rows: none;
+}
+.service-cards--odd .service-card {
+  grid-row: auto;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.25rem;
+  align-items: start;
+}
+.service-cards--odd .service-card__icon-wrapper {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  height: auto;
+}
+.service-cards--odd .service-card__title {
+  grid-column: 2;
+  grid-row: 1;
+}
+.service-cards--odd .service-card__text {
+  grid-column: 2;
+  grid-row: 2;
+}
