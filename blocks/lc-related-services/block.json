@@ -1,12 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "lc-tidyjs2026/lc-other-services",
-	"title": "LC Other Services",
+	"name": "lc-tidyjs2026/lc-related-services",
+	"title": "LC Related Services",
 	"category": "lc-tidyjs2026",
 	"icon": "cover-image",
 	"attributes": {
-		"heading": { "type": "string", "default": "Other Services" }
+		"heading": { "type": "string", "default": "Related Services" },
+		"pages": { "type": "array", "items": { "type": "number" }, "default": [] }
 	},
 	"supports": {
 		"anchor": true,

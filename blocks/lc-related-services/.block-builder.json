@@ -1,11 +1,11 @@
 {
-	"title": "LC Other Services",
+	"title": "LC Related Services",
 	"color_support": false,
 	"fields": [
 		{
 			"label": "Heading",
 			"type": "text",
-			"help": "Defaults to \"Other Services\" if left blank.",
+			"help": "Defaults to \"Related Services\" if left blank.",
 			"width": 100,
 			"options": "",
 			"textarea_style": "paragraph",
