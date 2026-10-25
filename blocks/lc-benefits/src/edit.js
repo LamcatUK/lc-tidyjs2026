@@ -7,7 +7,7 @@ import RepeaterField from '../../_shared/RepeaterField';
 const BENEFIT_FIELDS = [
 	{ name: 'icon', label: 'Icon', type: 'image', mimeTypes: [ 'image/svg+xml' ] },
 	{ name: 'title', label: 'Title', type: 'text' },
-	{ name: 'text', label: 'Text', type: 'textarea' },
+	{ name: 'text', label: 'Text', type: 'richtext' },
 ];
 
 const EMPTY_BENEFIT = {

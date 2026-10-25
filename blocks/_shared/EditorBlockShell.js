@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { useInstanceId } from '@wordpress/compose';
 import { useSelect } from '@wordpress/data';
-import { useEffect, useMemo, useState } from '@wordpress/element';
+import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
 
 /**
  * Wraps a block's edit.js output in a collapsible section with a title bar
@@ -26,10 +26,14 @@ import { useEffect, useMemo, useState } from '@wordpress/element';
  * listens for keydown on an ancestor and, when the caret is at the edge of a
  * field, turns Shift+Arrow into a block-level multi-selection — so extending
  * a text selection in one of this block's inputs jumps to selecting the whole
- * block. Stopping the React event here means the browser's native text
- * selection handles it and the writing flow never sees it.
+ * block. Stopping the event before it reaches the writing flow means the
+ * browser's native text selection handles it.
  *
- * @param {KeyboardEvent} event React keydown event.
+ * This has to be a native listener, not React's onKeyDown: the writing flow
+ * listens natively on an element below React's root, so by the time a React
+ * handler runs (React listens at the root) it has already seen the event.
+ *
+ * @param {KeyboardEvent} event Native keydown event.
  */
 function keepShiftArrowInField( event ) {
 	if ( event.shiftKey && ! event.ctrlKey && ! event.metaKey && event.key.startsWith( 'Arrow' ) ) {
@@ -48,6 +52,7 @@ export default function EditorBlockShell( {
 	defaultOpen = true,
 } ) {
 	const [ isOpen, setIsOpen ] = useState( defaultOpen );
+	const contentRef = useRef( null );
 	const instanceId = useInstanceId( EditorBlockShell );
 	const contentId = `${ classPrefix }-editor-block-content-${ instanceId }`;
 	const blockPath = useSelect(
@@ -102,6 +107,18 @@ export default function EditorBlockShell( {
 		window.localStorage.setItem( storageKey, isOpen ? 'open' : 'closed' );
 	}, [ isOpen, storageKey ] );
 
+	useEffect( () => {
+		const content = contentRef.current;
+
+		if ( ! content ) {
+			return undefined;
+		}
+
+		content.addEventListener( 'keydown', keepShiftArrowInField );
+
+		return () => content.removeEventListener( 'keydown', keepShiftArrowInField );
+	}, [] );
+
 	return (
 		<div { ...blockProps }>
 			<div className={ `${ classPrefix }-editor-block__title` }>
@@ -117,7 +134,7 @@ export default function EditorBlockShell( {
 					<span aria-hidden="true">{ isOpen ? '−' : '+' }</span>
 				</button>
 			</div>
-			<div id={ contentId } className={ `${ classPrefix }-editor-block__content` } hidden={ ! isOpen } onKeyDown={ keepShiftArrowInField }>
+			<div id={ contentId } className={ `${ classPrefix }-editor-block__content` } hidden={ ! isOpen } ref={ contentRef }>
 				{ children }
 			</div>
 		</div>

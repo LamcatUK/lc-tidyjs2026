@@ -29,7 +29,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'benefits 
 				</div>
 				<?php } ?>
 				<h3 class="benefit__title has-600-font-size has-white-color"><?php echo esc_html( $b_title ); ?></h3>
-				<p class="benefit__text has-400-font-size has-light-800-color mb-0"><?php echo nl2br( esc_html( $text ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- nl2br() output of an already-escaped string. ?></p>
+				<p class="benefit__text has-400-font-size has-light-800-color mb-0"><?php echo wp_kses_post( nl2br( $text ) ); // nl2br() keeps line breaks in text saved before this field was rich text. ?></p>
 			</div>
 			<?php } ?>
 		</div>
