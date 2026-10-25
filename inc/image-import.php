@@ -80,8 +80,29 @@ function lc_tidyjs2026_import_image( $request ) {
 		return new WP_Error( 'lc_import_download', $tmp->get_error_message(), array( 'status' => 502 ) );
 	}
 
+	// A streamed download is not decoded by WordPress, so a server that gzips
+	// the file (common for SVG) leaves the compressed bytes in the temp file.
+	if ( "\x1f\x8b" === file_get_contents( $tmp, false, null, 0, 2 ) && function_exists( 'gzdecode' ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$plain = gzdecode( file_get_contents( $tmp, false, null, 0, LC_TIDYJS2026_IMPORT_MAX_BYTES ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+
+		if ( false !== $plain ) {
+			file_put_contents( $tmp, $plain ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_put_contents_file_put_contents
+		}
+	}
+
 	$name = sanitize_file_name( wp_basename( (string) wp_parse_url( $url, PHP_URL_PATH ) ) );
 	$type = wp_check_filetype_and_ext( $tmp, $name );
+
+	// WordPress refuses SVG outright. When the Safe SVG plugin is active it
+	// allows SVG on upload and sanitises the file itself (including on
+	// sideload), so a genuine-looking .svg is handed to it; without the
+	// plugin SVG stays refused, as it is for every other upload.
+	if ( ! $type['type'] && class_exists( 'SafeSvg\\safe_svg' ) && lc_tidyjs2026_looks_like_svg( $tmp, $name ) ) {
+		$type = array(
+			'type'            => 'image/svg+xml',
+			'proper_filename' => false,
+		);
+	}
 
 	if ( filesize( $tmp ) > LC_TIDYJS2026_IMPORT_MAX_BYTES || ! $type['type'] || 0 !== strpos( $type['type'], 'image/' ) ) {
 		wp_delete_file( $tmp );
@@ -117,4 +138,22 @@ function lc_tidyjs2026_import_response( $id ) {
 		'url' => wp_get_attachment_url( $id ),
 		'alt' => (string) get_post_meta( $id, '_wp_attachment_image_alt', true ),
 	);
+}
+
+/**
+ * Whether a downloaded file is named .svg and its start is an <svg> document.
+ * Only a cheap gate: Safe SVG does the real sanitising.
+ *
+ * @param string $path Temp file path.
+ * @param string $name Sanitised file name.
+ * @return bool
+ */
+function lc_tidyjs2026_looks_like_svg( $path, $name ) {
+	if ( 'svg' !== strtolower( pathinfo( $name, PATHINFO_EXTENSION ) ) ) {
+		return false;
+	}
+
+	$head = file_get_contents( $path, false, null, 0, 8192 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+
+	return false !== $head && false !== stripos( $head, '<svg' );
 }
