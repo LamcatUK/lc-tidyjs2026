@@ -1,6 +1,5 @@
 import { __ } from '@wordpress/i18n';
 import { store as blockEditorStore } from '@wordpress/block-editor';
-import { useInstanceId } from '@wordpress/compose';
 import { useSelect } from '@wordpress/data';
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
 
@@ -53,8 +52,9 @@ export default function EditorBlockShell( {
 } ) {
 	const [ isOpen, setIsOpen ] = useState( defaultOpen );
 	const contentRef = useRef( null );
-	const instanceId = useInstanceId( EditorBlockShell );
-	const contentId = `${ classPrefix }-editor-block-content-${ instanceId }`;
+	// Not useInstanceId(): every block's bundle carries its own copy of this
+	// component, each with its own counter, so ids collided across block types.
+	const contentId = `${ classPrefix }-editor-block-content-${ clientId }`;
 	const blockPath = useSelect(
 		( select ) => {
 			if ( ! clientId ) {
