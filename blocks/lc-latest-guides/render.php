@@ -12,6 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+$pinned_id      = (int) ( $attributes['pinnedId'] ?? 0 );
 $posts_page_id  = (int) get_option( 'page_for_posts' );
 $posts_page_url = $posts_page_id ? get_permalink( $posts_page_id ) : '';
 
@@ -34,17 +35,29 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'latest-gu
 				// call (for the reading-time figure) re-renders this same block,
 				// recursing until PHP's memory limit kills the request.
 				$current_post_id = get_the_ID();
-				$latest_guides    = new WP_Query(
+
+				// A pinned guide goes first (if it is a published post and not
+				// the post this block is on); the latest guides then fill the
+				// remaining slots so the slider still holds 3.
+				$pinned_ok = $pinned_id && $pinned_id !== $current_post_id && 'post' === get_post_type( $pinned_id ) && 'publish' === get_post_status( $pinned_id );
+				$exclude   = array_filter( array( $current_post_id, $pinned_ok ? $pinned_id : 0 ) );
+				$guide_ids = $pinned_ok ? array( $pinned_id ) : array();
+
+				$latest_guides = new WP_Query(
 					array(
 						'post_type'           => 'post',
-						'posts_per_page'      => 3,
-						'post__not_in'        => $current_post_id ? array( $current_post_id ) : array(),
+						'posts_per_page'      => 3 - count( $guide_ids ),
+						'post__not_in'        => $exclude,
 						'ignore_sticky_posts' => true,
 						'no_found_rows'       => true,
+						'fields'              => 'ids',
 					)
 				);
-				while ( $latest_guides->have_posts() ) {
-					$latest_guides->the_post();
+				$guide_ids     = array_merge( $guide_ids, $latest_guides->posts );
+
+				foreach ( $guide_ids as $guide_id ) {
+					$GLOBALS['post'] = get_post( $guide_id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- template-tag setup, restored by wp_reset_postdata() below.
+					setup_postdata( $GLOBALS['post'] );
 					?>
 					<div class="swiper-slide">
 						<?php lc_tidyjs2026_render_post_card(); ?>

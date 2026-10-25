@@ -5,7 +5,9 @@
 	"title": "LC Latest Guides",
 	"category": "lc-tidyjs2026",
 	"icon": "slides",
-	"attributes": {},
+	"attributes": {
+		"pinnedId": { "type": "number", "default": 0 }
+	},
 	"supports": {
 		"anchor": true,
 		"className": true,
