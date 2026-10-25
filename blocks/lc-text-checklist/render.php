@@ -26,7 +26,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'text-chec
 					<ul class="text-checklist__list mb-0 has-500-font-size cols-md-2">
 						<?php
 						if ( $checklist ) {
-							$items = preg_split( '/\r\n|\r|\n/', $checklist, -1, PREG_SPLIT_NO_EMPTY );
+							$items = preg_split( '/\r\n|\r|\n|<br\s*\/?>/i', $checklist, -1, PREG_SPLIT_NO_EMPTY );
 							foreach ( $items as $item ) {
 								$item = trim( $item );
 								if ( empty( $item ) ) {
@@ -38,7 +38,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'text-chec
 								<i class="fa-solid fa-circle"></i>
 								<i class="fa-solid fa-check"></i>
 							</span>
-							<span><?php echo esc_html( $item ); ?></span>
+							<span><?php echo wp_kses_post( $item ); ?></span>
 						</li>
 								<?php
 							}
