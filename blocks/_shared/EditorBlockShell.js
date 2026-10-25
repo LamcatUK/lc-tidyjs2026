@@ -35,7 +35,8 @@ import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
  * @param {KeyboardEvent} event Native keydown event.
  */
 function keepShiftArrowInField( event ) {
-	if ( event.shiftKey && ! event.ctrlKey && ! event.metaKey && event.key.startsWith( 'Arrow' ) ) {
+	// Any modifier combined with Shift counts (Ctrl+Shift+Arrow selects by word).
+	if ( event.shiftKey && event.key.startsWith( 'Arrow' ) ) {
 		event.stopPropagation();
 	}
 }
