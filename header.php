@@ -100,6 +100,7 @@
 					'Builder’s waste removal',
 					'Office and commercial clearance',
 					'Light demolition and strip-outs',
+					'Bereavement house clearance',
 				)
 			),
 		);
