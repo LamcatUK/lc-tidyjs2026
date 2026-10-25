@@ -6,7 +6,8 @@
 	"category": "lc-tidyjs2026",
 	"icon": "slides",
 	"attributes": {
-		"pinnedId": { "type": "number", "default": 0 }
+		"pinnedId": { "type": "number", "default": 0 },
+		"pinnedIds": { "type": "array", "items": { "type": "number" }, "default": [] }
 	},
 	"supports": {
 		"anchor": true,
