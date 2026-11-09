@@ -41,31 +41,6 @@ while ( have_posts() ) {
 					<?php echo $toc['content']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the_content filter output, only mutated by lc_tidyjs2026_extract_toc() to add heading ids. ?>
 				</article>
 
-				<?php
-				// BlogPosting JSON-LD — author is always the organisation itself (see
-				// the meta row above), same as the rest of the site never has a
-				// named individual author. publisher re-references the LocalBusiness
-				// @id declared once in header.php rather than repeating its fields.
-				$article_schema = array(
-					'@context'         => 'https://schema.org',
-					'@type'            => 'BlogPosting',
-					'@id'              => get_permalink() . '#article',
-					'mainEntityOfPage' => get_permalink(),
-					'headline'         => get_the_title(),
-					'datePublished'    => get_the_date( DATE_W3C ),
-					'dateModified'     => get_the_modified_date( DATE_W3C ),
-					'author'           => array(
-						'@type' => 'Organization',
-						'name'  => 'Tidy Solutions',
-						'url'   => home_url( '/' ),
-					),
-					'publisher'        => array( '@id' => home_url( '/#organization' ) ),
-				);
-				if ( has_post_thumbnail() ) {
-					$article_schema['image'] = get_the_post_thumbnail_url( null, 'full' );
-				}
-				echo '<script type="application/ld+json">' . wp_json_encode( $article_schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode() output.
-				?>
 			</div>
 			<?php if ( ! empty( $toc['items'] ) ) { ?>
 			<div class="col-12 col-lg-3 d-none d-lg-block">
