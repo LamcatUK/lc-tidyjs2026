@@ -98,7 +98,7 @@ $split_checklist_items = static function ( $html ) {
 		<div class="row gap-5">
 			<div class="col-12 col-lg-4 col-xl-6">
 				<h2><?php echo esc_html( $btitle ); ?></h2>
-				<p class="has-600-font-size"><?php echo esc_html( $intro ); ?></p>
+				<div class="has-600-font-size"><?php echo wpautop( esc_html( $intro ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The plain-text attribute is escaped before paragraph markup is added. ?></div>
 			</div>
 			<div class="col-12 col-lg-8 col-xl-6 my-auto">
 				<div class="text-checklist__list-wrapper w-100">
