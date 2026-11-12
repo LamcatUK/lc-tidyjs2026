@@ -39,21 +39,21 @@ $split_checklist_items = static function ( $html ) {
 	}
 
 	$split_node = static function ( $node, $wrap = true ) use ( &$split_node, $dom ) {
-		if ( XML_TEXT_NODE === $node->nodeType ) {
+		if ( XML_TEXT_NODE === $node->nodeType ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
 			return array( $dom->saveHTML( $node ) );
 		}
 
-		if ( XML_ELEMENT_NODE !== $node->nodeType ) {
+		if ( XML_ELEMENT_NODE !== $node->nodeType ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
 			return array( '' );
 		}
 
-		if ( 'br' === strtolower( $node->nodeName ) ) {
+		if ( 'br' === strtolower( $node->nodeName ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
 			return array( '', '' );
 		}
 
 		$lines = array( '' );
-		foreach ( $node->childNodes as $child ) {
-			$parts                         = $split_node( $child );
+		foreach ( $node->childNodes as $child ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
+			$parts                              = $split_node( $child );
 			$lines[ array_key_last( $lines ) ] .= array_shift( $parts );
 			foreach ( $parts as $part ) {
 				$lines[] = $part;
@@ -64,16 +64,16 @@ $split_checklist_items = static function ( $html ) {
 			return $lines;
 		}
 
-		$opening_tag = '<' . $node->nodeName;
+		$opening_tag = '<' . $node->nodeName; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
 		foreach ( $node->attributes as $attribute ) {
 			$opening_tag .= sprintf(
 				' %s="%s"',
-				$attribute->nodeName,
-				esc_attr( $attribute->nodeValue )
+				$attribute->nodeName, // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
+				esc_attr( $attribute->nodeValue ) // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
 			);
 		}
 		$opening_tag .= '>';
-		$closing_tag  = '</' . $node->nodeName . '>';
+		$closing_tag  = '</' . $node->nodeName . '>'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
 
 		return array_map(
 			static function ( $line ) use ( $opening_tag, $closing_tag ) {

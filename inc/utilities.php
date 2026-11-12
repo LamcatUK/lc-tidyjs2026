@@ -299,6 +299,14 @@ function output_faq_schema() {
 		'mainEntity' => $faq_schema_items,
 	);
 
+	// An @id makes the FAQ addressable from the rest of the page's schema.
+	if ( is_singular() ) {
+		$schema = array(
+			'@context' => 'https://schema.org',
+			'@id'      => get_permalink( get_queried_object_id() ) . '#faq',
+		) + $schema;
+	}
+
 	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 add_action( 'wp_footer', 'output_faq_schema' );
@@ -460,6 +468,15 @@ function lc_tidyjs2026_render_breadcrumbs( $breadcrumbs, $class_name = 'lc-bread
 		'itemListElement' => $list_items,
 	);
 
+	// An @id lets the page's other schema (the WebPage) point at this breadcrumb. It is the
+	// same address Yeast SEO uses for its own breadcrumb, so the two never describe it twice.
+	if ( $current_url ) {
+		$schema = array(
+			'@context' => 'https://schema.org',
+			'@id'      => $current_url . '#breadcrumb',
+		) + $schema;
+	}
+
 	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode() output.
 }
 
@@ -515,7 +532,7 @@ function lc_tidyjs2026_extract_toc( $html, $selector = 'h2' ) {
 	}
 
 	foreach ( $heading_nodes as $heading ) {
-		$text = trim( $heading->textContent );
+		$text = trim( $heading->textContent ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
 		if ( '' === $text ) {
 			continue;
 		}
@@ -525,8 +542,8 @@ function lc_tidyjs2026_extract_toc( $html, $selector = 'h2' ) {
 		// render as a <section>, unlike the flat markup core content blocks
 		// (paragraph, heading, image, list...) produce.
 		$in_section = false;
-		for ( $ancestor = $heading->parentNode; $ancestor; $ancestor = $ancestor->parentNode ) {
-			if ( 'section' === $ancestor->nodeName ) {
+		for ( $ancestor = $heading->parentNode; $ancestor; $ancestor = $ancestor->parentNode ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
+			if ( 'section' === $ancestor->nodeName ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
 				$in_section = true;
 				break;
 			}
@@ -565,7 +582,7 @@ function lc_tidyjs2026_extract_toc( $html, $selector = 'h2' ) {
 
 	$body        = $dom->getElementsByTagName( 'body' )->item( 0 );
 	$new_content = '';
-	foreach ( $body->childNodes as $child ) {
+	foreach ( $body->childNodes as $child ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- DOMNode exposes this property as nodeType.
 		$new_content .= $dom->saveHTML( $child );
 	}
 
@@ -615,18 +632,18 @@ function lc_tidyjs2026_render_post_card() {
 	$faq_schema_items          = $faq_schema_items_snapshot;
 	?>
 	<a class="related-post-card" href="<?php the_permalink(); ?>">
-		<?php if ( has_post_thumbnail() ) { ?>
 		<?php
-		// the_post_thumbnail() (not the_post_thumbnail_url()) so the <img>
-		// gets explicit width/height/srcset from WordPress — without those,
-		// the browser can't reserve the card's image space before the CSS
-		// (which is what actually sizes it) has loaded, so the layout jumps
-		// once it does. 'large' rather than 'medium' (300w) — at the 3-up
-		// desktop card width this card can render past 300px, and 'medium'
-		// upscaled past its own intrinsic size looks visibly soft.
-		the_post_thumbnail( 'large', array( 'class' => 'related-post-card__image' ) );
+		if ( has_post_thumbnail() ) {
+			// the_post_thumbnail() (not the_post_thumbnail_url()) so the <img>
+			// gets explicit width/height/srcset from WordPress — without those,
+			// the browser can't reserve the card's image space before the CSS
+			// (which is what actually sizes it) has loaded, so the layout jumps
+			// once it does. 'large' rather than 'medium' (300w) — at the 3-up
+			// desktop card width this card can render past 300px, and 'medium'
+			// upscaled past its own intrinsic size looks visibly soft.
+			the_post_thumbnail( 'large', array( 'class' => 'related-post-card__image' ) );
+		}
 		?>
-		<?php } ?>
 		<span class="related-post-card__title"><?php the_title(); ?></span>
 		<span class="related-post-card__meta">
 			<span class="related-post-card__meta-item"><i class="fa-solid fa-calendar" aria-hidden="true"></i> <time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time></span>
